@@ -5,6 +5,7 @@
 #include <iterator>
 #include <iomanip>
 #include <sstream>
+#include "Instruction.hh"
 #define BYTE unsigned char
 
 std::string get_byte_string(BYTE byte)
@@ -22,14 +23,40 @@ std::string get_byte_string(BYTE byte)
     return ret;
 }
 
-std::string translate_byte(BYTE byte)
+std::string fetch_translated_byte(BYTE byte)
 {
     std::string translated_byte;
 
     switch (byte)
     {
+    // NOP
     case 0x00:
         translated_byte = "NOP";
+        break;
+
+    // Load instructions
+    case 0x06:
+        translated_byte = "LD B,n";
+        break;
+
+    case 0x0E:
+        translated_byte = "LD C,n";
+        break;
+
+    case 0x16:
+        translated_byte = "LD D,n";
+        break;
+
+    case 0x1E:
+        translated_byte = "LD, E,n";
+        break;
+
+    case 0x26:
+        translated_byte = "LD H,n";
+        break;
+
+    case 0x2E:
+        translated_byte = "LD L,n";
         break;
 
     default:
@@ -82,12 +109,14 @@ int main()
         // std::cout << "Got byte: " << get_byte_string(bytes[i]) << std::endl;
 
         ++total_count;
-        if (translate_byte(bytes[i]) == "NOP")
+        if (fetch_translated_byte(bytes[i]) == "NOP")
             ++nop_count;
     }
 
     std::cout << "NOP count: " << nop_count << std::endl;
     std::cout << "Total count: " << total_count << std::endl;
+
+    Instruction a = {0x00, 1, "NOP"};
 
     return 0;
 }
