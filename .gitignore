@@ -2,3 +2,4 @@
 *cquery*
 *.out
 tools/*out*
+**/*.gdb_history
