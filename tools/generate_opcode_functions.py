@@ -2,15 +2,25 @@
 Generates C++ code for instrution instantiation
 """
 
+CB_PREFIX = True
+
+
 OUTPUT_FILE_DEF = "def_out.txt"
 OUTPUT_FILE_IMPL = "impl_out.txt"
+
+if CB_PREFIX:
+    OUTPUT_FILE_DEF = "cb_" + OUTPUT_FILE_DEF
+    OUTPUT_FILE_IMPL = "cb_" + OUTPUT_FILE_IMPL
 
 OPCODE_MAX = 0xFF
 
 
 def write_def(file, opcode_str):
 
-    definition_string = "void OPCode{}();".format(opcode_str)
+    if CB_PREFIX:
+        definition_string = "void OPCodeCB{}();".format(opcode_str)
+    else:
+        definition_string = "void OPCode{}();".format(opcode_str)
 
     file.write(definition_string)
     file.write("\n")
@@ -18,7 +28,10 @@ def write_def(file, opcode_str):
 
 def write_impl(file, opcode_str):
 
-    definition_string = "void Processor::OPCode{}()".format(opcode_str)
+    if CB_PREFIX:
+        definition_string = "void Processor::OPCodeCB{}()".format(opcode_str)
+    else:
+        definition_string = "void Processor::OPCode{}()".format(opcode_str)
 
     file.write(definition_string)
     file.write("\n")
