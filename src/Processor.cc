@@ -15,10 +15,10 @@ void Processor::readInstructions(const char *filename)
     file.seekg(0, std::ios::beg);
 
     // reserve capacity
-    instructions.reserve(fileSize);
+    program_memory.reserve(fileSize);
 
     // read the data:
-    instructions.insert(instructions.begin(),
-                        std::istream_iterator<opcode_t>(file),
-                        std::istream_iterator<opcode_t>());
+    program_memory.insert(program_memory.begin(),
+                          std::istream_iterator<opcode_t>(file),
+                          std::istream_iterator<opcode_t>());
 }
