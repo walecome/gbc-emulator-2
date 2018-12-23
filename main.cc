@@ -6,9 +6,10 @@
 #include <iomanip>
 #include <sstream>
 #include "Instruction.hh"
-#define BYTE unsigned char
-
-std::string get_byte_string(BYTE byte)
+#include "Opcode.hh"
+#include "Constants.hh"
+#include "Processor.hh"
+std::string get_byte_string(byte_t byte)
 {
 
     std::stringstream ss;
@@ -21,51 +22,6 @@ std::string get_byte_string(BYTE byte)
     ss >> ret;
 
     return ret;
-}
-
-std::string fetch_translated_byte(BYTE byte)
-{
-    std::string translated_byte;
-
-    switch (byte)
-    {
-    // NOP
-    case 0x00:
-        translated_byte = "NOP";
-        break;
-
-    // Load instructions
-    case 0x06:
-        translated_byte = "LD B,n";
-        break;
-
-    case 0x0E:
-        translated_byte = "LD C,n";
-        break;
-
-    case 0x16:
-        translated_byte = "LD D,n";
-        break;
-
-    case 0x1E:
-        translated_byte = "LD, E,n";
-        break;
-
-    case 0x26:
-        translated_byte = "LD H,n";
-        break;
-
-    case 0x2E:
-        translated_byte = "LD L,n";
-        break;
-
-    default:
-        // std::cerr << "Unrecognized op: " << get_byte_string(byte) << std::endl;
-        // throw 1;
-        translated_byte = "UNSUPPORTED";
-    }
-
-    return translated_byte;
 }
 
 std::vector<unsigned char> readFile(const char *filename)
@@ -101,22 +57,9 @@ int main()
 
     std::vector<unsigned char> bytes = readFile(filename.c_str());
 
-    unsigned int nop_count = 0;
-    unsigned int total_count = 0;
+    Processor p;
 
-    for (int i = 0; i < bytes.size(); ++i)
-    {
-        // std::cout << "Got byte: " << get_byte_string(bytes[i]) << std::endl;
-
-        ++total_count;
-        if (fetch_translated_byte(bytes[i]) == "NOP")
-            ++nop_count;
-    }
-
-    std::cout << "NOP count: " << nop_count << std::endl;
-    std::cout << "Total count: " << total_count << std::endl;
-
-    Instruction a = {0x00, 1, "NOP"};
+    p.readInstructions(filename.c_str());
 
     return 0;
 }

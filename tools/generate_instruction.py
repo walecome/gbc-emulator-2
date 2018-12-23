@@ -22,9 +22,12 @@ def main(file):
 
 try:
     if __name__ == "__main__":
-        # Clear output file
-        with open(OUTPUT_FILE, "w"):
-            pass
+        clear_file = input("Clear output file? (yes) ")
+
+        if clear_file == "yes":
+            # Clear output file
+            with open(OUTPUT_FILE, "w"):
+                pass
 
         with open(OUTPUT_FILE, 'a') as out:
             while True:
