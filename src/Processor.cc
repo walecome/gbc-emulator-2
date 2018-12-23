@@ -57,6 +57,18 @@ byte_t Processor::getCurrentData()
     return data;
 }
 
+// SP
+
+register16_t Processor::getSP()
+{
+    return stack_pointer->getValue();
+}
+
+void Processor::setSP(register16_t value)
+{
+    stack_pointer->setValue(value);
+}
+
 // Flag getters
 
 bool Processor::getFlagC()

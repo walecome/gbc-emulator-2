@@ -62,6 +62,10 @@ public:
   void setDE(register16_t value);
   void setHL(register16_t value);
 
+  // SP
+  register16_t getSP();
+  void setSP(register16_t value);
+
   // Getters for flags
   bool getFlagC();
   bool getFlagH();
@@ -75,11 +79,13 @@ public:
   void setFlagZ(bool value);
 
 private:
-  unsigned int stack_pointer{0};
-  unsigned int program_counter{0};
+  register16_t program_counter{0};
   std::vector<opcode_t> program_memory;
   std::vector<byte_t> program_stack;
   opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];
+
+  // Handle stack pointer as 16 bit register
+  Register16bit *stack_pointer = new Register16bit("SP");
 
   // Registers
   Register8bit *A = new Register8bit("A");
