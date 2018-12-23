@@ -49,6 +49,14 @@ opcode_t Processor::fetchInstruction()
     return opcode;
 }
 
+byte_t Processor::getCurrentData()
+{
+    byte_t data = program_memory[program_counter];
+    ++program_counter;
+
+    return data;
+}
+
 // Flag getters
 
 bool Processor::getFlagC()

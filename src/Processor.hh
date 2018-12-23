@@ -24,6 +24,12 @@ public:
      */
   opcode_t fetchInstruction();
 
+  /** 
+    Get the data pointed to by the program counter and increment the program
+    counter.
+  */
+  byte_t getCurrentData();
+
   // Getters for 8bit registers
   register8_t getA();
   register8_t getB();

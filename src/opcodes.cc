@@ -11,11 +11,8 @@ void Processor::OPCode0x01()
 
     // TODO check stack data order
 
-    byte_t data_b = program_memory[program_counter];
-    ++program_counter;
-
-    byte_t data_c = program_memory[program_counter];
-    ++program_counter;
+    byte_t data_b = getCurrentData();
+    byte_t data_c = getCurrentData();
 
     setB(data_b);
     setC(data_c);
@@ -69,8 +66,7 @@ void Processor::OPCode0x05()
 void Processor::OPCode0x06()
 {
     // LD B, d8
-    byte_t data_b = program_memory[program_counter];
-    ++program_counter;
+    byte_t data_b = getCurrentData();
 
     B->setValue(data_b);
 }
@@ -127,8 +123,7 @@ void Processor::OPCode0x0D()
 void Processor::OPCode0x0E()
 {
     // LD C, d8
-    register8_t data_c = program_memory[program_counter];
-    ++program_counter;
+    register8_t data_c = getCurrentData();
 
     C->setValue(data_c);
 }
@@ -149,11 +144,9 @@ void Processor::OPCode0x11()
 {
     // LD DE, d16
     // TODO check stack data order
-    register8_t data_e = program_memory[program_counter];
-    ++program_counter;
+    register8_t data_e = getCurrentData();
 
-    register8_t data_d = program_memory[program_counter];
-    ++program_counter;
+    register8_t data_d = getCurrentData();
 
     E->setValue(data_e);
     D->setValue(data_d);
@@ -186,8 +179,7 @@ void Processor::OPCode0x15()
 void Processor::OPCode0x16()
 {
     // LD D, d8
-    register8_t data_d = program_memory[program_counter];
-    ++program_counter;
+    register8_t data_d = getCurrentData();
 
     D->setValue(data_d);
 }
@@ -243,8 +235,7 @@ void Processor::OPCode0x1D()
 void Processor::OPCode0x1E()
 {
     // LD E, d8
-    register8_t data_e = program_memory[program_counter];
-    ++program_counter;
+    register8_t data_e = getCurrentData();
 
     E->setValue(data_e);
 }
