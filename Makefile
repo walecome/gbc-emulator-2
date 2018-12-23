@@ -5,11 +5,13 @@ define SOURCE_FILES
 src/Processor.cc
 endef
 
+CCFLAGS = -g -std=c++17 -Wall -Wextra -pedantic -Wsuggest-attribute=const -Wshadow
+
 OUT_FILE = emulator
 
 
 all:
-	g++ -g -std=c++17  -Wall -Wextra -pedantic -Wsuggest-attribute=const -o $(OUT_FILE) $(SOURCE_DIR)main.cc $(SOURCE_FILES) -I$(SOURCE_DIR)
+	g++ $(CCFLAGS) -o $(OUT_FILE) $(SOURCE_DIR)main.cc $(SOURCE_FILES) -I$(SOURCE_DIR)
 
 
 clean:
