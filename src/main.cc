@@ -63,6 +63,10 @@ int main()
               << std::endl;
     p.readInstructions(filename.c_str());
 
+    std::cout << "AF value: " << std::hex << p.getAFValue() << std::endl;
+    p.setAValue(0xEB);
+    std::cout << "AF value: " << std::hex << p.getAFValue() << std::endl;
+
     std::cout << "Done" << std::endl;
 
     return 0;

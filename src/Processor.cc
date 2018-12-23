@@ -1,5 +1,37 @@
 #include "Processor.hh"
 
+Processor::~Processor()
+{
+    delete A;
+    delete B;
+    delete C;
+    delete D;
+    delete E;
+    delete F;
+    delete H;
+    delete L;
+
+    delete AF;
+    delete BC;
+    delete DE;
+    delete HL;
+}
+
+void Processor::setAValue(register8_t value)
+{
+    A->setValue(value);
+}
+
+void Processor::setAFValue(register16_t value)
+{
+    AF->setValue(value);
+}
+
+register16_t Processor::getAFValue()
+{
+    return AF->getValue();
+}
+
 void Processor::readInstructions(const char *filename)
 {
     // open the file as binary
