@@ -39,3 +39,56 @@ void Processor::readInstructions(const char *filename)
                           std::istream_iterator<opcode_t>(file),
                           std::istream_iterator<opcode_t>());
 }
+
+opcode_t Processor::fetchInstruction()
+{
+    opcode_t opcode = program_memory[program_counter];
+
+    ++program_counter;
+
+    return opcode;
+}
+
+// Flag getters
+
+bool Processor::getFlagC()
+{
+    return flagC;
+}
+
+bool Processor::getFlagH()
+{
+    return flagH;
+}
+
+bool Processor::getFlagN()
+{
+    return flagN;
+}
+
+bool Processor::getFlagZ()
+{
+    return flagZ;
+}
+
+// Flag setters
+
+void Processor::setFlagC(bool value)
+{
+    flagC = value;
+}
+
+void Processor::setFlagH(bool value)
+{
+    flagH = value;
+}
+
+void Processor::setFlagN(bool value)
+{
+    flagN = value;
+}
+
+void Processor::setFlagZ(bool value)
+{
+    flagZ = value;
+}

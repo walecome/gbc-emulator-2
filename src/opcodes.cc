@@ -7,122 +7,246 @@ void Processor::OPCode0x00()
 
 void Processor::OPCode0x01()
 {
+    // LD BC, d16
+
+    // TODO check stack data order
+
+    byte_t data_b = program_memory[program_counter];
+    ++program_counter;
+
+    byte_t data_c = program_memory[program_counter];
+    ++program_counter;
+
+    setB(data_b);
+    setC(data_c);
 }
 
 void Processor::OPCode0x02()
 {
+    // LD (BC), A
+    // TODO handle memory
 }
 
 void Processor::OPCode0x03()
 {
+    // INC BC
+    BC->increment();
 }
 
 void Processor::OPCode0x04()
 {
+    // INC B
+    B->increment();
+
+    // TODO double check flag logic
+    register8_t value_b = B->getValue();
+
+    if (value_b == 0x00)
+        setFlagZ(true);
+
+    setFlagN(false);
+
+    if ((value_b & 0x0F) == 0x00)
+        setFlagH(true);
 }
 
 void Processor::OPCode0x05()
 {
+    // DEC B
+    B->decrement();
+
+    register8_t value_b = B->getValue();
+
+    if (value_b == 0x00)
+        setFlagZ(true);
+
+    setFlagN(true);
+
+    if ((value_b & 0x0F) == 0x00)
+        setFlagH(true);
 }
 
 void Processor::OPCode0x06()
 {
+    // LD B, d8
+    byte_t data_b = program_memory[program_counter];
+    ++program_counter;
+
+    B->setValue(data_b);
 }
 
 void Processor::OPCode0x07()
 {
+    // RLCA
+    // TODO bitwise rotation
 }
 
 void Processor::OPCode0x08()
 {
+    // LD (a16), SP
+    // TODO memory management
 }
 
 void Processor::OPCode0x09()
 {
+    // ADD HL, BC
+
+    register16_t value_hl = HL->getValue();
+
+    register16_t value_bc = BC->getValue();
+
+    value_hl += value_bc;
+
+    HL->setValue(value_hl);
 }
 
 void Processor::OPCode0x0A()
 {
+    // LD A, (BC)
+    // TODO memory management
 }
 
 void Processor::OPCode0x0B()
 {
+    // DEC BC
+    BC->decrement();
 }
 
 void Processor::OPCode0x0C()
 {
+    // INC C
+    C->increment();
 }
 
 void Processor::OPCode0x0D()
 {
+    // DEC C
+    C->decrement();
 }
 
 void Processor::OPCode0x0E()
 {
+    // LD C, d8
+    register8_t data_c = program_memory[program_counter];
+    ++program_counter;
+
+    C->setValue(data_c);
 }
 
 void Processor::OPCode0x0F()
 {
+    // RRCA
+    // TODO fix
 }
 
 void Processor::OPCode0x10()
 {
+    // STOP 0
+    // TODO fix
 }
 
 void Processor::OPCode0x11()
 {
+    // LD DE, d16
+    // TODO check stack data order
+    register8_t data_e = program_memory[program_counter];
+    ++program_counter;
+
+    register8_t data_d = program_memory[program_counter];
+    ++program_counter;
+
+    E->setValue(data_e);
+    D->setValue(data_d);
 }
 
 void Processor::OPCode0x12()
 {
+    // LD (DE), A
+    // TODO memory management
 }
 
 void Processor::OPCode0x13()
 {
+    // INC DE
+    DE->increment();
 }
 
 void Processor::OPCode0x14()
 {
+    // INC D
+    D->increment();
 }
 
 void Processor::OPCode0x15()
 {
+    // DEC D
+    D->decrement();
 }
 
 void Processor::OPCode0x16()
 {
+    // LD D, d8
+    register8_t data_d = program_memory[program_counter];
+    ++program_counter;
+
+    D->setValue(data_d);
 }
 
 void Processor::OPCode0x17()
 {
+    // RLA
+    // TODO fix
 }
 
 void Processor::OPCode0x18()
 {
+    // JR d8
+    // TODO double check logic
+    program_counter += (int8_t)program_memory[program_counter];
 }
 
 void Processor::OPCode0x19()
 {
+    // ADD HL, DE
+    register16_t value_hl = HL->getValue();
+    register16_t value_de = DE->getValue();
+
+    value_hl += value_de;
+
+    HL->setValue(value_hl);
 }
 
 void Processor::OPCode0x1A()
 {
+    // LD A, (DE)
+    // TODO memory management
 }
 
 void Processor::OPCode0x1B()
 {
+    // DEC DE
+    DE->decrement();
 }
 
 void Processor::OPCode0x1C()
 {
+    // INC E
+    E->increment();
 }
 
 void Processor::OPCode0x1D()
 {
+    // DEC E
+    E->decrement();
 }
 
 void Processor::OPCode0x1E()
 {
+    // LD E, d8
+    register8_t data_e = program_memory[program_counter];
+    ++program_counter;
+
+    E->setValue(data_e);
 }
 
 void Processor::OPCode0x1F()
