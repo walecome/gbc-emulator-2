@@ -19,32 +19,45 @@ class Processor
     void readInstructions(const char *filename);
 
     // Getters for 8bit registers
-    register8_t getAValue();
-    register8_t getBValue();
-    register8_t getCValue();
-    register8_t getDValue();
-    register8_t getEValue();
-    register8_t getFValue();
-    register8_t getHValue();
-    register8_t getLValue();
+    register8_t getA();
+    register8_t getB();
+    register8_t getC();
+    register8_t getD();
+    register8_t getE();
+    register8_t getF();
+    register8_t getH();
+    register8_t getL();
 
     // Getters for 16bit registers
-    register16_t getAFValue();
-    register16_t getBCValue();
-    register16_t getDEValue();
-    register16_t getHLValue();
+    register16_t getAF();
+    register16_t getBC();
+    register16_t getDE();
+    register16_t getHL();
 
-    void setAValue(register8_t value);
-    void setAFValue(register16_t value);
+    // Setters for 8bit registers
+    void setA(register8_t value);
+    void setB(register8_t value);
+    void setC(register8_t value);
+    void setD(register8_t value);
+    void setE(register8_t value);
+    void setF(register8_t value);
+    void setH(register8_t value);
+    void setL(register8_t value);
+
+    // Setters for 16bit registers
+    void setAF(register16_t value);
+    void setBC(register16_t value);
+    void setDE(register16_t value);
+    void setHL(register16_t value);
 
   private:
     unsigned int stack_pointer{0};
     unsigned int program_counter{0};
     std::vector<opcode_t> program_memory;
+    std::vector<byte_t> program_stack;
     opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];
 
     // Registers
-
     Register8bit *A = new Register8bit("A");
     Register8bit *B = new Register8bit("B");
     Register8bit *C = new Register8bit("C");
@@ -58,6 +71,12 @@ class Processor
     Register16bit *BC = new Register16bit("BC", B, C);
     Register16bit *DE = new Register16bit("DE", D, E);
     Register16bit *HL = new Register16bit("HL", H, L);
+
+    // Flags
+    bool flagZ{false};
+    bool flagN{false};
+    bool flagH{false};
+    bool flagC{false};
 
     // OPCode definitions
 

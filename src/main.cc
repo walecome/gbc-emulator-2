@@ -5,11 +5,12 @@
 #include <iterator>
 #include <iomanip>
 #include <sstream>
+
+// User headers
 #include "Instruction.hh"
 #include "Opcode.hh"
 #include "Constants.hh"
 #include "Processor.hh"
-#include <iostream>
 
 std::string get_byte_string(byte_t byte)
 {
@@ -63,9 +64,16 @@ int main()
               << std::endl;
     p.readInstructions(filename.c_str());
 
-    std::cout << "AF value: " << std::hex << p.getAFValue() << std::endl;
-    p.setAValue(0xEB);
-    std::cout << "AF value: " << std::hex << p.getAFValue() << std::endl;
+    std::cout << "AF value: " << std::hex << p.getAF() << std::endl;
+    std::cout << "Setting A to 0xEB" << std::endl;
+    p.setA(0xEB);
+    std::cout << "AF value: " << std::hex << (int)p.getAF() << std::endl;
+
+    std::cout << "Setting AF to 0xBEEF" << std::endl;
+    p.setAF(0xBEEF);
+    std::cout << "AF value: " << std::hex << p.getAF() << std::endl;
+    std::cout << "A value: " << std::hex << (int)p.getA() << std::endl;
+    std::cout << "F value: " << std::hex << (int)p.getF() << std::endl;
 
     std::cout << "Done" << std::endl;
 

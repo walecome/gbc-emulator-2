@@ -17,21 +17,6 @@ Processor::~Processor()
     delete HL;
 }
 
-void Processor::setAValue(register8_t value)
-{
-    A->setValue(value);
-}
-
-void Processor::setAFValue(register16_t value)
-{
-    AF->setValue(value);
-}
-
-register16_t Processor::getAFValue()
-{
-    return AF->getValue();
-}
-
 void Processor::readInstructions(const char *filename)
 {
     // open the file as binary

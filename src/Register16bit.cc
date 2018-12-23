@@ -2,8 +2,8 @@
 
 void Register16bit::setValue(register16_t value)
 {
-    high->setValue(value >> 8);
-    low->setValue(value & 0x00FF);
+    high->setValue((register8_t)(value >> 8));
+    low->setValue((register8_t)(value & 0x00FF));
 }
 
 register16_t Register16bit::getValue()
