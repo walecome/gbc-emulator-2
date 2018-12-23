@@ -9,6 +9,8 @@
 #include "Opcode.hh"
 #include "Constants.hh"
 #include "Processor.hh"
+#include <iostream>
+
 std::string get_byte_string(byte_t byte)
 {
 
@@ -55,11 +57,13 @@ int main()
 {
     std::string filename = "roms/pokemon_silver.gbc";
 
-    std::vector<unsigned char> bytes = readFile(filename.c_str());
-
-    Processor p;
-
+    std::cout << "Creating processor..." << std::endl;
+    Processor p{};
+    std::cout << "Creating reading instructions from binary file..."
+              << std::endl;
     p.readInstructions(filename.c_str());
+
+    std::cout << "Done" << std::endl;
 
     return 0;
 }
