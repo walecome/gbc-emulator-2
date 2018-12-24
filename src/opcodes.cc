@@ -547,194 +547,290 @@ void Processor::OPCode0x4F()
 
 void Processor::OPCode0x50()
 {
+    // LD D, B
+    copyRegister(D, B);
 }
 
 void Processor::OPCode0x51()
 {
+    // LD D, C
+    copyRegister(D, C);
 }
 
 void Processor::OPCode0x52()
 {
+    // LD D, D
+    // Do nothing...
 }
 
 void Processor::OPCode0x53()
 {
+    // LD D, E
+    copyRegister(D, E);
 }
 
 void Processor::OPCode0x54()
 {
+    // LD D, H
+    copyRegister(D, H);
 }
 
 void Processor::OPCode0x55()
 {
+    // LD D, L
+    copyRegister(D, L);
 }
 
 void Processor::OPCode0x56()
 {
+    // LD D, (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x57()
 {
+    // LD D, A
+    copyRegister(D, A);
 }
 
 void Processor::OPCode0x58()
 {
+    // LD E, B
+    copyRegister(E, B);
 }
 
 void Processor::OPCode0x59()
 {
+    // LD E, C
+    copyRegister(E, C);
 }
 
 void Processor::OPCode0x5A()
 {
+    // LD E, D
+    copyRegister(E, D);
 }
 
 void Processor::OPCode0x5B()
 {
+    // LD E, E
+    // Do nothing...
 }
 
 void Processor::OPCode0x5C()
 {
+    // LD E, H
+    copyRegister(E, H);
 }
 
 void Processor::OPCode0x5D()
 {
+    // LD E, L
+    copyRegister(E, L);
 }
 
 void Processor::OPCode0x5E()
 {
+    // LD E, (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x5F()
 {
+    // LD E, A
+    copyRegister(E, A);
 }
 
 void Processor::OPCode0x60()
 {
+    // LD H, B
+    copyRegister(H, B);
 }
 
 void Processor::OPCode0x61()
 {
+    // LD H, C
+    copyRegister(H, C);
 }
 
 void Processor::OPCode0x62()
 {
+    // LD H, D
+    copyRegister(H, D);
 }
 
 void Processor::OPCode0x63()
 {
+    // LD H, E
+    copyRegister(H, E);
 }
 
 void Processor::OPCode0x64()
 {
+    // LD H, H
+    // Do nothing...
 }
 
 void Processor::OPCode0x65()
 {
+    // LD H, L
+    copyRegister(H, L);
 }
 
 void Processor::OPCode0x66()
 {
+    // LD H, (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x67()
 {
+    // LD H, A
+    copyRegister(H, A);
 }
 
 void Processor::OPCode0x68()
 {
+    // LD L, B
+    copyRegister(L, B);
 }
 
 void Processor::OPCode0x69()
 {
+    // LD L, C
+    copyRegister(L, C);
 }
 
 void Processor::OPCode0x6A()
 {
+    // LD L, D
+    copyRegister(L, D);
 }
 
 void Processor::OPCode0x6B()
 {
+    // LD L, E
+    copyRegister(L, E);
 }
 
 void Processor::OPCode0x6C()
 {
+    // LD L, H
+    copyRegister(L, H);
 }
 
 void Processor::OPCode0x6D()
 {
+    // LD L, L
+    // Do nothing...
 }
 
 void Processor::OPCode0x6E()
 {
+    // LD L, (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x6F()
 {
+    // LD L, A
+    copyRegister(L, A);
 }
 
 void Processor::OPCode0x70()
 {
+    // LD (HL), B
+    // TODO memory management
 }
 
 void Processor::OPCode0x71()
 {
+    // LD (HL), C
+    // TODO memory management
 }
 
 void Processor::OPCode0x72()
 {
+    // LD (HL), D
+    // TODO memory management
 }
 
 void Processor::OPCode0x73()
 {
+    // LD (HL), E
+    // TODO memory management
 }
 
 void Processor::OPCode0x74()
 {
+    // LD (HL), H
+    // TODO memory management
 }
 
 void Processor::OPCode0x75()
 {
+    // LD (HL), L
+    // TODO memory management
 }
 
 void Processor::OPCode0x76()
 {
+    // HALT
+    // TODO stop??
 }
 
 void Processor::OPCode0x77()
 {
+    // LD (HL), A
+    // TODO memory management
 }
 
 void Processor::OPCode0x78()
 {
+    // LD A, B
+    copyRegister(A, B);
 }
 
 void Processor::OPCode0x79()
 {
+    // LD A, C
+    copyRegister(A, C);
 }
 
 void Processor::OPCode0x7A()
 {
+    // LD A, D
+    copyRegister(A, D);
 }
 
 void Processor::OPCode0x7B()
 {
+    // LD A, E
+    copyRegister(A, E);
 }
 
 void Processor::OPCode0x7C()
 {
+    // LD A, H
+    copyRegister(A, H);
 }
 
 void Processor::OPCode0x7D()
 {
+    // LD A, L
+    copyRegister(A, L);
 }
 
 void Processor::OPCode0x7E()
 {
+    // LD A, (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x7F()
 {
+    // LD A, A
+    // Do nothing...
 }
 
 void Processor::OPCode0x80()
