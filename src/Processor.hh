@@ -30,6 +30,19 @@ public:
   */
   byte_t getCurrentData();
 
+  /**
+    Loads data from where the program counter is pointing into the given register.
+    Also increments the program counter.
+   */
+
+  void loadRegister(Register8bit *reg);
+
+  /**
+    Copies the value from the destination register to the source register
+  */
+
+  void copyRegister(Register8bit *destination, Register8bit *source);
+
   // Getters for 8bit registers
   register8_t getA();
   register8_t getB();

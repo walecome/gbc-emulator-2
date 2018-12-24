@@ -57,6 +57,16 @@ byte_t Processor::getCurrentData()
     return data;
 }
 
+void Processor::loadRegister(Register8bit *reg)
+{
+    reg->setValue(getCurrentData());
+}
+
+void Processor::copyRegister(Register8bit *destination, Register8bit *source)
+{
+    destination->setValue(source->getValue());
+}
+
 // SP
 
 register16_t Processor::getSP()
