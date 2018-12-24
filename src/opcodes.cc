@@ -11,11 +11,8 @@ void Processor::OPCode0x01()
 
     // TODO check stack data order
 
-    byte_t data_b = getCurrentData();
-    byte_t data_c = getCurrentData();
-
-    setB(data_b);
-    setC(data_c);
+    loadRegister(B);
+    loadRegister(C);
 }
 
 void Processor::OPCode0x02()
@@ -66,9 +63,7 @@ void Processor::OPCode0x05()
 void Processor::OPCode0x06()
 {
     // LD B, d8
-    byte_t data_b = getCurrentData();
-
-    B->setValue(data_b);
+    loadRegister(B);
 }
 
 void Processor::OPCode0x07()
@@ -123,9 +118,7 @@ void Processor::OPCode0x0D()
 void Processor::OPCode0x0E()
 {
     // LD C, d8
-    register8_t data_c = getCurrentData();
-
-    C->setValue(data_c);
+    loadRegister(C);
 }
 
 void Processor::OPCode0x0F()
@@ -144,12 +137,8 @@ void Processor::OPCode0x11()
 {
     // LD DE, d16
     // TODO check stack data order
-    register8_t data_e = getCurrentData();
-
-    register8_t data_d = getCurrentData();
-
-    E->setValue(data_e);
-    D->setValue(data_d);
+    loadRegister(E);
+    loadRegister(D);
 }
 
 void Processor::OPCode0x12()
@@ -179,9 +168,7 @@ void Processor::OPCode0x15()
 void Processor::OPCode0x16()
 {
     // LD D, d8
-    register8_t data_d = getCurrentData();
-
-    D->setValue(data_d);
+    loadRegister(D);
 }
 
 void Processor::OPCode0x17()
@@ -235,205 +222,327 @@ void Processor::OPCode0x1D()
 void Processor::OPCode0x1E()
 {
     // LD E, d8
-    register8_t data_e = getCurrentData();
-
-    E->setValue(data_e);
+    loadRegister(E);
 }
 
 void Processor::OPCode0x1F()
 {
+    // RRA
+    // TODO fix
 }
 
 void Processor::OPCode0x20()
 {
+    // JR NZ, r8
+    // TODO double check
+    if (getFlagZ() == false)
+    {
+        program_counter += (int8_t)program_memory[program_counter];
+    }
 }
 
 void Processor::OPCode0x21()
 {
+    // LD HL, d16
+    loadRegister(H);
+    loadRegister(L);
 }
 
 void Processor::OPCode0x22()
 {
+    // LD (HL+), A
+    // TODO memory management
 }
 
 void Processor::OPCode0x23()
 {
+    // INC HL
+    HL->increment();
 }
 
 void Processor::OPCode0x24()
 {
+    // INC H
+    H->increment();
 }
 
 void Processor::OPCode0x25()
 {
+    // DEC H
+    H->decrement();
 }
 
 void Processor::OPCode0x26()
 {
+    // LD H, d8
+    loadRegister(H);
 }
 
 void Processor::OPCode0x27()
 {
+    // DAA
+    // TODO fix
 }
 
 void Processor::OPCode0x28()
 {
+    // JR Z, R8
+    // TODO double check
+
+    if (getFlagZ())
+    {
+        program_counter += (int8_t)program_memory[program_counter];
+    }
 }
 
 void Processor::OPCode0x29()
 {
+    // ADD HL, HL
+    register16_t data_hl = HL->getValue();
+
+    data_hl *= 2;
+
+    HL->setValue(data_hl);
 }
 
 void Processor::OPCode0x2A()
 {
+    // LD A, (HL+)
+    // TODO memory management
 }
 
 void Processor::OPCode0x2B()
 {
+    // DEC HL
+    HL->decrement();
 }
 
 void Processor::OPCode0x2C()
 {
+    // INC L
+    L->increment();
 }
 
 void Processor::OPCode0x2D()
 {
+    // DEC L
+    L->decrement();
 }
 
 void Processor::OPCode0x2E()
 {
+    // LD L, d8
+    loadRegister(L);
 }
 
 void Processor::OPCode0x2F()
 {
+    // CPL
+    // TODO fix
 }
 
 void Processor::OPCode0x30()
 {
+    // JR NC, r8
+    if (!getFlagC())
+    {
+        program_counter += (int8_t)program_memory[program_counter];
+    }
 }
 
 void Processor::OPCode0x31()
 {
+    // LD SP, d16
+    loadRegister(stack_pointer->getLowRegister());
+    loadRegister(stack_pointer->getHighRegister());
 }
 
 void Processor::OPCode0x32()
 {
+    // LD (HL-), A
+    // TODO memory management
 }
 
 void Processor::OPCode0x33()
 {
+    // INC SP
+    stack_pointer->increment();
 }
 
 void Processor::OPCode0x34()
 {
+    // INC (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x35()
 {
+    // DEC (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x36()
 {
+    // LD (HL), d8
+    // TODO memory management
 }
 
 void Processor::OPCode0x37()
 {
+    // DAA
+    // TODO fix
 }
 
 void Processor::OPCode0x38()
 {
+    // JR C, r8
+    if (getFlagC())
+    {
+        program_counter += (int8_t)program_memory[program_counter];
+    }
 }
 
 void Processor::OPCode0x39()
 {
+    // ADD HL, SP
+    register16_t data_hl = HL->getValue();
+    register16_t data_sp = stack_pointer->getValue();
+
+    data_hl += data_sp;
+
+    HL->setValue(data_hl);
 }
 
 void Processor::OPCode0x3A()
 {
+    // LD A, (HL-)
+    // TODO fix memory management
 }
 
 void Processor::OPCode0x3B()
 {
+    // DEC SP
+    stack_pointer->decrement();
 }
 
 void Processor::OPCode0x3C()
 {
+    // INC A
+    A->increment();
 }
 
 void Processor::OPCode0x3D()
 {
+    // DEC A
+    A->decrement();
 }
 
 void Processor::OPCode0x3E()
 {
+    // LD A, d8
+    loadRegister(A);
 }
 
 void Processor::OPCode0x3F()
 {
+    // CCF
+    // TODO fix
 }
 
 void Processor::OPCode0x40()
 {
+    // LD B, B
+    // Do nothing...
 }
 
 void Processor::OPCode0x41()
 {
+    // LD B, C
+    copyRegister(B, C);
 }
 
 void Processor::OPCode0x42()
 {
+    // LD B, D
+    copyRegister(B, D);
 }
 
 void Processor::OPCode0x43()
 {
+    // LD B, E
+    copyRegister(B, E);
 }
 
 void Processor::OPCode0x44()
 {
+    // LD B, H
+    copyRegister(B, H);
 }
 
 void Processor::OPCode0x45()
 {
+    // LD B, L
+    copyRegister(B, L);
 }
 
 void Processor::OPCode0x46()
 {
+    // LD B, (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x47()
 {
+    // LD B, A
+    copyRegister(B, A);
 }
 
 void Processor::OPCode0x48()
 {
+    // LD C, B
+    copyRegister(C, B);
 }
 
 void Processor::OPCode0x49()
 {
+    // LD C, C
+    // Do nothing...
 }
 
 void Processor::OPCode0x4A()
 {
+    // LD C, D
+    copyRegister(C, D);
 }
 
 void Processor::OPCode0x4B()
 {
+    // LD C, E
+    copyRegister(C, E);
 }
 
 void Processor::OPCode0x4C()
 {
+    // LD C, H
+    copyRegister(C, H);
 }
 
 void Processor::OPCode0x4D()
 {
+    // LD C, L
+    copyRegister(C, L);
 }
 
 void Processor::OPCode0x4E()
 {
+    // LD C, (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x4F()
 {
+    // LD C, A
+    copyRegister(C, A);
 }
 
 void Processor::OPCode0x50()
