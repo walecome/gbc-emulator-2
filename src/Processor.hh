@@ -43,6 +43,19 @@ public:
 
   void copyRegister(Register8bit *destination, Register8bit *source);
 
+  /**
+    Adds the values in the destination and source registers and stores the 
+    result in the destination register
+  */
+
+  void addRegisters(Register8bit *destination, Register8bit *source);
+
+  /**
+    Subtracts the value in the accumulator (reg A) with the value in the
+    source register and stores the results in the accumulator
+  */
+  void subRegisters(Register8bit *source);
+
   // Getters for 8bit registers
   register8_t getA();
   register8_t getB();

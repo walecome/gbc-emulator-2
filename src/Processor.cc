@@ -67,6 +67,26 @@ void Processor::copyRegister(Register8bit *destination, Register8bit *source)
     destination->setValue(source->getValue());
 }
 
+void Processor::addRegisters(Register8bit *destination, Register8bit *source)
+{
+    register8_t value_dest = destination->getValue();
+    register8_t value_source = source->getValue();
+
+    value_dest += value_source;
+
+    destination->setValue(value_dest);
+}
+
+void Processor::subRegisters(Register8bit *source)
+{
+    register8_t value_dest = A->getValue();
+    register8_t value_source = source->getValue();
+
+    value_dest -= value_source;
+
+    A->setValue(value_dest);
+}
+
 // SP
 
 register16_t Processor::getSP()

@@ -835,38 +835,60 @@ void Processor::OPCode0x7F()
 
 void Processor::OPCode0x80()
 {
+    // ADD A, B
+    addRegisters(A, B);
 }
 
 void Processor::OPCode0x81()
 {
+    // ADD A, C
+    addRegisters(A, C);
 }
 
 void Processor::OPCode0x82()
 {
+    // ADD A, D
+    addRegisters(A, D);
 }
 
 void Processor::OPCode0x83()
 {
+    // ADD A, E
+    addRegisters(A, E);
 }
 
 void Processor::OPCode0x84()
 {
+    // ADD A, H
+    addRegisters(A, H);
 }
 
 void Processor::OPCode0x85()
 {
+    // ADD A, L
+    addRegisters(A, L);
 }
 
 void Processor::OPCode0x86()
 {
+    // ADD A, (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x87()
 {
+    // ADD A, A
+    addRegisters(A, A);
 }
 
 void Processor::OPCode0x88()
 {
+    // ADC A, B
+    addRegisters(A, B);
+    if (getFlagC())
+    {
+        A->increment();
+    }
 }
 
 void Processor::OPCode0x89()
