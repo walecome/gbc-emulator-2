@@ -100,6 +100,18 @@ public:
 
   void subWithCarry(Register8bit *source);
 
+  /**
+    Performs a bitwise AND operation with the accumulator (reg A) and the passed
+    in register. The result is stored in the accumulator.
+  */
+  void andRegisters(Register8bit *source);
+
+  /**
+    Performs a bitwise XOR operation with the accumulator (reg A) and the passed
+    in register. The result is stored in the accumulator.
+  */
+  void xorRegisters(Register8bit *source);
+
   // Handle flags according to operation results
   template <class T>
   void checkFlagZ(T result);

@@ -1025,34 +1025,58 @@ void Processor::OPCode0x9F()
 
 void Processor::OPCode0xA0()
 {
+    // AND B
+    andRegisters(B);
 }
 
 void Processor::OPCode0xA1()
 {
+    // AND C
+    andRegisters(C);
 }
 
 void Processor::OPCode0xA2()
 {
+    // AND D
+    andRegisters(D);
 }
 
 void Processor::OPCode0xA3()
 {
+    // AND E
+    andRegisters(E);
 }
 
 void Processor::OPCode0xA4()
 {
+    // AND H
+    andRegisters(H);
 }
 
 void Processor::OPCode0xA5()
 {
+    // AND L
+    andRegisters(L);
 }
 
 void Processor::OPCode0xA6()
 {
+    // AND (HL)
+    register16_t address = RAM_DATA_OFFSET + HL->getValue();
+
+    register8_t data_mem = ram->getData(address);
+
+    register8_t data_a = A->getValue();
+
+    data_a = data_a & data_mem;
+
+    A->setValue(data_a);
 }
 
 void Processor::OPCode0xA7()
 {
+    // AND A
+    // Do nothing...
 }
 
 void Processor::OPCode0xA8()
