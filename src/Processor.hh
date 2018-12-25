@@ -115,20 +115,20 @@ public:
   register16_t getValueHL();
 
   // Setters for 8bit registers
-  void setA(register8_t value);
-  void setB(register8_t value);
-  void setC(register8_t value);
-  void setD(register8_t value);
-  void setE(register8_t value);
-  void setF(register8_t value);
-  void setH(register8_t value);
-  void setL(register8_t value);
+  void setValueA(register8_t value);
+  void setValueB(register8_t value);
+  void setValueC(register8_t value);
+  void setValueD(register8_t value);
+  void setValueE(register8_t value);
+  void setValueF(register8_t value);
+  void setValueH(register8_t value);
+  void setValueL(register8_t value);
 
   // Setters for 16bit registers
-  void setAF(register16_t value);
-  void setBC(register16_t value);
-  void setDE(register16_t value);
-  void setHL(register16_t value);
+  void setValueAF(register16_t value);
+  void setValueBC(register16_t value);
+  void setValueDE(register16_t value);
+  void setValueHL(register16_t value);
 
   // SP
   register16_t getSP();
