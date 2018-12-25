@@ -73,7 +73,7 @@ void Processor::OPCode0x09()
 void Processor::OPCode0x0A()
 {
     // LD A, (BC)
-    // TODO memory management
+    loadFromMemory(A, BC);
 }
 
 void Processor::OPCode0x0B()
@@ -123,7 +123,7 @@ void Processor::OPCode0x11()
 void Processor::OPCode0x12()
 {
     // LD (DE), A
-    // TODO memory management
+    loadIntoMemory(DE, A);
 }
 
 void Processor::OPCode0x13()
@@ -177,7 +177,7 @@ void Processor::OPCode0x19()
 void Processor::OPCode0x1A()
 {
     // LD A, (DE)
-    // TODO memory management
+    loadFromMemory(A, DE);
 }
 
 void Processor::OPCode0x1B()
@@ -351,19 +351,32 @@ void Processor::OPCode0x33()
 void Processor::OPCode0x34()
 {
     // INC (HL)
-    // TODO memory management
+    register16_t address = RAM_DATA_OFFSET + HL->getValue();
+    byte_t data = ram->getData(address);
+
+    ++data;
+
+    ram->setData(address, data);
 }
 
 void Processor::OPCode0x35()
 {
     // DEC (HL)
-    // TODO memory management
+    register16_t address = RAM_DATA_OFFSET + HL->getValue();
+    byte_t data = ram->getData(address);
+
+    --data;
+
+    ram->setData(address, data);
 }
 
 void Processor::OPCode0x36()
 {
     // LD (HL), d8
-    // TODO memory management
+    byte_t data = getCurrentData();
+    register16_t address = RAM_DATA_OFFSET + HL->getValue();
+
+    ram->setData(address, data);
 }
 
 void Processor::OPCode0x37()
@@ -467,7 +480,7 @@ void Processor::OPCode0x45()
 void Processor::OPCode0x46()
 {
     // LD B, (HL)
-    // TODO memory management
+    loadFromMemory(B, HL);
 }
 
 void Processor::OPCode0x47()
@@ -515,7 +528,7 @@ void Processor::OPCode0x4D()
 void Processor::OPCode0x4E()
 {
     // LD C, (HL)
-    // TODO memory management
+    loadFromMemory(C, HL);
 }
 
 void Processor::OPCode0x4F()
@@ -563,7 +576,7 @@ void Processor::OPCode0x55()
 void Processor::OPCode0x56()
 {
     // LD D, (HL)
-    // TODO memory management
+    loadFromMemory(D, HL);
 }
 
 void Processor::OPCode0x57()
@@ -611,7 +624,7 @@ void Processor::OPCode0x5D()
 void Processor::OPCode0x5E()
 {
     // LD E, (HL)
-    // TODO memory management
+    loadFromMemory(E, HL);
 }
 
 void Processor::OPCode0x5F()
@@ -659,7 +672,7 @@ void Processor::OPCode0x65()
 void Processor::OPCode0x66()
 {
     // LD H, (HL)
-    // TODO memory management
+    loadFromMemory(H, HL);
 }
 
 void Processor::OPCode0x67()
@@ -707,7 +720,7 @@ void Processor::OPCode0x6D()
 void Processor::OPCode0x6E()
 {
     // LD L, (HL)
-    // TODO memory management
+    loadFromMemory(L, HL);
 }
 
 void Processor::OPCode0x6F()
@@ -719,37 +732,37 @@ void Processor::OPCode0x6F()
 void Processor::OPCode0x70()
 {
     // LD (HL), B
-    // TODO memory management
+    loadIntoMemory(HL, B);
 }
 
 void Processor::OPCode0x71()
 {
     // LD (HL), C
-    // TODO memory management
+    loadIntoMemory(HL, C);
 }
 
 void Processor::OPCode0x72()
 {
     // LD (HL), D
-    // TODO memory management
+    loadIntoMemory(HL, D);
 }
 
 void Processor::OPCode0x73()
 {
     // LD (HL), E
-    // TODO memory management
+    loadIntoMemory(HL, E);
 }
 
 void Processor::OPCode0x74()
 {
     // LD (HL), H
-    // TODO memory management
+    loadIntoMemory(HL, H);
 }
 
 void Processor::OPCode0x75()
 {
     // LD (HL), L
-    // TODO memory management
+    loadIntoMemory(HL, L);
 }
 
 void Processor::OPCode0x76()
@@ -761,7 +774,7 @@ void Processor::OPCode0x76()
 void Processor::OPCode0x77()
 {
     // LD (HL), A
-    // TODO memory management
+    loadIntoMemory(HL, A);
 }
 
 void Processor::OPCode0x78()
@@ -803,7 +816,7 @@ void Processor::OPCode0x7D()
 void Processor::OPCode0x7E()
 {
     // LD A, (HL)
-    // TODO memory management
+    loadFromMemory(A, HL);
 }
 
 void Processor::OPCode0x7F()
@@ -851,7 +864,13 @@ void Processor::OPCode0x85()
 void Processor::OPCode0x86()
 {
     // ADD A, (HL)
-    // TODO memory management
+    register8_t data_a = A->getValue();
+    register16_t address = RAM_DATA_OFFSET + HL->getValue();
+    register8_t data_mem = ram->getData(address);
+
+    register8_t result = data_a + data_mem;
+
+    A->setValue(result);
 }
 
 void Processor::OPCode0x87()

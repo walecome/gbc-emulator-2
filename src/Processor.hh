@@ -41,7 +41,15 @@ public:
   /**
     Loads the data in data_reg into the address 0xFF00 + (value in address_reg).
   */
+
   void loadIntoMemory(Register16bit *address_reg, Register8bit *data_reg);
+
+  /**
+    Loads data from the memory address stored in address_reg and stores it
+    in data_reg
+  */
+
+  void loadFromMemory(Register8bit *data_reg, Register16bit *address_reg);
 
   /**
     Increments the value of the passed register and sets flags accordingly.
