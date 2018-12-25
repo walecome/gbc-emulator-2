@@ -1,7 +1,7 @@
 
 SOURCE_DIR = src/
 
-SOURCE_FILES = src/Processor.cc src/RegisterGet.cc src/RegisterSet.cc src/Register8bit.cc src/Register16bit.cc
+SOURCE_FILES = src/Processor.cc src/RegisterGet.cc src/RegisterSet.cc src/Register8bit.cc src/Register16bit.cc src/Memory.cc
 
 TEST_DIR = tests/
 TEST_SOURCE = tests/TestUtils.cc tests/TestAddition.cc
