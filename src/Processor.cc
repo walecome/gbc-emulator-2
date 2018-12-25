@@ -214,6 +214,17 @@ void Processor::xorRegisters(Register8bit *source)
     A->setValue(result);
 }
 
+void Processor::orRegisters(Register8bit *source)
+{
+    register8_t data_a = A->getValue();
+    register8_t data_source = source->getValue();
+
+    // XOR
+    register8_t result = data_a | data_source;
+
+    A->setValue(result);
+}
+
 // Flags
 
 template <class T>

@@ -112,6 +112,13 @@ public:
   */
   void xorRegisters(Register8bit *source);
 
+  /**
+    Performs a bitwise OR operation with the accumulator (reg A) and the passed
+    in register. The result is store in the accumulator.
+  */
+
+  void orRegisters(Register8bit *source);
+
   // Handle flags according to operation results
   template <class T>
   void checkFlagZ(T result);
