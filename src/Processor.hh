@@ -38,6 +38,22 @@ public:
   void loadRegister(Register8bit *reg);
 
   /**
+    Increments the value of the passed register and sets flags accordingly.
+    This function is only for 8bit registers since 16bit register increment
+    doesn't affect flags.
+  */
+
+  void incrementRegister(Register8bit *reg);
+
+  /**
+    Decrements the value of the passed register and sets flags accordingly.
+    This function is only for 8bit registers since 16bit register decrement
+    doesn't affect flags.
+  */
+
+  void decrementRegister(Register8bit *reg);
+
+  /**
     Copies the value from the destination register to the source register
   */
 
@@ -49,6 +65,7 @@ public:
   */
 
   void addRegisters(Register8bit *destination, Register8bit *source);
+  void addRegisters(Register16bit *destination, Register16bit *source);
 
   /**
     Subtracts the value in the accumulator (reg A) with the value in the
@@ -56,21 +73,46 @@ public:
   */
   void subRegisters(Register8bit *source);
 
+  /**
+    Adds registers with the carry included in the addition
+  */
+  void addWithCarry(Register8bit *destination, Register8bit *source);
+
+  // Handle flags according to operation results
+  template <class T>
+  void checkFlagZ(T result);
+  void checkFlagC(int result);
+  void checkFlagH(register8_t result);
+
   // Getters for 8bit registers
-  register8_t getA();
-  register8_t getB();
-  register8_t getC();
-  register8_t getD();
-  register8_t getE();
-  register8_t getF();
-  register8_t getH();
-  register8_t getL();
+  Register8bit *getA();
+  Register8bit *getB();
+  Register8bit *getC();
+  Register8bit *getD();
+  Register8bit *getE();
+  Register8bit *getF();
+  Register8bit *getH();
+  Register8bit *getL();
+
+  register8_t getValueA();
+  register8_t getValueB();
+  register8_t getValueC();
+  register8_t getValueD();
+  register8_t getValueE();
+  register8_t getValueF();
+  register8_t getValueH();
+  register8_t getValueL();
 
   // Getters for 16bit registers
-  register16_t getAF();
-  register16_t getBC();
-  register16_t getDE();
-  register16_t getHL();
+  Register16bit *getAF();
+  Register16bit *getBC();
+  Register16bit *getDE();
+  Register16bit *getHL();
+
+  register16_t getValueAF();
+  register16_t getValueBC();
+  register16_t getValueDE();
+  register16_t getValueHL();
 
   // Setters for 8bit registers
   void setA(register8_t value);

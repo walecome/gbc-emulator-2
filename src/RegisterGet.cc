@@ -3,64 +3,124 @@
 
 // 8bit
 
-register8_t Processor::getA()
+Register8bit *Processor::getA()
+{
+    return A;
+}
+
+Register8bit *Processor::getB()
+{
+    return B;
+}
+
+Register8bit *Processor::getC()
+{
+    return C;
+}
+
+Register8bit *Processor::getD()
+{
+    return D;
+}
+
+Register8bit *Processor::getE()
+{
+    return E;
+}
+
+Register8bit *Processor::getF()
+{
+    return F;
+}
+
+Register8bit *Processor::getH()
+{
+    return H;
+}
+
+Register8bit *Processor::getL()
+{
+    return L;
+}
+
+register8_t Processor::getValueA()
 {
     return A->getValue();
 }
 
-register8_t Processor::getB()
+register8_t Processor::getValueB()
 {
     return B->getValue();
 }
 
-register8_t Processor::getC()
+register8_t Processor::getValueC()
 {
     return C->getValue();
 }
 
-register8_t Processor::getD()
+register8_t Processor::getValueD()
 {
     return D->getValue();
 }
 
-register8_t Processor::getE()
+register8_t Processor::getValueE()
 {
     return E->getValue();
 }
 
-register8_t Processor::getF()
+register8_t Processor::getValueF()
 {
     return F->getValue();
 }
 
-register8_t Processor::getH()
+register8_t Processor::getValueH()
 {
     return H->getValue();
 }
 
-register8_t Processor::getL()
+register8_t Processor::getValueL()
 {
     return L->getValue();
 }
 
 // 16bit
 
-register16_t Processor::getAF()
+Register16bit *Processor::getAF()
+{
+    return AF;
+}
+
+Register16bit *Processor::getBC()
+{
+    return BC;
+}
+
+Register16bit *Processor::getDE()
+{
+    return DE;
+}
+
+Register16bit *Processor::getHL()
+{
+    return HL;
+}
+
+register16_t Processor::getValueAF()
 {
     return AF->getValue();
 }
 
-register16_t Processor::getBC()
+register16_t Processor::getValueBC()
 {
     return BC->getValue();
 }
 
-register16_t Processor::getDE()
+register16_t Processor::getValueDE()
 {
     return DE->getValue();
 }
 
-register16_t Processor::getHL()
+register16_t Processor::getValueHL()
 {
     return HL->getValue();
 }
