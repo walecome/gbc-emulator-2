@@ -92,6 +92,14 @@ public:
   */
   void addWithCarry(Register8bit *destination, Register8bit *source);
 
+  /**
+    Subtracts the value in the accumulator (reg A) with the value in the source
+    register. The subtraction also includes the carry value. Result is stored
+    in the accumulator.
+  */
+
+  void subWithCarry(Register8bit *source);
+
   // Handle flags according to operation results
   template <class T>
   void checkFlagZ(T result);

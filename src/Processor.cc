@@ -177,6 +177,21 @@ void Processor::addWithCarry(Register8bit *destination, Register8bit *source)
     destination->setValue((register8_t)result);
 }
 
+void Processor::subWithCarry(Register8bit *source)
+{
+
+    register8_t value_dest = A->getValue();
+    register8_t value_source = source->getValue();
+    int carry = (getFlagC() ? 1 : 0);
+
+    value_dest = value_dest - value_source - carry;
+
+    A->setValue(value_dest);
+
+    // TODO fix rest of flags. How does negative carry work???
+    setFlagN(true);
+}
+
 // Flags
 
 template <class T>

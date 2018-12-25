@@ -882,103 +882,145 @@ void Processor::OPCode0x87()
 void Processor::OPCode0x88()
 {
     // ADC A, B
-    addRegisters(A, B);
-    if (getFlagC())
-    {
-        A->increment();
-    }
+    addWithCarry(A, B);
 }
 
 void Processor::OPCode0x89()
 {
+    // ADC A, C
+    addWithCarry(A, C);
 }
 
 void Processor::OPCode0x8A()
 {
+    // ADC A, D
+    addWithCarry(A, D);
 }
 
 void Processor::OPCode0x8B()
 {
+    // ADC A, E
+    addWithCarry(A, E);
 }
 
 void Processor::OPCode0x8C()
 {
+    // ADC A, H
+    addWithCarry(A, H);
 }
 
 void Processor::OPCode0x8D()
 {
+    // ADC A, L
+    addWithCarry(A, L);
 }
 
 void Processor::OPCode0x8E()
 {
+    // ADC A, (HL)
+    // TODO fix
 }
 
 void Processor::OPCode0x8F()
 {
+    // ADC A, A
+    addWithCarry(A, A);
 }
 
 void Processor::OPCode0x90()
 {
+    // SUB B
+    subRegisters(B);
 }
 
 void Processor::OPCode0x91()
 {
+    // SUB C
+    subRegisters(C);
 }
 
 void Processor::OPCode0x92()
 {
+    // SUB D
+    subRegisters(D);
 }
 
 void Processor::OPCode0x93()
 {
+    // SUB E
+    subRegisters(E);
 }
 
 void Processor::OPCode0x94()
 {
+    // SUB H
+    subRegisters(H);
 }
 
 void Processor::OPCode0x95()
 {
+    // SUB L
+    subRegisters(L);
 }
 
 void Processor::OPCode0x96()
 {
+    // SUB (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x97()
 {
+    // SUB A
+    subRegisters(A);
 }
 
 void Processor::OPCode0x98()
 {
+    // SBC A, B
+    subWithCarry(B);
 }
 
 void Processor::OPCode0x99()
 {
+    // SBC A, C
+    subWithCarry(C);
 }
 
 void Processor::OPCode0x9A()
 {
+    // SBC A, D
+    subWithCarry(D);
 }
 
 void Processor::OPCode0x9B()
 {
+    // SBC A, E
+    subWithCarry(E);
 }
 
 void Processor::OPCode0x9C()
 {
+    // SBC A, H
+    subWithCarry(H);
 }
 
 void Processor::OPCode0x9D()
 {
+    // SBC A, L
+    subWithCarry(L);
 }
 
 void Processor::OPCode0x9E()
 {
+    // SBC A, (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0x9F()
 {
+    // SBC A, A
+    subWithCarry(A);
 }
 
 void Processor::OPCode0xA0()
