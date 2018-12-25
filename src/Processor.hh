@@ -5,6 +5,7 @@
 #include "Constants.hh"
 #include "Register8bit.hh"
 #include "Register16bit.hh"
+#include "Memory.hh"
 
 class Processor
 {
@@ -36,6 +37,11 @@ public:
    */
 
   void loadRegister(Register8bit *reg);
+
+  /**
+    Loads the data in data_reg into the address 0xFF00 + (value in address_reg).
+  */
+  void loadIntoMemory(Register16bit *address_reg, Register8bit *data_reg);
 
   /**
     Increments the value of the passed register and sets flags accordingly.
@@ -147,10 +153,11 @@ public:
   void setFlagZ(bool value);
 
 private:
-  register16_t program_counter{0};
-  std::vector<opcode_t> program_memory;
-  std::vector<byte_t> program_stack;
+  register16_t program_counter{PC_START};
+  std::vector<opcode_t> program_memory{};
+  std::vector<byte_t> program_stack{};
   opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];
+  Memory *ram = new Memory(RAM_MAX_SIZE);
 
   // Handle stack pointer as 16 bit register
   Register16bit *stack_pointer = new Register16bit("SP");

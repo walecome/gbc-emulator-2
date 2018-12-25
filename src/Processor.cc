@@ -15,6 +15,8 @@ Processor::~Processor()
     delete BC;
     delete DE;
     delete HL;
+
+    delete ram;
 }
 
 void Processor::readInstructions(const char *filename)
@@ -60,6 +62,15 @@ byte_t Processor::getCurrentData()
 void Processor::loadRegister(Register8bit *reg)
 {
     reg->setValue(getCurrentData());
+}
+
+void Processor::loadIntoMemory(Register16bit *address_reg, Register8bit *data_reg)
+{
+    register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
+
+    byte_t data = data_reg->getValue();
+
+    ram->setData(address, data);
 }
 
 void Processor::incrementRegister(Register8bit *reg)
