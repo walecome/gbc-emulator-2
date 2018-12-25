@@ -30,34 +30,13 @@ void Processor::OPCode0x03()
 void Processor::OPCode0x04()
 {
     // INC B
-    B->increment();
-
-    // TODO double check flag logic
-    register8_t value_b = B->getValue();
-
-    if (value_b == 0x00)
-        setFlagZ(true);
-
-    setFlagN(false);
-
-    if ((value_b & 0x0F) == 0x00)
-        setFlagH(true);
+    incrementRegister(B);
 }
 
 void Processor::OPCode0x05()
 {
     // DEC B
-    B->decrement();
-
-    register8_t value_b = B->getValue();
-
-    if (value_b == 0x00)
-        setFlagZ(true);
-
-    setFlagN(true);
-
-    if ((value_b & 0x0F) == 0x00)
-        setFlagH(true);
+    decrementRegister(B);
 }
 
 void Processor::OPCode0x06()

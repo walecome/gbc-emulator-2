@@ -62,19 +62,69 @@ void Processor::loadRegister(Register8bit *reg)
     reg->setValue(getCurrentData());
 }
 
+void Processor::incrementRegister(Register8bit *reg)
+{
+    reg->increment();
+
+    register8_t result = reg->getValue();
+
+    checkFlagZ(result);
+    setFlagN(false);
+    checkFlagH(result);
+}
+
+void Processor::decrementRegister(Register8bit *reg)
+{
+    reg->decrement();
+
+    register8_t result = reg->getValue();
+
+    checkFlagZ(result);
+    setFlagN(true);
+    checkFlagH(result);
+}
+
 void Processor::copyRegister(Register8bit *destination, Register8bit *source)
 {
     destination->setValue(source->getValue());
 }
 
+template <class reg_type, class value_type>
+int add_helper(reg_type *a, reg_type *b)
+{
+    value_type value_dest = a->getValue();
+    value_type value_source = b->getValue();
+
+    int result = value_dest + value_source;
+
+    value_dest = (value_type)result;
+
+    a->setValue(value_dest);
+
+    return result;
+}
+
 void Processor::addRegisters(Register8bit *destination, Register8bit *source)
 {
-    register8_t value_dest = destination->getValue();
-    register8_t value_source = source->getValue();
+    int result = add_helper<Register8bit, register8_t>(destination, source);
 
-    value_dest += value_source;
+    register8_t value_dest = (register8_t)result;
 
-    destination->setValue(value_dest);
+    checkFlagZ(value_dest);
+    setFlagN(false);
+    checkFlagC(result);
+    checkFlagH(value_dest);
+}
+
+void Processor::addRegisters(Register16bit *destination, Register16bit *source)
+{
+    int result = add_helper<Register16bit, register16_t>(destination, source);
+
+    register16_t value_dest = (register16_t)result;
+
+    setFlagN(false);
+    checkFlagC(result);
+    checkFlagH(value_dest);
 }
 
 void Processor::subRegisters(Register8bit *source)
@@ -85,6 +135,44 @@ void Processor::subRegisters(Register8bit *source)
     value_dest -= value_source;
 
     A->setValue(value_dest);
+
+    setFlagN(true);
+}
+
+void Processor::addWithCarry(Register8bit *destination, Register8bit *source)
+{
+    register8_t value_dest = destination->getValue();
+    register8_t value_source = source->getValue();
+
+    int carry = (getFlagC() ? 1 : 0);
+
+    int result = value_dest + value_source + carry;
+
+    // Overflow
+    if (result > 0xFF)
+    {
+        setFlagC(true);
+    }
+
+    destination->setValue((register8_t)result);
+}
+
+// Flags
+
+template <class T>
+void Processor::checkFlagZ(T result)
+{
+    setFlagZ(result == 0x00);
+}
+
+void Processor::checkFlagC(int result)
+{
+    setFlagC(result > 0xFF);
+}
+
+void Processor::checkFlagH(register8_t result)
+{
+    // TODO
 }
 
 // SP

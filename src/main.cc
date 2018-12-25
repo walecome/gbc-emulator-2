@@ -54,6 +54,21 @@ std::vector<unsigned char> readFile(const char *filename)
     return vec;
 }
 
+void tests(Processor &p)
+{
+    std::cout << "Testing register addition..." << std::endl;
+
+    p.setA(0x03);
+    p.setB(0x14);
+
+    std::cout << "A: " << std::hex << p.getA() << std::endl;
+    std::cout << "B: " << std::hex << p.getB() << std::endl;
+
+    std::cout << "Doing addition of A and B..." << std::endl;
+
+    p.addRegisters(A, B);
+}
+
 int main()
 {
     std::string filename = "roms/pokemon_silver.gbc";
