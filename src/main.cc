@@ -5,6 +5,7 @@
 #include <iterator>
 #include <iomanip>
 #include <sstream>
+#include <assert.h>
 
 // User headers
 #include "Instruction.hh"
@@ -56,17 +57,41 @@ std::vector<unsigned char> readFile(const char *filename)
 
 void tests(Processor &p)
 {
-    std::cout << "Testing register addition..." << std::endl;
+    std::cout << "Testing 8bit register addition..." << std::endl;
 
-    p.setA(0x03);
-    p.setB(0x14);
+    p.setValueA(0x03);
+    p.setValueB(0x14);
 
-    std::cout << "A: " << std::hex << p.getA() << std::endl;
-    std::cout << "B: " << std::hex << p.getB() << std::endl;
+    std::cout << "A: " << std::hex << unsigned(p.getValueA()) << std::endl;
+    std::cout << "B: " << std::hex << unsigned(p.getValueB()) << std::endl;
 
     std::cout << "Doing addition of A and B..." << std::endl;
 
-    p.addRegisters(A, B);
+    p.addRegisters(p.getA(), p.getB());
+
+    std::cout << "A: " << std::hex << unsigned(p.getValueA()) << std::endl;
+
+    assert(p.getValueA() == (register8_t)(0x03 + 0x14));
+
+    std::cout << "Testing 16bit register addition..." << std::endl;
+
+    register16_t af_val = 0xABCD;
+    register16_t bc_val = 0xB00F;
+    register16_t expected_value = af_val + bc_val;
+
+    p.setValueAF(af_val);
+    p.setValueBC(bc_val);
+
+    std::cout << "AF: " << std::hex << p.getValueAF() << std::endl;
+    std::cout << "BC: " << std::hex << p.getValueBC() << std::endl;
+
+    std::cout << "Doing addition of AF and BC..." << std::endl;
+
+    p.addRegisters(p.getAF(), p.getBC());
+
+    std::cout << "AF: " << std::hex << p.getValueAF() << std::endl;
+
+    assert(p.getValueAF() == expected_value);
 }
 
 int main()
@@ -81,14 +106,17 @@ int main()
 
     std::cout << "AF value: " << std::hex << p.getAF() << std::endl;
     std::cout << "Setting A to 0xEB" << std::endl;
-    p.setA(0xEB);
-    std::cout << "AF value: " << std::hex << (int)p.getAF() << std::endl;
+    p.setValueA(0xEB);
+    std::cout << "AF value: " << std::hex << (int)p.getValueAF() << std::endl;
 
     std::cout << "Setting AF to 0xBEEF" << std::endl;
-    p.setAF(0xBEEF);
+    p.setValueAF(0xBEEF);
     std::cout << "AF value: " << std::hex << p.getAF() << std::endl;
-    std::cout << "A value: " << std::hex << (int)p.getA() << std::endl;
-    std::cout << "F value: " << std::hex << (int)p.getF() << std::endl;
+    std::cout << "A value: " << std::hex << (int)p.getValueA() << std::endl;
+    std::cout << "F value: " << std::hex << (int)p.getValueF() << std::endl;
+
+    std::cout << "Running tests..." << std::endl;
+    tests(p);
 
     std::cout << "Done" << std::endl;
 
