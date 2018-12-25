@@ -1081,66 +1081,98 @@ void Processor::OPCode0xA7()
 
 void Processor::OPCode0xA8()
 {
+    // XOR B
+    xorRegisters(B);
 }
 
 void Processor::OPCode0xA9()
 {
+    // XOR C
+    xorRegisters(C);
 }
 
 void Processor::OPCode0xAA()
 {
+    // XOR D
+    xorRegisters(D);
 }
 
 void Processor::OPCode0xAB()
 {
+    // XOR E
+    xorRegisters(E);
 }
 
 void Processor::OPCode0xAC()
 {
+    // XOR H
+    xorRegisters(H);
 }
 
 void Processor::OPCode0xAD()
 {
+    // XOR L
+    xorRegisters(L);
 }
 
 void Processor::OPCode0xAE()
 {
+    // XOR (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0xAF()
 {
+    // XOR A
+    xorRegisters(A);
 }
 
 void Processor::OPCode0xB0()
 {
+    // OR B
+    orRegisters(B);
 }
 
 void Processor::OPCode0xB1()
 {
+    // OR C
+    orRegisters(C);
 }
 
 void Processor::OPCode0xB2()
 {
+    // OR D
+    orRegisters(D);
 }
 
 void Processor::OPCode0xB3()
 {
+    // OR E
+    orRegisters(E);
 }
 
 void Processor::OPCode0xB4()
 {
+    // OR H
+    orRegisters(H);
 }
 
 void Processor::OPCode0xB5()
 {
+    // OR L
+    orRegisters(L);
 }
 
 void Processor::OPCode0xB6()
 {
+    // OR (HL)
+    // TODO memory management
 }
 
 void Processor::OPCode0xB7()
 {
+    // OR A
+    // Do nothing...
 }
 
 void Processor::OPCode0xB8()
