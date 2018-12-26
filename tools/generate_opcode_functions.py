@@ -14,6 +14,12 @@ if CB_PREFIX:
 
 OPCODE_MAX = 0xFF
 
+OPERAND_ORDER = ["B", "C", "D", "E", "H", "L", "(HL)", "A"]
+current_bit = 0
+current_operand = 0
+
+current_func = ""
+
 
 def write_def(file, opcode_str):
 
@@ -33,10 +39,43 @@ def write_impl(file, opcode_str):
     else:
         definition_string = "void Processor::OPCode{}()".format(opcode_str)
 
+    global current_func
+
+    if opcode_str == "0x80":
+        current_func = "RES"
+    elif opcode_str == "0xC0":
+        current_func = "SET"
+
     file.write(definition_string)
     file.write("\n")
     file.write("{")
     file.write("\n")
+
+    if current_func != "":
+        global current_operand
+        global current_bit
+        func_str = "{} {}, {}".format(
+            current_func, current_bit, OPERAND_ORDER[current_operand])
+
+        comment_str = "\t// {}\n".format(func_str)
+
+        file.write(comment_str)
+
+        if current_func == "RES":
+            exe_str = "\tresetBit({}, {});\n".format(
+                current_bit, OPERAND_ORDER[current_operand])
+            file.write(exe_str)
+
+        elif current_func == "SET":
+            exe_str = "\tsetBit({}, {});\n".format(
+                current_bit, OPERAND_ORDER[current_operand])
+            file.write(exe_str)
+
+        if current_operand == len(OPERAND_ORDER) - 1:
+            current_bit = (current_bit + 1) % 8
+
+        current_operand = (current_operand + 1) % len(OPERAND_ORDER)
+
     file.write("}")
     file.write("\n\n")
 

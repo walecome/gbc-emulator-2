@@ -769,512 +769,768 @@ void Processor::OPCodeCB0x7F()
 
 void Processor::OPCodeCB0x80()
 {
+    // RES 0, B
+    resetBit(0, B);
 }
 
 void Processor::OPCodeCB0x81()
 {
+    // RES 0, C
+    resetBit(0, C);
 }
 
 void Processor::OPCodeCB0x82()
 {
+    // RES 0, D
+    resetBit(0, D);
 }
 
 void Processor::OPCodeCB0x83()
 {
+    // RES 0, E
+    resetBit(0, E);
 }
 
 void Processor::OPCodeCB0x84()
 {
+    // RES 0, H
+    resetBit(0, H);
 }
 
 void Processor::OPCodeCB0x85()
 {
+    // RES 0, L
+    resetBit(0, L);
 }
 
 void Processor::OPCodeCB0x86()
 {
+    // RES 0, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0x87()
 {
+    // RES 0, A
+    resetBit(0, A);
 }
 
 void Processor::OPCodeCB0x88()
 {
+    // RES 1, B
+    resetBit(1, B);
 }
 
 void Processor::OPCodeCB0x89()
 {
+    // RES 1, C
+    resetBit(1, C);
 }
 
 void Processor::OPCodeCB0x8A()
 {
+    // RES 1, D
+    resetBit(1, D);
 }
 
 void Processor::OPCodeCB0x8B()
 {
+    // RES 1, E
+    resetBit(1, E);
 }
 
 void Processor::OPCodeCB0x8C()
 {
+    // RES 1, H
+    resetBit(1, H);
 }
 
 void Processor::OPCodeCB0x8D()
 {
+    // RES 1, L
+    resetBit(1, L);
 }
 
 void Processor::OPCodeCB0x8E()
 {
+    // RES 1, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0x8F()
 {
+    // RES 1, A
+    resetBit(1, A);
 }
 
 void Processor::OPCodeCB0x90()
 {
+    // RES 2, B
+    resetBit(2, B);
 }
 
 void Processor::OPCodeCB0x91()
 {
+    // RES 2, C
+    resetBit(2, C);
 }
 
 void Processor::OPCodeCB0x92()
 {
+    // RES 2, D
+    resetBit(2, D);
 }
 
 void Processor::OPCodeCB0x93()
 {
+    // RES 2, E
+    resetBit(2, E);
 }
 
 void Processor::OPCodeCB0x94()
 {
+    // RES 2, H
+    resetBit(2, H);
 }
 
 void Processor::OPCodeCB0x95()
 {
+    // RES 2, L
+    resetBit(2, L);
 }
 
 void Processor::OPCodeCB0x96()
 {
+    // RES 2, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0x97()
 {
+    // RES 2, A
+    resetBit(2, A);
 }
 
 void Processor::OPCodeCB0x98()
 {
+    // RES 3, B
+    resetBit(3, B);
 }
 
 void Processor::OPCodeCB0x99()
 {
+    // RES 3, C
+    resetBit(3, C);
 }
 
 void Processor::OPCodeCB0x9A()
 {
+    // RES 3, D
+    resetBit(3, D);
 }
 
 void Processor::OPCodeCB0x9B()
 {
+    // RES 3, E
+    resetBit(3, E);
 }
 
 void Processor::OPCodeCB0x9C()
 {
+    // RES 3, H
+    resetBit(3, H);
 }
 
 void Processor::OPCodeCB0x9D()
 {
+    // RES 3, L
+    resetBit(3, L);
 }
 
 void Processor::OPCodeCB0x9E()
 {
+    // RES 3, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0x9F()
 {
+    // RES 3, A
+    resetBit(3, A);
 }
 
 void Processor::OPCodeCB0xA0()
 {
+    // RES 4, B
+    resetBit(4, B);
 }
 
 void Processor::OPCodeCB0xA1()
 {
+    // RES 4, C
+    resetBit(4, C);
 }
 
 void Processor::OPCodeCB0xA2()
 {
+    // RES 4, D
+    resetBit(4, D);
 }
 
 void Processor::OPCodeCB0xA3()
 {
+    // RES 4, E
+    resetBit(4, E);
 }
 
 void Processor::OPCodeCB0xA4()
 {
+    // RES 4, H
+    resetBit(4, H);
 }
 
 void Processor::OPCodeCB0xA5()
 {
+    // RES 4, L
+    resetBit(4, L);
 }
 
 void Processor::OPCodeCB0xA6()
 {
+    // RES 4, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xA7()
 {
+    // RES 4, A
+    resetBit(4, A);
 }
 
 void Processor::OPCodeCB0xA8()
 {
+    // RES 5, B
+    resetBit(5, B);
 }
 
 void Processor::OPCodeCB0xA9()
 {
+    // RES 5, C
+    resetBit(5, C);
 }
 
 void Processor::OPCodeCB0xAA()
 {
+    // RES 5, D
+    resetBit(5, D);
 }
 
 void Processor::OPCodeCB0xAB()
 {
+    // RES 5, E
+    resetBit(5, E);
 }
 
 void Processor::OPCodeCB0xAC()
 {
+    // RES 5, H
+    resetBit(5, H);
 }
 
 void Processor::OPCodeCB0xAD()
 {
+    // RES 5, L
+    resetBit(5, L);
 }
 
 void Processor::OPCodeCB0xAE()
 {
+    // RES 5, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xAF()
 {
+    // RES 5, A
+    resetBit(5, A);
 }
 
 void Processor::OPCodeCB0xB0()
 {
+    // RES 6, B
+    resetBit(6, B);
 }
 
 void Processor::OPCodeCB0xB1()
 {
+    // RES 6, C
+    resetBit(6, C);
 }
 
 void Processor::OPCodeCB0xB2()
 {
+    // RES 6, D
+    resetBit(6, D);
 }
 
 void Processor::OPCodeCB0xB3()
 {
+    // RES 6, E
+    resetBit(6, E);
 }
 
 void Processor::OPCodeCB0xB4()
 {
+    // RES 6, H
+    resetBit(6, H);
 }
 
 void Processor::OPCodeCB0xB5()
 {
+    // RES 6, L
+    resetBit(6, L);
 }
 
 void Processor::OPCodeCB0xB6()
 {
+    // RES 6, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xB7()
 {
+    // RES 6, A
+    resetBit(6, A);
 }
 
 void Processor::OPCodeCB0xB8()
 {
+    // RES 7, B
+    resetBit(7, B);
 }
 
 void Processor::OPCodeCB0xB9()
 {
+    // RES 7, C
+    resetBit(7, C);
 }
 
 void Processor::OPCodeCB0xBA()
 {
+    // RES 7, D
+    resetBit(7, D);
 }
 
 void Processor::OPCodeCB0xBB()
 {
+    // RES 7, E
+    resetBit(7, E);
 }
 
 void Processor::OPCodeCB0xBC()
 {
+    // RES 7, H
+    resetBit(7, H);
 }
 
 void Processor::OPCodeCB0xBD()
 {
+    // RES 7, L
+    resetBit(7, L);
 }
 
 void Processor::OPCodeCB0xBE()
 {
+    // RES 7, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xBF()
 {
+    // RES 7, A
+    resetBit(7, A);
 }
 
 void Processor::OPCodeCB0xC0()
 {
+    // SET 0, B
+    setBit(0, B);
 }
 
 void Processor::OPCodeCB0xC1()
 {
+    // SET 0, C
+    setBit(0, C);
 }
 
 void Processor::OPCodeCB0xC2()
 {
+    // SET 0, D
+    setBit(0, D);
 }
 
 void Processor::OPCodeCB0xC3()
 {
+    // SET 0, E
+    setBit(0, E);
 }
 
 void Processor::OPCodeCB0xC4()
 {
+    // SET 0, H
+    setBit(0, H);
 }
 
 void Processor::OPCodeCB0xC5()
 {
+    // SET 0, L
+    setBit(0, L);
 }
 
 void Processor::OPCodeCB0xC6()
 {
+    // SET 0, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xC7()
 {
+    // SET 0, A
+    setBit(0, A);
 }
 
 void Processor::OPCodeCB0xC8()
 {
+    // SET 1, B
+    setBit(1, B);
 }
 
 void Processor::OPCodeCB0xC9()
 {
+    // SET 1, C
+    setBit(1, C);
 }
 
 void Processor::OPCodeCB0xCA()
 {
+    // SET 1, D
+    setBit(1, D);
 }
 
 void Processor::OPCodeCB0xCB()
 {
+    // SET 1, E
+    setBit(1, E);
 }
 
 void Processor::OPCodeCB0xCC()
 {
+    // SET 1, H
+    setBit(1, H);
 }
 
 void Processor::OPCodeCB0xCD()
 {
+    // SET 1, L
+    setBit(1, L);
 }
 
 void Processor::OPCodeCB0xCE()
 {
+    // SET 1, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xCF()
 {
+    // SET 1, A
+    setBit(1, A);
 }
 
 void Processor::OPCodeCB0xD0()
 {
+    // SET 2, B
+    setBit(2, B);
 }
 
 void Processor::OPCodeCB0xD1()
 {
+    // SET 2, C
+    setBit(2, C);
 }
 
 void Processor::OPCodeCB0xD2()
 {
+    // SET 2, D
+    setBit(2, D);
 }
 
 void Processor::OPCodeCB0xD3()
 {
+    // SET 2, E
+    setBit(2, E);
 }
 
 void Processor::OPCodeCB0xD4()
 {
+    // SET 2, H
+    setBit(2, H);
 }
 
 void Processor::OPCodeCB0xD5()
 {
+    // SET 2, L
+    setBit(2, L);
 }
 
 void Processor::OPCodeCB0xD6()
 {
+    // SET 2, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xD7()
 {
+    // SET 2, A
+    setBit(2, A);
 }
 
 void Processor::OPCodeCB0xD8()
 {
+    // SET 3, B
+    setBit(3, B);
 }
 
 void Processor::OPCodeCB0xD9()
 {
+    // SET 3, C
+    setBit(3, C);
 }
 
 void Processor::OPCodeCB0xDA()
 {
+    // SET 3, D
+    setBit(3, D);
 }
 
 void Processor::OPCodeCB0xDB()
 {
+    // SET 3, E
+    setBit(3, E);
 }
 
 void Processor::OPCodeCB0xDC()
 {
+    // SET 3, H
+    setBit(3, H);
 }
 
 void Processor::OPCodeCB0xDD()
 {
+    // SET 3, L
+    setBit(3, L);
 }
 
 void Processor::OPCodeCB0xDE()
 {
+    // SET 3, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xDF()
 {
+    // SET 3, A
+    setBit(3, A);
 }
 
 void Processor::OPCodeCB0xE0()
 {
+    // SET 4, B
+    setBit(4, B);
 }
 
 void Processor::OPCodeCB0xE1()
 {
+    // SET 4, C
+    setBit(4, C);
 }
 
 void Processor::OPCodeCB0xE2()
 {
+    // SET 4, D
+    setBit(4, D);
 }
 
 void Processor::OPCodeCB0xE3()
 {
+    // SET 4, E
+    setBit(4, E);
 }
 
 void Processor::OPCodeCB0xE4()
 {
+    // SET 4, H
+    setBit(4, H);
 }
 
 void Processor::OPCodeCB0xE5()
 {
+    // SET 4, L
+    setBit(4, L);
 }
 
 void Processor::OPCodeCB0xE6()
 {
+    // SET 4, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xE7()
 {
+    // SET 4, A
+    setBit(4, A);
 }
 
 void Processor::OPCodeCB0xE8()
 {
+    // SET 5, B
+    setBit(5, B);
 }
 
 void Processor::OPCodeCB0xE9()
 {
+    // SET 5, C
+    setBit(5, C);
 }
 
 void Processor::OPCodeCB0xEA()
 {
+    // SET 5, D
+    setBit(5, D);
 }
 
 void Processor::OPCodeCB0xEB()
 {
+    // SET 5, E
+    setBit(5, E);
 }
 
 void Processor::OPCodeCB0xEC()
 {
+    // SET 5, H
+    setBit(5, H);
 }
 
 void Processor::OPCodeCB0xED()
 {
+    // SET 5, L
+    setBit(5, L);
 }
 
 void Processor::OPCodeCB0xEE()
 {
+    // SET 5, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xEF()
 {
+    // SET 5, A
+    setBit(5, A);
 }
 
 void Processor::OPCodeCB0xF0()
 {
+    // SET 6, B
+    setBit(6, B);
 }
 
 void Processor::OPCodeCB0xF1()
 {
+    // SET 6, C
+    setBit(6, C);
 }
 
 void Processor::OPCodeCB0xF2()
 {
+    // SET 6, D
+    setBit(6, D);
 }
 
 void Processor::OPCodeCB0xF3()
 {
+    // SET 6, E
+    setBit(6, E);
 }
 
 void Processor::OPCodeCB0xF4()
 {
+    // SET 6, H
+    setBit(6, H);
 }
 
 void Processor::OPCodeCB0xF5()
 {
+    // SET 6, L
+    setBit(6, L);
 }
 
 void Processor::OPCodeCB0xF6()
 {
+    // SET 6, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xF7()
 {
+    // SET 6, A
+    setBit(6, A);
 }
 
 void Processor::OPCodeCB0xF8()
 {
+    // SET 7, B
+    setBit(7, B);
 }
 
 void Processor::OPCodeCB0xF9()
 {
+    // SET 7, C
+    setBit(7, C);
 }
 
 void Processor::OPCodeCB0xFA()
 {
+    // SET 7, D
+    setBit(7, D);
 }
 
 void Processor::OPCodeCB0xFB()
 {
+    // SET 7, E
+    setBit(7, E);
 }
 
 void Processor::OPCodeCB0xFC()
 {
+    // SET 7, H
+    setBit(7, H);
 }
 
 void Processor::OPCodeCB0xFD()
 {
+    // SET 7, L
+    setBit(7, L);
 }
 
 void Processor::OPCodeCB0xFE()
 {
+    // SET 7, (HL)
+    // TODO fix
 }
 
 void Processor::OPCodeCB0xFF()
 {
+    // SET 7, A
+    setBit(7, A);
 }
