@@ -45,11 +45,23 @@ public:
   void loadIntoMemory(Register16bit *address_reg, Register8bit *data_reg);
 
   /**
-    Loads data from the memory address stored in address_reg and stores it
-    in data_reg
+    Loads the data in value into the address 0xFF00 + address_reg
+  */
+
+  void loadIntoMemory(Register16bit *address_reg, byte_t value);
+
+  /**
+    Loads data from the memory address stored in 0xFF00 + address_reg and stores
+    it in data_reg.
   */
 
   void loadFromMemory(Register8bit *data_reg, Register16bit *address_reg);
+
+  /**
+    Loads from memory address (0xFF00 + address_reg) and returns it.
+  */
+
+  byte_t loadFromMemory(Register16bit *address_reg);
 
   /**
     Increments the value of the passed register and sets flags accordingly.
@@ -149,16 +161,20 @@ public:
   void performJump();
 
   /** 
-    Performs a jump to a 16bit address stores in the program memory.
+    Performs a jump to a 16bit address stored in the program memory.
   */
   void jumpIm16bit();
 
   /**
     Performs a left bitwise rotation on the given register. MSB will also be
     stored in the carry flag.
+
+    rlcAddress will perform the same operation but for the data stored on the
+    address in HL.
   */
 
   void rlcRegister(Register8bit *source);
+  void rlcAddress();
 
   /**
     Performs a right bitwise rotation on the given register. LSB will also be

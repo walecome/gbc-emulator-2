@@ -79,6 +79,13 @@ void Processor::loadIntoMemory(Register16bit *address_reg, Register8bit *data_re
     ram->setData(address, data);
 }
 
+void Processor::loadIntoMemory(Register16bit *address_reg, byte_t value)
+{
+    register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
+
+    ram->setData(address, value);
+}
+
 void Processor::loadFromMemory(Register8bit *data_reg, Register16bit *address_reg)
 {
     register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
@@ -86,6 +93,13 @@ void Processor::loadFromMemory(Register8bit *data_reg, Register16bit *address_re
     byte_t data = ram->getData(address);
 
     data_reg->setValue(data);
+}
+
+byte_t Processor::loadFromMemory(Register16bit *address_reg)
+{
+    register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
+
+    return ram->getData(address);
 }
 
 void Processor::incrementRegister(Register8bit *reg)
@@ -308,6 +322,10 @@ void Processor::rlcRegister(Register8bit *source)
     setFlagZ(data_source == 0x00);
     setFlagN(false);
     setFlagH(false);
+}
+
+void Processor::rlcAddress()
+{
 }
 
 void Processor::rrcRegister(Register8bit *source)
