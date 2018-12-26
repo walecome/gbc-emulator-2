@@ -179,6 +179,46 @@ public:
 
   void rrRegister(Register8bit *source);
 
+  /**
+    Performs a left bitwise shift into the carry.
+  */
+
+  void slaRegister(Register8bit *source);
+
+  /**
+    Performs a right bitwise shift into carry. Perserves MSB.
+  */
+
+  void sraRegister(Register8bit *source);
+
+  /**
+    Swaps the upper and lower nibbles of given register.
+  */
+  void swapNibbles(Register8bit *reg);
+
+  /**
+    Performs a right bitwise shift into carry. MSB is set to 0.
+  */
+
+  void srlRegister(Register8bit *reg);
+
+  /**
+    Tests bit b of register reg.
+  */
+  void testBit(int b, Register8bit *reg);
+
+  /**
+    Sets bit b in reg to 0.
+  */
+
+  void resetBit(int b, Register8bit *reg);
+
+  /**
+    Sets bit b in reg to 1.
+  */
+
+  void setBit(int b, Register8bit *reg);
+
   // Handle flags according to operation results
   template <class T>
   void checkFlagZ(T result);

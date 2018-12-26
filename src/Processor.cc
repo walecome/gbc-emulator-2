@@ -385,6 +385,132 @@ void Processor::rrRegister(Register8bit *source)
     setFlagH(false);
 }
 
+void Processor::slaRegister(Register8bit *source)
+{
+    register8_t data_source = source->getValue();
+
+    if ((data_source & MSB_8BIT) == 0)
+    {
+        // MSB is 0
+        setFlagC(false);
+    }
+    else
+    {
+        setFlagC(true);
+    }
+
+    data_source <<= 1;
+
+    source->setValue(data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
+}
+
+void Processor::sraRegister(Register8bit *source)
+{
+    register8_t data_source = source->getValue();
+    register8_t msb_val = data_source & MSB_8BIT;
+
+    if ((data_source & LSB_8BIT) == 0)
+    {
+        // LSB is 0
+        setFlagC(false);
+    }
+    else
+    {
+        // LSB is 1
+        setFlagC(true);
+    }
+
+    data_source >>= 1;
+    data_source |= msb_val;
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
+}
+
+void Processor::swapNibbles(Register8bit *reg)
+{
+    register8_t val = reg->getValue();
+
+    register8_t new_low = (val & 0xF0) >> 4;
+    register8_t new_high = (val & 0x0F) << 4;
+
+    val = new_high + new_low;
+
+    reg->setValue(val);
+
+    setFlagZ(val == 0x00);
+    setFlagN(false);
+    setFlagH(false);
+    setFlagC(false);
+}
+
+void Processor::srlRegister(Register8bit *reg)
+{
+    register8_t data_reg = reg->getValue();
+
+    if ((data_reg & LSB_8BIT) == 0)
+    {
+        // LSB is 0
+        setFlagC(false);
+    }
+    else
+    {
+        // LSB is 1
+        setFlagC(true);
+    }
+
+    data_reg >>= 1;
+
+    reg->setValue(data_reg);
+
+    setFlagZ(data_reg == 0x00);
+    setFlagN(false);
+    setFlagH(false);
+}
+
+void Processor::testBit(int b, Register8bit *reg)
+{
+    register8_t reg_val = reg->getValue();
+    register8_t mask = (1 << b);
+
+    if ((reg_val & mask) == 0)
+    {
+        // Bit b is 0
+        setFlagZ(true);
+    }
+    else
+    {
+        // Bit b is 1
+        setFlagZ(false);
+    }
+
+    setFlagN(false);
+    setFlagH(true);
+}
+
+void Processor::resetBit(int b, Register8bit *reg)
+{
+    register8_t reg_val = reg->getValue();
+
+    reg_val &= ~(1 << b);
+
+    reg->setValue(reg_val);
+}
+
+void Processor::setBit(int b, Register8bit *reg)
+{
+    register8_t reg_val = reg->getValue();
+
+    reg_val |= (1 << b);
+
+    reg->setValue(reg_val);
+}
+
 // Flags
 
 template <class T>
