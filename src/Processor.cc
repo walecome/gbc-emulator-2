@@ -1,5 +1,10 @@
 #include "Processor.hh"
 
+Processor::Processor()
+{
+    setSP(SP_START);
+}
+
 Processor::~Processor()
 {
     delete A;
@@ -223,6 +228,27 @@ void Processor::orRegisters(Register8bit *source)
     register8_t result = data_a | data_source;
 
     A->setValue(result);
+}
+
+void Processor::pushStack(Register16bit *source)
+{
+    stack_pointer->decrement();
+    stack->setData(stack_pointer->getValue(),
+                   source->getHighRegister()->getValue());
+    stack_pointer->decrement();
+    stack->setData(stack_pointer->getValue(),
+                   source->getLowRegister()->getValue());
+}
+
+void Processor::popStack(Register16bit *destination)
+{
+    byte_t data_low = stack->getData(stack_pointer->getValue());
+    destination->getLowRegister()->setValue(data_low);
+    stack_pointer->increment();
+
+    byte_t data_high = stack->getData(stack_pointer->getValue());
+    destination->getHighRegister()->setValue(data_high);
+    stack_pointer->increment();
 }
 
 // Flags

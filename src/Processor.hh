@@ -10,7 +10,7 @@
 class Processor
 {
 public:
-  Processor() = default;
+  Processor();
   ~Processor();
 
   /**
@@ -119,6 +119,20 @@ public:
 
   void orRegisters(Register8bit *source);
 
+  /**
+    Pushes the value in the passed 16bit register into the program stack.
+    This will decrement the stack pointer by 2.
+  */
+
+  void pushStack(Register16bit *source);
+
+  /**
+    Pops a 16bit value from the stack and stores the values in the passed in
+    register. This will increment the stack pointer by 2.
+  */
+
+  void popStack(Register16bit *destination);
+
   // Handle flags according to operation results
   template <class T>
   void checkFlagZ(T result);
@@ -190,9 +204,9 @@ public:
 private:
   register16_t program_counter{PC_START};
   std::vector<opcode_t> program_memory{};
-  std::vector<byte_t> program_stack{};
   opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];
   Memory *ram = new Memory(RAM_MAX_SIZE);
+  Memory *stack = new Memory(RAM_MAX_SIZE);
 
   // Handle stack pointer as 16 bit register
   Register16bit *stack_pointer = new Register16bit("SP");

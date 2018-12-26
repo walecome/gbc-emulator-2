@@ -19,6 +19,9 @@ using register16_t = uint16_t;
 // Starting position of program counter;
 constexpr register16_t PC_START = 0x100;
 
+// Starting position of stack pointer
+constexpr register16_t SP_START = 0xFFFF;
+
 // Memory
 constexpr register16_t RAM_MAX_SIZE = 0xFFFF;
 constexpr register16_t RAM_DATA_OFFSET = 0xFF00;
