@@ -1177,34 +1177,55 @@ void Processor::OPCode0xB7()
 
 void Processor::OPCode0xB8()
 {
+    // CP B
+    cmpRegisters(B);
 }
 
 void Processor::OPCode0xB9()
 {
+    // CP C
+    cmpRegisters(C);
 }
 
 void Processor::OPCode0xBA()
 {
+    // CP D
+    cmpRegisters(D);
 }
 
 void Processor::OPCode0xBB()
 {
+    // CP E
+    cmpRegisters(E);
 }
 
 void Processor::OPCode0xBC()
 {
+    // CP H
+    cmpRegisters(H);
 }
 
 void Processor::OPCode0xBD()
 {
+    // CP L
+    cmpRegisters(L);
 }
 
 void Processor::OPCode0xBE()
 {
+    // CP (HL)
+    byte_t data = ram->getData(HL->getValue());
+
+    setFlagZ(data == A->getValue());
+    // TODO half carry flag
+    setFlagN(true);
+    setFlagC(A->getValue() < data);
 }
 
 void Processor::OPCode0xBF()
 {
+    // CP A
+    cmpRegisters(A);
 }
 
 void Processor::OPCode0xC0()

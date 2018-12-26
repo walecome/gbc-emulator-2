@@ -230,6 +230,19 @@ void Processor::orRegisters(Register8bit *source)
     A->setValue(result);
 }
 
+void Processor::cmpRegisters(Register8bit *source)
+{
+    register8_t value_a = A->getValue();
+    register8_t value_source = source->getValue();
+
+    setFlagZ(value_a == value_source);
+
+    // TODO half carry flag
+    setFlagN(true);
+
+    setFlagC(value_a < value_source);
+}
+
 void Processor::pushStack(Register16bit *source)
 {
     stack_pointer->decrement();

@@ -120,6 +120,14 @@ public:
   void orRegisters(Register8bit *source);
 
   /**
+    Compares the value in the passed in register with the value in the
+    accumulator (reg A). Sets flags as a regular subtraction but the result
+    of the subtraction is not used.
+  */
+
+  void cmpRegisters(Register8bit *source);
+
+  /**
     Pushes the value in the passed 16bit register into the program stack.
     This will decrement the stack pointer by 2.
   */
