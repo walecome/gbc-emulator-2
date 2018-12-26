@@ -1229,38 +1229,92 @@ void Processor::OPCode0xBF()
 
 void Processor::OPCode0xC0()
 {
+    // RET NZ
+    if (!getFlagZ())
+    {
+        popStack(program_counter);
+    }
 }
 
 void Processor::OPCode0xC1()
 {
+    // POP BC
+    popStack(BC);
 }
 
 void Processor::OPCode0xC2()
 {
+    // JP NZ, a16
+    if (!getFlagZ())
+    {
+        jumpIm16bit();
+    }
+    else
+    {
+        // Skips these of we don't jump
+        program_counter->increment();
+        program_counter->increment();
+    }
 }
 
 void Processor::OPCode0xC3()
 {
+    // JP a16
+    jumpIm16bit();
 }
 
 void Processor::OPCode0xC4()
 {
+    // CALL NZ, a16
+    if (!getFlagZ())
+    {
+        byte_t data_low = getCurrentData();
+        byte_t data_high = getCurrentData();
+
+        pushStack(program_counter);
+
+        program_counter->getLowRegister()->setValue(data_low);
+        program_counter->getHighRegister()->setValue(data_high);
+    }
+    else
+    {
+        program_counter->increment();
+        program_counter->increment();
+    }
 }
 
 void Processor::OPCode0xC5()
 {
+    // PUSH BC
+    pushStack(BC);
 }
 
 void Processor::OPCode0xC6()
 {
+    // ADD A, d8
+    // TODO fix flags
+    register8_t data = getCurrentData();
+    register8_t data_a = A->getValue();
+
+    data_a += data;
+
+    A->setValue(data_a);
 }
 
 void Processor::OPCode0xC7()
 {
+    // RST 00H
+    pushStack(program_counter);
+    program_counter->setValue(0x0000);
 }
 
 void Processor::OPCode0xC8()
 {
+    // RET Z
+    if (getFlagZ())
+    {
+        popStack(program_counter);
+    }
 }
 
 void Processor::OPCode0xC9()

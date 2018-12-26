@@ -148,6 +148,11 @@ public:
 
   void performJump();
 
+  /** 
+    Performs a jump to a 16bit address stores in the program memory.
+  */
+  void jumpIm16bit();
+
   // Handle flags according to operation results
   template <class T>
   void checkFlagZ(T result);

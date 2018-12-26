@@ -276,6 +276,15 @@ void Processor::performJump()
     program_counter->setValue(new_pc);
 }
 
+void Processor::jumpIm16bit()
+{
+    register8_t data_low = getCurrentData();
+    register8_t data_high = getCurrentData();
+
+    program_counter->getLowRegister()->setValue(data_low);
+    program_counter->getHighRegister()->setValue(data_high);
+}
+
 // Flags
 
 template <class T>
