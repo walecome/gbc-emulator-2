@@ -9,6 +9,9 @@ using byte_t = uint8_t;
 using opcode_function = void (*)();
 constexpr int NUMBER_OF_INSTRUCTIONS = 256;
 
+constexpr byte_t LSB_8BIT = 0x01;
+constexpr byte_t MSB_8BIT = 0x80;
+
 // Register value constants
 
 using register8_t = uint8_t;

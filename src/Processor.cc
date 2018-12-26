@@ -285,6 +285,106 @@ void Processor::jumpIm16bit()
     program_counter->getHighRegister()->setValue(data_high);
 }
 
+void Processor::rlcRegister(Register8bit *source)
+{
+    register8_t data_source = source->getValue();
+
+    if ((data_source & MSB_8BIT) == 0)
+    {
+        // MSB is 0
+        data_source <<= 1;
+        setFlagC(false);
+    }
+    else
+    {
+        // MSB is 1
+        data_source <<= 1;
+        data_source |= LSB_8BIT;
+        setFlagC(true);
+    }
+
+    source->setValue(data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
+}
+
+void Processor::rrcRegister(Register8bit *source)
+{
+    register8_t data_source = source->getValue();
+
+    if ((data_source & LSB_8BIT) == 0)
+    {
+        // LSB is 0
+        data_source >>= 1;
+        setFlagC(false);
+    }
+    else
+    {
+        // LSB is 1
+        data_source >>= 1;
+        data_source |= MSB_8BIT;
+        setFlagC(true);
+    }
+
+    source->setValue(data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
+}
+
+void Processor::rlRegister(Register8bit *source)
+{
+    register8_t data_source = source->getValue();
+    register8_t carry = (getFlagC() ? 1 : 0);
+
+    if ((data_source & MSB_8BIT) == 0)
+    {
+        // MSB is 0
+        setFlagC(false);
+    }
+    else
+    {
+        // MSB is 1
+        setFlagC(true);
+    }
+
+    data_source <<= 1;
+    data_source |= carry;
+    source->setValue(data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
+}
+
+void Processor::rrRegister(Register8bit *source)
+{
+    register8_t data_source = source->getValue();
+    register8_t carry = (getFlagC() ? MSB_8BIT : 0);
+
+    if ((data_source & LSB_8BIT) == 0)
+    {
+        // LSB is 0
+        setFlagC(false);
+    }
+    else
+    {
+        // LSB is 1
+        setFlagC(true);
+    }
+
+    data_source >>= 1;
+    data_source |= carry;
+    source->setValue(data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
+}
+
 // Flags
 
 template <class T>

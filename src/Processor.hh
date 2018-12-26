@@ -153,6 +153,32 @@ public:
   */
   void jumpIm16bit();
 
+  /**
+    Performs a left bitwise rotation on the given register. MSB will also be
+    stored in the carry flag.
+  */
+
+  void rlcRegister(Register8bit *source);
+
+  /**
+    Performs a right bitwise rotation on the given register. LSB will also be
+    stored in the carry flag.
+  */
+
+  void rrcRegister(Register8bit *source);
+
+  /**
+    Performs a left bitwise rotation through the carry given the register.
+  */
+
+  void rlRegister(Register8bit *source);
+
+  /**
+    Performs a right bitwise rotation through the carry given the register.
+  */
+
+  void rrRegister(Register8bit *source);
+
   // Handle flags according to operation results
   template <class T>
   void checkFlagZ(T result);
