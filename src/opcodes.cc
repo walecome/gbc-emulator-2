@@ -1319,220 +1319,421 @@ void Processor::OPCode0xC8()
 
 void Processor::OPCode0xC9()
 {
+    // RET
+    popStack(program_counter);
 }
 
 void Processor::OPCode0xCA()
 {
+    // JP Z, a16
+    if (getFlagZ())
+    {
+        jumpIm16bit();
+    }
+    else
+    {
+        program_counter->increment();
+        program_counter->increment();
+    }
 }
 
 void Processor::OPCode0xCB()
 {
+    // Prefix CB
 }
 
 void Processor::OPCode0xCC()
 {
+    // CALL Z, a16
+    if (getFlagZ())
+    {
+        byte_t data_low = getCurrentData();
+        byte_t data_high = getCurrentData();
+
+        pushStack(program_counter);
+
+        program_counter->getLowRegister()->setValue(data_low);
+        program_counter->getHighRegister()->setValue(data_high);
+    }
+    else
+    {
+        program_counter->increment();
+        program_counter->increment();
+    }
 }
 
 void Processor::OPCode0xCD()
 {
+    // CALL a16
+    byte_t data_low = getCurrentData();
+    byte_t data_high = getCurrentData();
+
+    pushStack(program_counter);
+
+    program_counter->getLowRegister()->setValue(data_low);
+    program_counter->getHighRegister()->setValue(data_high);
 }
 
 void Processor::OPCode0xCE()
 {
+    // ADC A, d8
+    // TODO
 }
 
 void Processor::OPCode0xCF()
 {
+    // RST 08H
+    pushStack(program_counter);
+    program_counter->setValue(0x0008);
 }
 
 void Processor::OPCode0xD0()
 {
+    // RET NC
+    if (!getFlagC())
+    {
+        popStack(program_counter);
+    }
 }
 
 void Processor::OPCode0xD1()
 {
+    // POP DE
+    popStack(DE);
 }
 
 void Processor::OPCode0xD2()
 {
+    // JP NC, a16
+    if (!getFlagC())
+    {
+        jumpIm16bit();
+    }
+    else
+    {
+        program_counter->increment();
+        program_counter->increment();
+    }
 }
 
 void Processor::OPCode0xD3()
 {
+    // No instruction
+    throw 1;
 }
 
 void Processor::OPCode0xD4()
 {
+    // CALL NC, a16
+    if (!getFlagC())
+    {
+        byte_t data_low = getCurrentData();
+        byte_t data_high = getCurrentData();
+
+        pushStack(program_counter);
+
+        program_counter->getLowRegister()->setValue(data_low);
+        program_counter->getHighRegister()->setValue(data_high);
+    }
+    else
+    {
+        program_counter->increment();
+        program_counter->increment();
+    }
 }
 
 void Processor::OPCode0xD5()
 {
+    // PUSH DE
+    pushStack(DE);
 }
 
 void Processor::OPCode0xD6()
 {
+    // SUB d8
+    // TODO
 }
 
 void Processor::OPCode0xD7()
 {
+    // RST 10H
+    pushStack(program_counter);
+    program_counter->setValue(0x0010);
 }
 
 void Processor::OPCode0xD8()
 {
+    // RET C
+    if (getFlagC())
+    {
+        popStack(program_counter);
+    }
 }
 
 void Processor::OPCode0xD9()
 {
+    // RETI
+    // TODO fix interupts
 }
 
 void Processor::OPCode0xDA()
 {
+    // JP C, a16
+    if (getFlagC())
+    {
+        jumpIm16bit();
+    }
+    else
+    {
+        program_counter->increment();
+        program_counter->increment();
+    }
 }
 
 void Processor::OPCode0xDB()
 {
+    // No instruction
+    throw 1;
 }
 
 void Processor::OPCode0xDC()
 {
+    // CALL C, a16
+    if (getFlagC())
+    {
+        byte_t data_low = getCurrentData();
+        byte_t data_high = getCurrentData();
+
+        pushStack(program_counter);
+
+        program_counter->getLowRegister()->setValue(data_low);
+        program_counter->getHighRegister()->setValue(data_high);
+    }
+    else
+    {
+        program_counter->increment();
+        program_counter->increment();
+    }
 }
 
 void Processor::OPCode0xDD()
 {
+    // No instruction
+    throw 1;
 }
 
 void Processor::OPCode0xDE()
 {
+    // SBC A, d8
+    // TODO fix
 }
 
 void Processor::OPCode0xDF()
 {
+    // RST 18H
+    pushStack(program_counter);
+    program_counter->setValue(0x0018);
 }
 
 void Processor::OPCode0xE0()
 {
+    // LDH (a8), A
+    register16_t address = 0xFF00 + getCurrentData();
+    ram->setData(address, A->getValue());
 }
 
 void Processor::OPCode0xE1()
 {
+    // POP HL
+    popStack(HL);
 }
 
 void Processor::OPCode0xE2()
 {
+    // LD (C), A
+    register16_t address = 0xFF00 + C->getValue();
+    ram->setData(address, A->getValue());
 }
 
 void Processor::OPCode0xE3()
 {
+    // No instruction
+    throw 1;
 }
 
 void Processor::OPCode0xE4()
 {
+    // No instruction
+    throw 1;
 }
 
 void Processor::OPCode0xE5()
 {
+    // PUSH HL
+    pushStack(HL);
 }
 
 void Processor::OPCode0xE6()
 {
+    // AND d8
+    A->setValue(A->getValue() & getCurrentData());
 }
 
 void Processor::OPCode0xE7()
 {
+    // RST 20H
+    pushStack(program_counter);
+    program_counter->setValue(0x0020);
 }
 
 void Processor::OPCode0xE8()
 {
+    // ADD SP, r8
+    // TODO fix
 }
 
 void Processor::OPCode0xE9()
 {
+    // JP (HL)
+    // TODO fix
 }
 
 void Processor::OPCode0xEA()
 {
+    // LD (a16), A
+    // TODO fix
 }
 
 void Processor::OPCode0xEB()
 {
+    // No instruction
+    throw 0xEB;
 }
 
 void Processor::OPCode0xEC()
 {
+    // No instruction
+    throw 0xEC;
 }
 
 void Processor::OPCode0xED()
 {
+    // No instruction
+    throw 0xED;
 }
 
 void Processor::OPCode0xEE()
 {
+    // XOR d8
+    A->setValue(A->getValue() ^ getCurrentData());
 }
 
 void Processor::OPCode0xEF()
 {
+    // RST 28H
+    pushStack(program_counter);
+    program_counter->setValue(0x0028);
 }
 
 void Processor::OPCode0xF0()
 {
+    // LDH A, (a8)
+    register16_t address = 0xFF00 + getCurrentData();
+    byte_t data = ram->getData(address);
+    A->setValue(data);
 }
 
 void Processor::OPCode0xF1()
 {
+    // POP AF
+    popStack(AF);
 }
 
 void Processor::OPCode0xF2()
 {
+    // LD A, (C)
+    register16_t address = 0xFF00 + C->getValue();
+    byte_t data = ram->getData(address);
+    A->setValue(data);
 }
 
 void Processor::OPCode0xF3()
 {
+    // DI
+    // TODO disable interupts according to manual
 }
 
 void Processor::OPCode0xF4()
 {
+    // No instruction
+    throw 0xF4;
 }
 
 void Processor::OPCode0xF5()
 {
+    // PUSH AF
+    pushStack(AF);
 }
 
 void Processor::OPCode0xF6()
 {
+    // OR d8
+    A->setValue(A->getValue() | getCurrentData());
 }
 
 void Processor::OPCode0xF7()
 {
+    // RST 30H
+    pushStack(program_counter);
+    program_counter->setValue(0x0030);
 }
 
 void Processor::OPCode0xF8()
 {
+    // LD HL, SP+r8
+    // TODO fix
 }
 
 void Processor::OPCode0xF9()
 {
+    // LD SP, HL
+    copyRegister(stack_pointer->getLowRegister(), HL->getLowRegister());
+    copyRegister(stack_pointer->getHighRegister(), HL->getHighRegister());
 }
 
 void Processor::OPCode0xFA()
 {
+    // LD A, (a16)
+    // TODO fix
 }
 
 void Processor::OPCode0xFB()
 {
+    // EI
+    // TODO enable interupts according to manual
 }
 
 void Processor::OPCode0xFC()
 {
+    // No instruction
+    throw 0xFC;
 }
 
 void Processor::OPCode0xFD()
 {
+    // No instruction
+    throw 0xFD;
 }
 
 void Processor::OPCode0xFE()
 {
+    // CP d8
+    // TODO fix
 }
 
 void Processor::OPCode0xFF()
 {
+    // RST 38H
+    pushStack(program_counter);
+    program_counter->setValue(0x0038);
 }
