@@ -159,8 +159,7 @@ void Processor::OPCode0x17()
 void Processor::OPCode0x18()
 {
     // JR d8
-    // TODO double check logic
-    program_counter += (int8_t)program_memory[program_counter];
+    performJump();
 }
 
 void Processor::OPCode0x19()
@@ -216,7 +215,7 @@ void Processor::OPCode0x20()
     // TODO double check
     if (getFlagZ() == false)
     {
-        program_counter += (int8_t)program_memory[program_counter];
+        performJump();
     }
 }
 
@@ -270,7 +269,7 @@ void Processor::OPCode0x28()
 
     if (getFlagZ())
     {
-        program_counter += (int8_t)program_memory[program_counter];
+        performJump();
     }
 }
 
@@ -325,7 +324,7 @@ void Processor::OPCode0x30()
     // JR NC, r8
     if (!getFlagC())
     {
-        program_counter += (int8_t)program_memory[program_counter];
+        performJump();
     }
 }
 
@@ -390,7 +389,7 @@ void Processor::OPCode0x38()
     // JR C, r8
     if (getFlagC())
     {
-        program_counter += (int8_t)program_memory[program_counter];
+        performJump();
     }
 }
 

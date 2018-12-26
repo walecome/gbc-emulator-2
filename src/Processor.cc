@@ -2,6 +2,7 @@
 
 Processor::Processor()
 {
+    setValuePC(PC_START);
     setSP(SP_START);
 }
 
@@ -49,17 +50,17 @@ void Processor::readInstructions(const char *filename)
 
 opcode_t Processor::fetchInstruction()
 {
-    opcode_t opcode = program_memory[program_counter];
+    opcode_t opcode = program_memory[program_counter->getValue()];
 
-    ++program_counter;
+    program_counter->increment();
 
     return opcode;
 }
 
 byte_t Processor::getCurrentData()
 {
-    byte_t data = program_memory[program_counter];
-    ++program_counter;
+    byte_t data = program_memory[program_counter->getValue()];
+    program_counter->increment();
 
     return data;
 }
@@ -264,6 +265,17 @@ void Processor::popStack(Register16bit *destination)
     stack_pointer->increment();
 }
 
+void Processor::performJump()
+{
+    register16_t current_pc = program_counter->getValue();
+    byte_t offset = program_memory[current_pc];
+
+    // TODO this this logic
+    register16_t new_pc = (register16_t)((int16_t)current_pc + (int8_t)offset);
+
+    program_counter->setValue(new_pc);
+}
+
 // Flags
 
 template <class T>
@@ -280,6 +292,18 @@ void Processor::checkFlagC(int result)
 void Processor::checkFlagH(register8_t result)
 {
     // TODO
+}
+
+// PC
+
+register16_t Processor::getValuePC()
+{
+    return program_counter->getValue();
+}
+
+void Processor::setValuePC(register16_t value)
+{
+    program_counter->setValue(value);
 }
 
 // SP

@@ -141,6 +141,13 @@ public:
 
   void popStack(Register16bit *destination);
 
+  /**
+    Perform jump. Modifies the program counter by adding it to the value that is currently
+    pointed at by the program counter.
+  */
+
+  void performJump();
+
   // Handle flags according to operation results
   template <class T>
   void checkFlagZ(T result);
@@ -193,6 +200,10 @@ public:
   void setValueDE(register16_t value);
   void setValueHL(register16_t value);
 
+  // PC
+  register16_t getValuePC();
+  void setValuePC(register16_t value);
+
   // SP
   register16_t getSP();
   void setSP(register16_t value);
@@ -210,7 +221,6 @@ public:
   void setFlagZ(bool value);
 
 private:
-  register16_t program_counter{PC_START};
   std::vector<opcode_t> program_memory{};
   opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];
   Memory *ram = new Memory(RAM_MAX_SIZE);
@@ -218,6 +228,9 @@ private:
 
   // Handle stack pointer as 16 bit register
   Register16bit *stack_pointer = new Register16bit("SP");
+
+  // Handle program counter as 16 bit register
+  Register16bit *program_counter = new Register16bit("PC");
 
   // Registers
   Register8bit *A = new Register8bit("A");
