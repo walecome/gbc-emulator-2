@@ -168,9 +168,6 @@ public:
   /**
     Performs a left bitwise rotation on the given register. MSB will also be
     stored in the carry flag.
-
-    rlcAddress will perform the same operation but for the data stored on the
-    address in HL.
   */
 
   void rlcRegister(Register8bit *source);
