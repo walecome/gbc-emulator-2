@@ -47,6 +47,24 @@ void TestUtils::runCPUTest(std::function<bool(Processor &)> testFunc,
     }
 }
 
+void TestUtils::runTestNoArg(std::function<bool()> testFunc, std::string testName)
+{
+    TestUtils::cpu_total_tests++;
+
+    bool test_ok = testFunc();
+
+    if (test_ok)
+    {
+        TestUtils::cpu_passed_tests++;
+        TestUtils::log(strGreen("passed") + " - [" + testName + "]");
+    }
+    else
+    {
+        TestUtils::cpu_failed_tests++;
+        TestUtils::log(strRed("failed") + " - [" + testName + "]");
+    }
+}
+
 void TestUtils::printResults()
 {
     std::cout << "Total cpu tests: " << TestUtils::cpu_total_tests << std::endl;

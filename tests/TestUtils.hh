@@ -10,6 +10,9 @@ void log(std::string msg);
 void err(std::string msg);
 void runCPUTest(std::function<bool(Processor &)> testFunc, Processor &p,
                 std::string testName);
+
+void runTestNoArg(std::function<bool()> testFunc, std::string testName);
+
 void printResults();
 
 extern int cpu_total_tests;
