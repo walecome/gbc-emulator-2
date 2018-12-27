@@ -174,7 +174,6 @@ public:
   */
 
   void rlcRegister(Register8bit *source);
-  void rlcAddress();
 
   /**
     Performs a right bitwise rotation on the given register. LSB will also be
@@ -224,16 +223,34 @@ public:
   void testBit(int b, Register8bit *reg);
 
   /**
+    Test bit b of data at address in address_reg.
+  */
+
+  void testBit(int b, Register16bit *reg);
+
+  /**
     Sets bit b in reg to 0.
   */
 
   void resetBit(int b, Register8bit *reg);
 
   /**
+    Sets bit b in data located at address of address_reg to 0.
+  */
+
+  void resetBit(int b, Register16bit *address_reg);
+
+  /**
     Sets bit b in reg to 1.
   */
 
   void setBit(int b, Register8bit *reg);
+
+  /**
+    Sets bit b in data located at address of address_reg to 1.
+  */
+
+  void setBit(int b, Register16bit *reg);
 
   // Handle flags according to operation results
   template <class T>

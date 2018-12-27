@@ -324,10 +324,6 @@ void Processor::rlcRegister(Register8bit *source)
     setFlagH(false);
 }
 
-void Processor::rlcAddress()
-{
-}
-
 void Processor::rrcRegister(Register8bit *source)
 {
     register8_t data_source = source->getValue();
@@ -445,6 +441,8 @@ void Processor::sraRegister(Register8bit *source)
     data_source >>= 1;
     data_source |= msb_val;
 
+    source->setValue(data_source);
+
     setFlagZ(data_source == 0x00);
     setFlagN(false);
     setFlagH(false);
@@ -511,6 +509,26 @@ void Processor::testBit(int b, Register8bit *reg)
     setFlagH(true);
 }
 
+void Processor::testBit(int b, Register16bit *reg)
+{
+    byte_t reg_val = loadFromMemory(reg);
+    register8_t mask = (1 << b);
+
+    if ((reg_val & mask) == 0)
+    {
+        // Bit b is 0
+        setFlagZ(true);
+    }
+    else
+    {
+        // Bit b is 1
+        setFlagZ(false);
+    }
+
+    setFlagN(false);
+    setFlagH(true);
+}
+
 void Processor::resetBit(int b, Register8bit *reg)
 {
     register8_t reg_val = reg->getValue();
@@ -520,6 +538,16 @@ void Processor::resetBit(int b, Register8bit *reg)
     reg->setValue(reg_val);
 }
 
+void Processor::resetBit(int b, Register16bit *reg)
+{
+    // TODO: Probably wrong, should not offset with FF00
+    byte_t val = loadFromMemory(reg);
+
+    val &= ~(1 << b);
+
+    loadIntoMemory(reg, val);
+}
+
 void Processor::setBit(int b, Register8bit *reg)
 {
     register8_t reg_val = reg->getValue();
@@ -527,6 +555,15 @@ void Processor::setBit(int b, Register8bit *reg)
     reg_val |= (1 << b);
 
     reg->setValue(reg_val);
+}
+
+void Processor::setBit(int b, Register16bit *reg)
+{
+    byte_t val = loadFromMemory(reg);
+
+    val |= (1 << b);
+
+    loadIntoMemory(reg, val);
 }
 
 // Flags

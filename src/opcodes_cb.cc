@@ -38,7 +38,27 @@ void Processor::OPCodeCB0x05()
 void Processor::OPCodeCB0x06()
 {
     // RLC (HL)
-    // TODO fix
+    byte_t data_source = loadFromMemory(HL);
+
+    if ((data_source & MSB_8BIT) == 0)
+    {
+        // MSB is 0
+        data_source <<= 1;
+        setFlagC(false);
+    }
+    else
+    {
+        // MSB is 1
+        data_source <<= 1;
+        data_source |= LSB_8BIT;
+        setFlagC(true);
+    }
+
+    loadIntoMemory(HL, data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
 }
 
 void Processor::OPCodeCB0x07()
@@ -86,7 +106,27 @@ void Processor::OPCodeCB0x0D()
 void Processor::OPCodeCB0x0E()
 {
     // RRC (HL)
-    // TODO fix
+    byte_t data_source = loadFromMemory(HL);
+
+    if ((data_source & LSB_8BIT) == 0)
+    {
+        // LSB is 0
+        data_source >>= 1;
+        setFlagC(false);
+    }
+    else
+    {
+        // LSB is 1
+        data_source >>= 1;
+        data_source |= MSB_8BIT;
+        setFlagC(true);
+    }
+
+    loadIntoMemory(HL, data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
 }
 
 void Processor::OPCodeCB0x0F()
@@ -134,7 +174,27 @@ void Processor::OPCodeCB0x15()
 void Processor::OPCodeCB0x16()
 {
     // RL (HL)
-    // TODO fix
+    byte_t data_source = loadFromMemory(HL);
+
+    if ((data_source & MSB_8BIT) == 0)
+    {
+        // MSB is 0
+        data_source <<= 1;
+        setFlagC(false);
+    }
+    else
+    {
+        // MSB is 1
+        data_source <<= 1;
+        data_source |= LSB_8BIT;
+        setFlagC(true);
+    }
+
+    loadIntoMemory(HL, data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
 }
 
 void Processor::OPCodeCB0x17()
@@ -182,7 +242,28 @@ void Processor::OPCodeCB0x1D()
 void Processor::OPCodeCB0x1E()
 {
     // RR (HL)
-    // TODO fix
+    byte_t data_source = loadFromMemory(HL);
+    register8_t carry = (getFlagC() ? MSB_8BIT : 0);
+
+    if ((data_source & LSB_8BIT) == 0)
+    {
+        // LSB is 0
+        setFlagC(false);
+    }
+    else
+    {
+        // LSB is 1
+        setFlagC(true);
+    }
+
+    data_source >>= 1;
+    data_source |= carry;
+
+    loadIntoMemory(HL, data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
 }
 
 void Processor::OPCodeCB0x1F()
@@ -230,7 +311,25 @@ void Processor::OPCodeCB0x25()
 void Processor::OPCodeCB0x26()
 {
     // SLA (HL)
-    // TODO fix
+    byte_t data_source = loadFromMemory(HL);
+
+    if ((data_source & MSB_8BIT) == 0)
+    {
+        // MSB is 0
+        setFlagC(false);
+    }
+    else
+    {
+        setFlagC(true);
+    }
+
+    data_source <<= 1;
+
+    loadIntoMemory(HL, data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
 }
 
 void Processor::OPCodeCB0x27()
@@ -278,7 +377,29 @@ void Processor::OPCodeCB0x2D()
 void Processor::OPCodeCB0x2E()
 {
     // SRA (HL)
-    // TODO fix
+
+    byte_t data_source = loadFromMemory(HL);
+    register8_t msb_val = data_source & MSB_8BIT;
+
+    if ((data_source & LSB_8BIT) == 0)
+    {
+        // LSB is 0
+        setFlagC(false);
+    }
+    else
+    {
+        // LSB is 1
+        setFlagC(true);
+    }
+
+    data_source >>= 1;
+    data_source |= msb_val;
+
+    loadIntoMemory(HL, data_source);
+
+    setFlagZ(data_source == 0x00);
+    setFlagN(false);
+    setFlagH(false);
 }
 
 void Processor::OPCodeCB0x2F()
@@ -326,7 +447,19 @@ void Processor::OPCodeCB0x35()
 void Processor::OPCodeCB0x36()
 {
     // SWAP (HL)
-    // TODO fix
+    byte_t val = loadFromMemory(HL);
+
+    register8_t new_low = (val & 0xF0) >> 4;
+    register8_t new_high = (val & 0x0F) << 4;
+
+    val = new_high + new_low;
+
+    loadIntoMemory(HL, val);
+
+    setFlagZ(val == 0x00);
+    setFlagN(false);
+    setFlagH(false);
+    setFlagC(false);
 }
 
 void Processor::OPCodeCB0x37()
@@ -374,7 +507,27 @@ void Processor::OPCodeCB0x3D()
 void Processor::OPCodeCB0x3E()
 {
     // SRL (HL)
-    // TODO fix
+
+    register8_t data_reg = loadFromMemory(HL);
+
+    if ((data_reg & LSB_8BIT) == 0)
+    {
+        // LSB is 0
+        setFlagC(false);
+    }
+    else
+    {
+        // LSB is 1
+        setFlagC(true);
+    }
+
+    data_reg >>= 1;
+
+    loadIntoMemory(HL, data_reg);
+
+    setFlagZ(data_reg == 0x00);
+    setFlagN(false);
+    setFlagH(false);
 }
 
 void Processor::OPCodeCB0x3F()
@@ -422,7 +575,7 @@ void Processor::OPCodeCB0x45()
 void Processor::OPCodeCB0x46()
 {
     // BIT 0, (HL)
-    // TODO fix
+    testBit(0, HL);
 }
 
 void Processor::OPCodeCB0x47()
@@ -469,8 +622,8 @@ void Processor::OPCodeCB0x4D()
 
 void Processor::OPCodeCB0x4E()
 {
-    // BIT 1, HL
-    // TODO fix
+    // BIT 1, (HL)
+    testBit(1, HL);
 }
 
 void Processor::OPCodeCB0x4F()
@@ -518,7 +671,7 @@ void Processor::OPCodeCB0x55()
 void Processor::OPCodeCB0x56()
 {
     // BIT 2, (HL)
-    // TODO fix
+    testBit(2, HL);
 }
 
 void Processor::OPCodeCB0x57()
@@ -566,7 +719,7 @@ void Processor::OPCodeCB0x5D()
 void Processor::OPCodeCB0x5E()
 {
     // BIT 3, (HL)
-    // TODO fix
+    testBit(3, HL);
 }
 
 void Processor::OPCodeCB0x5F()
@@ -614,7 +767,7 @@ void Processor::OPCodeCB0x65()
 void Processor::OPCodeCB0x66()
 {
     // BIT 4, (HL)
-    // TODO fix
+    testBit(4, HL);
 }
 
 void Processor::OPCodeCB0x67()
@@ -662,7 +815,7 @@ void Processor::OPCodeCB0x6D()
 void Processor::OPCodeCB0x6E()
 {
     // BIT 5, (HL)
-    // TODO fix
+    testBit(5, HL);
 }
 
 void Processor::OPCodeCB0x6F()
@@ -710,7 +863,7 @@ void Processor::OPCodeCB0x75()
 void Processor::OPCodeCB0x76()
 {
     // BIT 6, (HL)
-    // TODO fix
+    testBit(6, HL);
 }
 
 void Processor::OPCodeCB0x77()
@@ -758,7 +911,7 @@ void Processor::OPCodeCB0x7D()
 void Processor::OPCodeCB0x7E()
 {
     // BIT 7, (HL)
-    // TODO fix
+    testBit(7, HL);
 }
 
 void Processor::OPCodeCB0x7F()
@@ -806,7 +959,7 @@ void Processor::OPCodeCB0x85()
 void Processor::OPCodeCB0x86()
 {
     // RES 0, (HL)
-    // TODO fix
+    resetBit(0, HL);
 }
 
 void Processor::OPCodeCB0x87()
@@ -854,7 +1007,7 @@ void Processor::OPCodeCB0x8D()
 void Processor::OPCodeCB0x8E()
 {
     // RES 1, (HL)
-    // TODO fix
+    resetBit(1, HL);
 }
 
 void Processor::OPCodeCB0x8F()
@@ -902,7 +1055,7 @@ void Processor::OPCodeCB0x95()
 void Processor::OPCodeCB0x96()
 {
     // RES 2, (HL)
-    // TODO fix
+    resetBit(2, HL);
 }
 
 void Processor::OPCodeCB0x97()
@@ -950,7 +1103,7 @@ void Processor::OPCodeCB0x9D()
 void Processor::OPCodeCB0x9E()
 {
     // RES 3, (HL)
-    // TODO fix
+    resetBit(3, HL);
 }
 
 void Processor::OPCodeCB0x9F()
@@ -998,7 +1151,7 @@ void Processor::OPCodeCB0xA5()
 void Processor::OPCodeCB0xA6()
 {
     // RES 4, (HL)
-    // TODO fix
+    resetBit(4, HL);
 }
 
 void Processor::OPCodeCB0xA7()
@@ -1046,7 +1199,7 @@ void Processor::OPCodeCB0xAD()
 void Processor::OPCodeCB0xAE()
 {
     // RES 5, (HL)
-    // TODO fix
+    resetBit(5, HL);
 }
 
 void Processor::OPCodeCB0xAF()
@@ -1094,7 +1247,7 @@ void Processor::OPCodeCB0xB5()
 void Processor::OPCodeCB0xB6()
 {
     // RES 6, (HL)
-    // TODO fix
+    resetBit(6, HL);
 }
 
 void Processor::OPCodeCB0xB7()
@@ -1142,7 +1295,7 @@ void Processor::OPCodeCB0xBD()
 void Processor::OPCodeCB0xBE()
 {
     // RES 7, (HL)
-    // TODO fix
+    resetBit(7, HL);
 }
 
 void Processor::OPCodeCB0xBF()
@@ -1190,7 +1343,7 @@ void Processor::OPCodeCB0xC5()
 void Processor::OPCodeCB0xC6()
 {
     // SET 0, (HL)
-    // TODO fix
+    setBit(0, HL);
 }
 
 void Processor::OPCodeCB0xC7()
@@ -1238,7 +1391,7 @@ void Processor::OPCodeCB0xCD()
 void Processor::OPCodeCB0xCE()
 {
     // SET 1, (HL)
-    // TODO fix
+    setBit(1, HL);
 }
 
 void Processor::OPCodeCB0xCF()
@@ -1286,7 +1439,7 @@ void Processor::OPCodeCB0xD5()
 void Processor::OPCodeCB0xD6()
 {
     // SET 2, (HL)
-    // TODO fix
+    setBit(2, HL);
 }
 
 void Processor::OPCodeCB0xD7()
@@ -1334,7 +1487,7 @@ void Processor::OPCodeCB0xDD()
 void Processor::OPCodeCB0xDE()
 {
     // SET 3, (HL)
-    // TODO fix
+    setBit(3, HL);
 }
 
 void Processor::OPCodeCB0xDF()
@@ -1382,7 +1535,7 @@ void Processor::OPCodeCB0xE5()
 void Processor::OPCodeCB0xE6()
 {
     // SET 4, (HL)
-    // TODO fix
+    setBit(4, HL);
 }
 
 void Processor::OPCodeCB0xE7()
@@ -1430,7 +1583,7 @@ void Processor::OPCodeCB0xED()
 void Processor::OPCodeCB0xEE()
 {
     // SET 5, (HL)
-    // TODO fix
+    setBit(5, HL);
 }
 
 void Processor::OPCodeCB0xEF()
@@ -1478,7 +1631,7 @@ void Processor::OPCodeCB0xF5()
 void Processor::OPCodeCB0xF6()
 {
     // SET 6, (HL)
-    // TODO fix
+    setBit(6, HL);
 }
 
 void Processor::OPCodeCB0xF7()
@@ -1526,7 +1679,7 @@ void Processor::OPCodeCB0xFD()
 void Processor::OPCodeCB0xFE()
 {
     // SET 7, (HL)
-    // TODO fix
+    setBit(7, HL);
 }
 
 void Processor::OPCodeCB0xFF()
