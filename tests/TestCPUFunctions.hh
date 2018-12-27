@@ -1,6 +1,8 @@
 #pragma once
 #include "Processor.hh"
 #include "TestUtils.hh"
+#include "Register8bit.hh"
+#include "Register16bit.hh"
 
 namespace TestCPU
 {

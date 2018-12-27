@@ -36,7 +36,29 @@ void TestCPU::runAllTests(Processor &p)
 
 bool TestCPU::testLoadReg(Processor &p)
 {
-    return false;
+    register16_t current_pc = 0xABCD;
+    register16_t next_pc = current_pc++;
+    p.setValuePC(current_pc);
+
+    byte_t value = 0xEB;
+
+    register16_t index = p.getValuePC();
+
+    p.getProgramMem()[index] = value;
+
+    throw 1;
+
+    Register8bit reg("Temp");
+
+    p.loadRegister(&reg);
+
+    if (reg.getValue() != value)
+        return false;
+
+    if (p.getValuePC() != next_pc)
+        return false;
+
+    return true;
 }
 
 bool TestCPU::testLoadIntoMem(Processor &p)

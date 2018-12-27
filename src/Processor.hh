@@ -321,6 +321,9 @@ public:
   void setFlagN(bool value);
   void setFlagZ(bool value);
 
+  Memory *getRAM();
+  std::vector<opcode_t> &getProgramMem();
+
 private:
   std::vector<opcode_t> program_memory{};
   opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];

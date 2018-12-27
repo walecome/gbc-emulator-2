@@ -651,3 +651,13 @@ void Processor::setFlagZ(bool value)
 {
     flagZ = value;
 }
+
+Memory *Processor::getRAM()
+{
+    return this->ram;
+}
+
+std::vector<opcode_t> &Processor::getProgramMem()
+{
+    return this->program_memory;
+}
