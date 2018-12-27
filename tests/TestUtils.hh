@@ -12,10 +12,11 @@ void runCPUTest(std::function<bool(Processor &)> testFunc, Processor &p,
                 std::string testName);
 
 void runTestNoArg(std::function<bool()> testFunc, std::string testName);
+void logTestResult(bool passed, std::string testName);
 
 void printResults();
 
-extern int cpu_total_tests;
-extern int cpu_passed_tests;
-extern int cpu_failed_tests;
+extern int total_tests;
+extern int passed_tests;
+extern int failed_tests;
 } // namespace TestUtils
