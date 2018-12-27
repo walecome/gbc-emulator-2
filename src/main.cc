@@ -9,7 +9,6 @@
 
 // User headers
 #include "Instruction.hh"
-#include "Opcode.hh"
 #include "Constants.hh"
 #include "Processor.hh"
 
