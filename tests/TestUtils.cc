@@ -14,7 +14,17 @@ void TestUtils::log(std::string msg)
 
 void TestUtils::err(std::string msg)
 {
-    std::cerr << "TestUtils (err):" << msg << std::endl;
+    std::cerr << "TestUtils (err): " << msg << std::endl;
+}
+
+std::string strRed(std::string msg)
+{
+    return "\033[1;31m" + msg + "\033[0m";
+}
+
+std::string strGreen(std::string msg)
+{
+    return "\033[1;32m" + msg + "\033[0m";
 }
 
 void TestUtils::runCPUTest(std::function<bool(Processor &)> testFunc,
@@ -22,18 +32,18 @@ void TestUtils::runCPUTest(std::function<bool(Processor &)> testFunc,
 {
     TestUtils::cpu_total_tests++;
 
-    TestUtils::log("[" + testName + "] running test");
+    // TestUtils::log("[" + testName + "] running test");
     bool test_ok = testFunc(p);
 
     if (test_ok)
     {
         TestUtils::cpu_passed_tests++;
-        TestUtils::log("[" + testName + "] ok!");
+        TestUtils::log(strGreen("passed") + " - [" + testName + "]");
     }
     else
     {
         TestUtils::cpu_failed_tests++;
-        TestUtils::err("[" + testName + "] failed!");
+        TestUtils::log(strRed("failed") + " - [" + testName + "]");
     }
 }
 
