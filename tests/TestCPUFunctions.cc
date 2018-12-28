@@ -3,7 +3,7 @@
 bool TestCPU::testLoadReg(Processor &p)
 {
     register16_t current_pc = 0xABCD;
-    register16_t next_pc = current_pc++;
+    register16_t next_pc = current_pc + 1;
     p.setValuePC(current_pc);
 
     byte_t value = 0xEB;
@@ -11,8 +11,6 @@ bool TestCPU::testLoadReg(Processor &p)
     register16_t index = p.getValuePC();
 
     p.getProgramMem()[index] = value;
-
-    throw 1;
 
     Register8bit reg("Temp");
 

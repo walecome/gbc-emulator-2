@@ -4,6 +4,8 @@ Processor::Processor()
 {
     setValuePC(PC_START);
     setSP(SP_START);
+    // TODO Change program memory into a "real" memory
+    this->program_memory.reserve((unsigned)PC_MAX_SIZE);
 }
 
 Processor::~Processor()
