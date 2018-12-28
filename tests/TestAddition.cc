@@ -57,6 +57,6 @@ bool Test::test16bit(Processor &p)
 
 void Test::testAddition(Processor &p)
 {
-    TestUtils::runCPUTest(Test::test8bit, p, "8bit_addition");
-    TestUtils::runCPUTest(Test::test16bit, p, "16bit_addition");
+    TestUtils::runCPUTest(Test::test8bit, p, "Test::test8bit");
+    TestUtils::runCPUTest(Test::test16bit, p, "Test::test16bit");
 }

@@ -1,13 +1,5 @@
 #include "TestRegister8bit.hh"
 
-void TestRegister8bit::runAllTests()
-{
-    TestUtils::runTestNoArg(testInitialValue, "testInitialValue");
-    TestUtils::runTestNoArg(testSetGet, "testSetGet");
-    TestUtils::runTestNoArg(testIncrement, "testIncrement");
-    TestUtils::runTestNoArg(testDecrement, "testDecrement");
-}
-
 bool TestRegister8bit::testInitialValue()
 {
     Register8bit reg("tmp");
@@ -30,7 +22,12 @@ bool TestRegister8bit::testSetGet()
         }
     }
 
-    return true;
+    // Test one explicit value
+
+    register8_t expected_value = 0xEB;
+    reg.setValue(expected_value);
+
+    return reg.getValue() == expected_value;
 }
 
 bool TestRegister8bit::testIncrement()
@@ -57,7 +54,7 @@ bool TestRegister8bit::testDecrement()
     Register8bit reg("tmp");
 
     // Start somewhere in the middle
-    register8_t expected_value = 0x0EB;
+    register8_t expected_value = 0xEB;
     reg.setValue(expected_value);
 
     for (register8_t i = 0x00; i < 0xFF; ++i)
@@ -69,4 +66,16 @@ bool TestRegister8bit::testDecrement()
     }
 
     return true;
+}
+
+void TestRegister8bit::runAllTests()
+{
+    TestUtils::runTestNoArg(TestRegister8bit::testInitialValue,
+                            "TestRegister8bit::testInitialValue");
+    TestUtils::runTestNoArg(TestRegister8bit::testSetGet,
+                            "TestRegister8bit::testSetGet");
+    TestUtils::runTestNoArg(TestRegister8bit::testIncrement,
+                            "TestRegister8bit::testIncrement");
+    TestUtils::runTestNoArg(TestRegister8bit::testDecrement,
+                            "TestRegister8bit::testDecrement");
 }
