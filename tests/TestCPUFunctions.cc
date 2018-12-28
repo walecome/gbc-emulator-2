@@ -1,7 +1,8 @@
 #include "TestCPUFunctions.hh"
 
-bool TestCPU::testLoadReg(Processor &p)
+bool TestCPU::testLoadReg()
 {
+    Processor p{};
     register16_t current_pc = 0xABCD;
     register16_t next_pc = current_pc + 1;
     p.setValuePC(current_pc);
@@ -25,240 +26,274 @@ bool TestCPU::testLoadReg(Processor &p)
     return true;
 }
 
-bool TestCPU::testLoadIntoMem(Processor &p)
+bool TestCPU::testLoadIntoMem()
+{
+    Processor p{};
+    Register16bit address_reg("address_reg");
+    Register8bit data_reg("data_reg");
+
+    register16_t reg_address = 0x0012;
+    register16_t actual_address = 0xFF00 + reg_address;
+
+    byte_t data = 0xEB;
+
+    address_reg.setValue(reg_address);
+    data_reg.setValue(data);
+
+    p.loadIntoMemory(&address_reg, &data_reg);
+    if (p.getRAM()->_get_mem_vector()[actual_address] != data)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool TestCPU::testLoadIntoMemIm()
+{
+    Processor p{};
+    Register16bit address_reg("address_reg");
+
+    register16_t reg_address = 0x0012;
+    register16_t actual_address = 0xFF00 + reg_address;
+
+    byte_t data = 0xBE;
+
+    address_reg.setValue(reg_address);
+
+    p.loadIntoMemory(&address_reg, data);
+    if (p.getRAM()->_get_mem_vector()[actual_address] != data)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool TestCPU::testLoadFromMem()
 {
     return false;
 }
 
-bool TestCPU::testLoadIntoMemIm(Processor &p)
+bool TestCPU::testLoadFromMemIm()
 {
     return false;
 }
 
-bool TestCPU::testLoadFromMem(Processor &p)
+bool TestCPU::testRegisterIncrement()
 {
     return false;
 }
 
-bool TestCPU::testLoadFromMemIm(Processor &p)
+bool TestCPU::testRegisterDecrement()
 {
     return false;
 }
 
-bool TestCPU::testRegisterIncrement(Processor &p)
+bool TestCPU::testRegiserCopy()
 {
     return false;
 }
 
-bool TestCPU::testRegisterDecrement(Processor &p)
+bool TestCPU::testRegisterSubtraction()
 {
     return false;
 }
 
-bool TestCPU::testRegiserCopy(Processor &p)
+bool TestCPU::testRegisterAddCarry()
 {
     return false;
 }
 
-bool TestCPU::testRegisterSubtraction(Processor &p)
+bool TestCPU::testRegisterSubCarry()
 {
     return false;
 }
 
-bool TestCPU::testRegisterAddCarry(Processor &p)
+bool TestCPU::testRegisterAND()
 {
     return false;
 }
 
-bool TestCPU::testRegisterSubCarry(Processor &p)
+bool TestCPU::testRegisterXOR()
 {
     return false;
 }
 
-bool TestCPU::testRegisterAND(Processor &p)
+bool TestCPU::testRegisterOR()
 {
     return false;
 }
 
-bool TestCPU::testRegisterXOR(Processor &p)
+bool TestCPU::testRegisterCMP()
 {
     return false;
 }
 
-bool TestCPU::testRegisterOR(Processor &p)
+bool TestCPU::testStackPush()
 {
     return false;
 }
 
-bool TestCPU::testRegisterCMP(Processor &p)
+bool TestCPU::testStackPop()
 {
     return false;
 }
 
-bool TestCPU::testStackPush(Processor &p)
+bool TestCPU::testJump()
 {
     return false;
 }
 
-bool TestCPU::testStackPop(Processor &p)
+bool TestCPU::testJumpIm()
 {
     return false;
 }
 
-bool TestCPU::testJump(Processor &p)
+bool TestCPU::testRegisterRLC()
 {
     return false;
 }
 
-bool TestCPU::testJumpIm(Processor &p)
+bool TestCPU::testRegisterRRC()
 {
     return false;
 }
 
-bool TestCPU::testRegisterRLC(Processor &p)
+bool TestCPU::testRegisterRL()
 {
     return false;
 }
 
-bool TestCPU::testRegisterRRC(Processor &p)
+bool TestCPU::testRegisterRR()
 {
     return false;
 }
 
-bool TestCPU::testRegisterRL(Processor &p)
+bool TestCPU::testRegisterSLA()
 {
     return false;
 }
 
-bool TestCPU::testRegisterRR(Processor &p)
+bool TestCPU::testRegisterSRA()
 {
     return false;
 }
 
-bool TestCPU::testRegisterSLA(Processor &p)
+bool TestCPU::testSwapNibble()
 {
     return false;
 }
 
-bool TestCPU::testRegisterSRA(Processor &p)
+bool TestCPU::testRegisterSRL()
 {
     return false;
 }
 
-bool TestCPU::testSwapNibble(Processor &p)
+bool TestCPU::testBitTest()
 {
     return false;
 }
 
-bool TestCPU::testRegisterSRL(Processor &p)
+bool TestCPU::testBitReset()
 {
     return false;
 }
 
-bool TestCPU::testBitTest(Processor &p)
+bool TestCPU::testBitSet()
 {
     return false;
 }
 
-bool TestCPU::testBitReset(Processor &p)
+void TestCPU::runAllTests()
 {
-    return false;
-}
+    TestUtils::runTestNoArg(TestCPU::testLoadReg,
+                            "TestCPU::testLoadReg");
 
-bool TestCPU::testBitSet(Processor &p)
-{
-    return false;
-}
+    TestUtils::runTestNoArg(TestCPU::testLoadIntoMem,
+                            "TestCPU::testLoadIntoMem");
 
-void TestCPU::runAllTests(Processor &p)
-{
-    TestUtils::runCPUTest(TestCPU::testLoadReg, p,
-                          "TestCPU::testLoadReg");
+    TestUtils::runTestNoArg(TestCPU::testLoadIntoMemIm,
+                            "TestCPU::testLoadIntoMemIm");
 
-    TestUtils::runCPUTest(TestCPU::testLoadIntoMem, p,
-                          "TestCPU::testLoadIntoMem");
+    TestUtils::runTestNoArg(TestCPU::testLoadFromMem,
+                            "TestCPU::testLoadFromMem");
 
-    TestUtils::runCPUTest(TestCPU::testLoadIntoMemIm, p,
-                          "TestCPU::testLoadIntoMemIm");
+    TestUtils::runTestNoArg(TestCPU::testLoadFromMemIm,
+                            "TestCPU::testLoadFromMemIm");
 
-    TestUtils::runCPUTest(TestCPU::testLoadFromMem, p,
-                          "TestCPU::testLoadFromMem");
+    TestUtils::runTestNoArg(TestCPU::testRegisterIncrement,
+                            "TestCPU::testRegisterIncrement");
 
-    TestUtils::runCPUTest(TestCPU::testLoadFromMemIm, p,
-                          "TestCPU::testLoadFromMemIm");
+    TestUtils::runTestNoArg(TestCPU::testRegisterDecrement,
+                            "TestCPU::testRegisterDecrement");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterIncrement, p,
-                          "TestCPU::testRegisterIncrement");
+    TestUtils::runTestNoArg(TestCPU::testRegiserCopy,
+                            "TestCPU::testRegiserCopy");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterDecrement, p,
-                          "TestCPU::testRegisterDecrement");
+    TestUtils::runTestNoArg(TestCPU::testRegisterSubtraction,
+                            "TestCPU::testRegisterSubtraction");
 
-    TestUtils::runCPUTest(TestCPU::testRegiserCopy, p,
-                          "TestCPU::testRegiserCopy");
+    TestUtils::runTestNoArg(TestCPU::testRegisterAddCarry,
+                            "TestCPU::testRegisterAddCarry");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterSubtraction, p,
-                          "TestCPU::testRegisterSubtraction");
+    TestUtils::runTestNoArg(TestCPU::testRegisterSubCarry,
+                            "TestCPU::testRegisterSubCarry");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterAddCarry, p,
-                          "TestCPU::testRegisterAddCarry");
+    TestUtils::runTestNoArg(TestCPU::testRegisterAND,
+                            "TestCPU::testRegisterAND");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterSubCarry, p,
-                          "TestCPU::testRegisterSubCarry");
+    TestUtils::runTestNoArg(TestCPU::testRegisterXOR,
+                            "TestCPU::testRegisterXOR");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterAND, p,
-                          "TestCPU::testRegisterAND");
+    TestUtils::runTestNoArg(TestCPU::testRegisterOR,
+                            "TestCPU::testRegisterOR");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterXOR, p,
-                          "TestCPU::testRegisterXOR");
+    TestUtils::runTestNoArg(TestCPU::testRegisterCMP,
+                            "TestCPU::testRegisterCMP");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterOR, p,
-                          "TestCPU::testRegisterOR");
+    TestUtils::runTestNoArg(TestCPU::testStackPush,
+                            "TestCPU::testStackPush");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterCMP, p,
-                          "TestCPU::testRegisterCMP");
+    TestUtils::runTestNoArg(TestCPU::testStackPop,
+                            "TestCPU::testStackPop");
 
-    TestUtils::runCPUTest(TestCPU::testStackPush, p,
-                          "TestCPU::testStackPush");
+    TestUtils::runTestNoArg(TestCPU::testJump,
+                            "TestCPU::testJump");
 
-    TestUtils::runCPUTest(TestCPU::testStackPop, p,
-                          "TestCPU::testStackPop");
+    TestUtils::runTestNoArg(TestCPU::testJumpIm,
+                            "TestCPU::testJumpIm");
 
-    TestUtils::runCPUTest(TestCPU::testJump, p,
-                          "TestCPU::testJump");
+    TestUtils::runTestNoArg(TestCPU::testRegisterRLC,
+                            "TestCPU::testRegisterRLC");
 
-    TestUtils::runCPUTest(TestCPU::testJumpIm, p,
-                          "TestCPU::testJumpIm");
+    TestUtils::runTestNoArg(TestCPU::testRegisterRRC,
+                            "TestCPU::testRegisterRRC");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterRLC, p,
-                          "TestCPU::testRegisterRLC");
+    TestUtils::runTestNoArg(TestCPU::testRegisterRL,
+                            "TestCPU::testRegisterRL");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterRRC, p,
-                          "TestCPU::testRegisterRRC");
+    TestUtils::runTestNoArg(TestCPU::testRegisterRR,
+                            "TestCPU::testRegisterRR");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterRL, p,
-                          "TestCPU::testRegisterRL");
+    TestUtils::runTestNoArg(TestCPU::testRegisterSLA,
+                            "TestCPU::testRegisterSLA");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterRR, p,
-                          "TestCPU::testRegisterRR");
+    TestUtils::runTestNoArg(TestCPU::testRegisterSRA,
+                            "TestCPU::testRegisterSRA");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterSLA, p,
-                          "TestCPU::testRegisterSLA");
+    TestUtils::runTestNoArg(TestCPU::testSwapNibble,
+                            "TestCPU::testSwapNibble");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterSRA, p,
-                          "TestCPU::testRegisterSRA");
+    TestUtils::runTestNoArg(TestCPU::testRegisterSRL,
+                            "TestCPU::testRegisterSRL");
 
-    TestUtils::runCPUTest(TestCPU::testSwapNibble, p,
-                          "TestCPU::testSwapNibble");
+    TestUtils::runTestNoArg(TestCPU::testBitTest,
+                            "TestCPU::testBitTest");
 
-    TestUtils::runCPUTest(TestCPU::testRegisterSRL, p,
-                          "TestCPU::testRegisterSRL");
+    TestUtils::runTestNoArg(TestCPU::testBitReset,
+                            "TestCPU::testBitReset");
 
-    TestUtils::runCPUTest(TestCPU::testBitTest, p,
-                          "TestCPU::testBitTest");
-
-    TestUtils::runCPUTest(TestCPU::testBitReset, p,
-                          "TestCPU::testBitReset");
-
-    TestUtils::runCPUTest(TestCPU::testBitSet, p,
-                          "TestCPU::testBitSet");
+    TestUtils::runTestNoArg(TestCPU::testBitSet,
+                            "TestCPU::testBitSet");
 }

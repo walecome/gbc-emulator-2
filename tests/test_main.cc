@@ -13,7 +13,7 @@ int main()
 
     Test::testAddition(p);
 
-    TestCPU::runAllTests(p);
+    TestCPU::runAllTests();
 
     TestUtils::printResults();
     return 0;
