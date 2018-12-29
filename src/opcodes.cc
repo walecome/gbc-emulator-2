@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Processor.hh"
 
 void Processor::OPCode0x00()
@@ -8,17 +9,16 @@ void Processor::OPCode0x00()
 void Processor::OPCode0x01()
 {
     // LD BC, d16
-
-    // TODO check stack data order
-
-    loadRegister(B);
+    // TODO double check
     loadRegister(C);
+    loadRegister(B);
 }
 
 void Processor::OPCode0x02()
 {
     // LD (BC), A
-    // TODO handle memory
+    // TODO double check
+    register8_t data = loadFromMemory(BC);
 }
 
 void Processor::OPCode0x03()
@@ -48,13 +48,19 @@ void Processor::OPCode0x06()
 void Processor::OPCode0x07()
 {
     // RLCA
-    // TODO bitwise rotation
+    // TODO double check
+    rlcRegister(A);
 }
 
 void Processor::OPCode0x08()
 {
     // LD (a16), SP
-    // TODO memory management
+    // TODO double check
+    register8_t data_low = getCurrentData();
+    register8_t data_high = getCurrentData();
+
+    stack_pointer->getLowRegister()->setValue(data_low);
+    stack_pointer->getHighRegister()->setValue(data_high);
 }
 
 void Processor::OPCode0x09()
@@ -103,19 +109,21 @@ void Processor::OPCode0x0E()
 void Processor::OPCode0x0F()
 {
     // RRCA
-    // TODO fix
+    // TODO double check
+    rrcRegister(A);
 }
 
 void Processor::OPCode0x10()
 {
     // STOP 0
     // TODO fix
+    std::cout << "STOP" << std::endl;
 }
 
 void Processor::OPCode0x11()
 {
     // LD DE, d16
-    // TODO check stack data order
+    // TODO double check
     loadRegister(E);
     loadRegister(D);
 }
@@ -153,7 +161,8 @@ void Processor::OPCode0x16()
 void Processor::OPCode0x17()
 {
     // RLA
-    // TODO fix
+    // TODO double check
+    rlRegister(A);
 }
 
 void Processor::OPCode0x18()
@@ -206,14 +215,15 @@ void Processor::OPCode0x1E()
 void Processor::OPCode0x1F()
 {
     // RRA
-    // TODO fix
+    // TODO double check
+    rrRegister(A);
 }
 
 void Processor::OPCode0x20()
 {
     // JR NZ, r8
     // TODO double check
-    if (getFlagZ() == false)
+    if (!getFlagZ())
     {
         performJump();
     }
@@ -229,7 +239,7 @@ void Processor::OPCode0x21()
 void Processor::OPCode0x22()
 {
     // LD (HL+), A
-    // TODO memory management
+    // TODO fix??
 }
 
 void Processor::OPCode0x23()
@@ -264,7 +274,7 @@ void Processor::OPCode0x27()
 
 void Processor::OPCode0x28()
 {
-    // JR Z, R8
+    // JR Z, r8
     // TODO double check
 
     if (getFlagZ())
@@ -286,7 +296,7 @@ void Processor::OPCode0x29()
 void Processor::OPCode0x2A()
 {
     // LD A, (HL+)
-    // TODO memory management
+    // TODO FIX??
 }
 
 void Processor::OPCode0x2B()
@@ -316,7 +326,9 @@ void Processor::OPCode0x2E()
 void Processor::OPCode0x2F()
 {
     // CPL
-    // TODO fix
+    A->setValue(~A->getValue());
+    setFlagN(true);
+    setFlagH(true);
 }
 
 void Processor::OPCode0x30()
@@ -338,7 +350,7 @@ void Processor::OPCode0x31()
 void Processor::OPCode0x32()
 {
     // LD (HL-), A
-    // TODO memory management
+    // TODO FIX
 }
 
 void Processor::OPCode0x33()
@@ -437,7 +449,10 @@ void Processor::OPCode0x3E()
 void Processor::OPCode0x3F()
 {
     // CCF
-    // TODO fix
+    setFlagC(!getFlagC());
+
+    setFlagN(false);
+    setFlagH(false);
 }
 
 void Processor::OPCode0x40()
@@ -965,7 +980,11 @@ void Processor::OPCode0x95()
 void Processor::OPCode0x96()
 {
     // SUB (HL)
-    // TODO memory management
+    // TODO double check this!!
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+
+    subRegisters(&tmp);
 }
 
 void Processor::OPCode0x97()
@@ -1013,7 +1032,13 @@ void Processor::OPCode0x9D()
 void Processor::OPCode0x9E()
 {
     // SBC A, (HL)
-    // TODO memory management
+    // TODO double check
+
+    Register8bit tmp{"tmp"};
+
+    loadFromMemory(&tmp, HL);
+
+    subWithCarry(&tmp);
 }
 
 void Processor::OPCode0x9F()
@@ -1117,7 +1142,11 @@ void Processor::OPCode0xAD()
 void Processor::OPCode0xAE()
 {
     // XOR (HL)
-    // TODO memory management
+    // TODO double check
+    Register8bit tmp{"tmp"};
+
+    loadFromMemory(&tmp, HL);
+    xorRegisters(&tmp);
 }
 
 void Processor::OPCode0xAF()
@@ -1165,7 +1194,10 @@ void Processor::OPCode0xB5()
 void Processor::OPCode0xB6()
 {
     // OR (HL)
-    // TODO memory management
+    // TODO double check
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+    orRegisters(&tmp);
 }
 
 void Processor::OPCode0xB7()
@@ -1377,7 +1409,11 @@ void Processor::OPCode0xCD()
 void Processor::OPCode0xCE()
 {
     // ADC A, d8
-    // TODO
+    // TODO double check...
+    Register8bit tmp{"tmp"};
+    tmp.setValue(getCurrentData());
+
+    addWithCarry(A, &tmp);
 }
 
 void Processor::OPCode0xCF()
@@ -1451,7 +1487,11 @@ void Processor::OPCode0xD5()
 void Processor::OPCode0xD6()
 {
     // SUB d8
-    // TODO
+    // TODO double check..
+    Register8bit tmp{"tmp"};
+    tmp.setValue(getCurrentData());
+
+    subRegisters(&tmp);
 }
 
 void Processor::OPCode0xD7()
@@ -1525,7 +1565,11 @@ void Processor::OPCode0xDD()
 void Processor::OPCode0xDE()
 {
     // SBC A, d8
-    // TODO fix
+    // TODO double check
+    Register8bit tmp{"tmp"};
+    tmp.setValue(getCurrentData());
+
+    subWithCarry(&tmp);
 }
 
 void Processor::OPCode0xDF()
@@ -1589,13 +1633,18 @@ void Processor::OPCode0xE7()
 void Processor::OPCode0xE8()
 {
     // ADD SP, r8
-    // TODO fix
+    // TODO FIX (signed)
 }
 
 void Processor::OPCode0xE9()
 {
     // JP (HL)
-    // TODO fix
+    // TODO double check
+    program_counter->getLowRegister()
+        ->setValue(HL->getLowRegister()->getValue());
+
+    program_counter->getHighRegister()
+        ->setValue(HL->getHighRegister()->getValue());
 }
 
 void Processor::OPCode0xEA()
@@ -1728,7 +1777,10 @@ void Processor::OPCode0xFD()
 void Processor::OPCode0xFE()
 {
     // CP d8
-    // TODO fix
+    // Double check
+    Register8bit tmp{"tmp"};
+    tmp.setValue(getCurrentData());
+    cmpRegisters(&tmp);
 }
 
 void Processor::OPCode0xFF()
