@@ -29,8 +29,8 @@ bool TestCPU::testLoadReg()
 bool TestCPU::testLoadIntoMem()
 {
     Processor p{};
-    Register16bit address_reg("address_reg");
-    Register8bit data_reg("data_reg");
+    Register16bit address_reg{"address_reg"};
+    Register8bit data_reg{"data_reg"};
 
     register16_t reg_address = 0x0012;
     register16_t actual_address = 0xFF00 + reg_address;
@@ -41,18 +41,14 @@ bool TestCPU::testLoadIntoMem()
     data_reg.setValue(data);
 
     p.loadIntoMemory(&address_reg, &data_reg);
-    if (p.getRAM()->_get_mem_vector()[actual_address] != data)
-    {
-        return false;
-    }
 
-    return true;
+    return (p.getRAM()->_get_mem_vector()[actual_address] == data);
 }
 
 bool TestCPU::testLoadIntoMemIm()
 {
     Processor p{};
-    Register16bit address_reg("address_reg");
+    Register16bit address_reg{"address_reg"};
 
     register16_t reg_address = 0x0012;
     register16_t actual_address = 0xFF00 + reg_address;
@@ -62,41 +58,80 @@ bool TestCPU::testLoadIntoMemIm()
     address_reg.setValue(reg_address);
 
     p.loadIntoMemory(&address_reg, data);
-    if (p.getRAM()->_get_mem_vector()[actual_address] != data)
-    {
-        return false;
-    }
 
-    return true;
+    return (p.getRAM()->_get_mem_vector()[actual_address] == data);
 }
 
 bool TestCPU::testLoadFromMem()
 {
-    return false;
+    Processor p{};
+    Register8bit data_reg{"tmp"};
+    Register16bit address_reg{"tmp"};
+
+    register16_t reg_address = 0x0012;
+    register16_t actual_address = 0xFF00 + reg_address;
+
+    byte_t expected_data = 0xBE;
+
+    p.getRAM()->_get_mem_vector()[actual_address] = expected_data;
+
+    address_reg.setValue(reg_address);
+
+    p.loadFromMemory(&data_reg, &address_reg);
+
+    return (data_reg.getValue() == expected_data);
 }
 
 bool TestCPU::testLoadFromMemIm()
 {
-    return false;
+    Processor p{};
+    Register16bit address_reg{"tmp"};
+
+    register16_t reg_address = 0x0012;
+    register16_t actual_address = 0xFF00 + reg_address;
+
+    byte_t expected_data = 0xBE;
+
+    p.getRAM()->_get_mem_vector()[actual_address] = expected_data;
+
+    address_reg.setValue(reg_address);
+
+    byte_t value = p.loadFromMemory(&address_reg);
+
+    return (value == expected_data);
 }
 
 bool TestCPU::testRegisterIncrement()
 {
+    // TODO check flag logic
     return false;
 }
 
 bool TestCPU::testRegisterDecrement()
 {
+    // TODO check flag logic
     return false;
 }
 
 bool TestCPU::testRegiserCopy()
 {
-    return false;
+    Processor p{};
+    Register8bit reg1{"reg1"};
+    Register8bit reg2{"reg2"};
+
+    register8_t expected_value = 0xEB;
+
+    reg1.setValue(expected_value);
+
+    // Copy value in reg1 into reg2
+    p.copyRegister(&reg2, &reg1);
+
+    return (reg2.getValue() == expected_value);
 }
 
 bool TestCPU::testRegisterSubtraction()
 {
+    // TODO check flag logic
     return false;
 }
 
@@ -132,10 +167,70 @@ bool TestCPU::testRegisterCMP()
 
 bool TestCPU::testStackPush()
 {
-    return false;
+    Processor p{};
+    Register16bit reg{"value_reg"};
+
+    register16_t expected_value = 0xBEEF;
+    register8_t expected_high = 0xBE;
+    register8_t expected_low = 0xEF;
+
+    reg.setValue(expected_value);
+
+    register16_t current_sp = p.getValueSP();
+    register16_t expected_sp = current_sp - 2;
+
+    p.pushStack(&reg);
+
+    if (p.getValueSP() != expected_sp)
+    {
+        return false;
+    }
+
+    if (p.getStack()->_get_mem_vector()[current_sp - 1] != expected_high)
+    {
+        return false;
+    }
+
+    if (p.getStack()->_get_mem_vector()[current_sp - 2] != expected_low)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 bool TestCPU::testStackPop()
+{
+    Processor p{};
+    Register16bit reg{"value_reg"};
+
+    Register16bit reg_dest{"dest_reg"};
+
+    register16_t expected_value = 0xBEEF;
+
+    reg.setValue(expected_value);
+
+    p.pushStack(&reg);
+
+    register16_t current_sp = p.getValueSP();
+    register16_t expected_sp = current_sp + 2;
+
+    p.popStack(&reg_dest);
+
+    if (p.getValueSP() != expected_sp)
+    {
+        return false;
+    }
+
+    if (reg_dest.getValue() != expected_value)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool TestCPU::testStackPopAF()
 {
     return false;
 }
@@ -257,6 +352,9 @@ void TestCPU::runAllTests()
 
     TestUtils::runTestNoArg(TestCPU::testStackPop,
                             "TestCPU::testStackPop");
+
+    TestUtils::runTestNoArg(TestCPU::testStackPopAF,
+                            "TestCPU::testStackPopAF");
 
     TestUtils::runTestNoArg(TestCPU::testJump,
                             "TestCPU::testJump");

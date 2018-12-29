@@ -3,7 +3,7 @@
 Processor::Processor()
 {
     setValuePC(PC_START);
-    setSP(SP_START);
+    setValueSP(SP_START);
     // TODO Change program memory into a "real" memory
     this->program_memory.reserve((unsigned)PC_MAX_SIZE);
 }
@@ -600,12 +600,12 @@ void Processor::setValuePC(register16_t value)
 
 // SP
 
-register16_t Processor::getSP()
+register16_t Processor::getValueSP()
 {
     return stack_pointer->getValue();
 }
 
-void Processor::setSP(register16_t value)
+void Processor::setValueSP(register16_t value)
 {
     stack_pointer->setValue(value);
 }
@@ -657,6 +657,11 @@ void Processor::setFlagZ(bool value)
 Memory *Processor::getRAM()
 {
     return this->ram;
+}
+
+Memory *Processor::getStack()
+{
+    return this->stack;
 }
 
 std::vector<opcode_t> &Processor::getProgramMem()

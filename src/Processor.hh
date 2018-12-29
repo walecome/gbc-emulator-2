@@ -306,8 +306,8 @@ public:
   void setValuePC(register16_t value);
 
   // SP
-  register16_t getSP();
-  void setSP(register16_t value);
+  register16_t getValueSP();
+  void setValueSP(register16_t value);
 
   // Getters for flags
   bool getFlagC();
@@ -322,6 +322,7 @@ public:
   void setFlagZ(bool value);
 
   Memory *getRAM();
+  Memory *getStack();
   std::vector<opcode_t> &getProgramMem();
 
 private:

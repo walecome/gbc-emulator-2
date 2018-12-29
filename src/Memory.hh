@@ -10,7 +10,7 @@ public:
   byte_t getData(const register16_t address);
 
   // Use only for testing!!
-  const std::vector<byte_t> &_get_mem_vector()
+  std::vector<byte_t> &_get_mem_vector()
   {
     return memory;
   }

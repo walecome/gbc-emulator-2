@@ -10,6 +10,7 @@ TEST_MAIN = $(TEST_DIR)test_main.cc
 CCFLAGS = -g -std=c++17 -Wall -Wextra -pedantic -Wsuggest-attribute=const
 
 OUT_FILE = emulator
+OUT_FILE_TEST = $(OUT_FILE)_test
 
 
 
@@ -17,10 +18,11 @@ all:
 	g++ $(CCFLAGS) -o $(OUT_FILE) $(SOURCE_DIR)main.cc $(SOURCE_FILES) -I$(SOURCE_DIR)
 
 test:
-	g++ $(CCFLAGS) -o $(OUT_FILE)_test $(TEST_MAIN) $(SOURCE_FILES) $(TEST_SOURCE) -I$(TEST_DIR) -I$(SOURCE_DIR)
+	g++ $(CCFLAGS) -o $(OUT_FILE_TEST) $(TEST_MAIN) $(SOURCE_FILES) $(TEST_SOURCE) -I$(TEST_DIR) -I$(SOURCE_DIR)
 	
 
 clean:
 	$(RM) $(OUT_FILE)
-	$(RM) *.o	
+	$(RM) $(OUT_FILE_TEST)
+	$(RM) *.o
 	$(RM) *.out

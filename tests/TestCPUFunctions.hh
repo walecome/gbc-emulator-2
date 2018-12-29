@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "Processor.hh"
 #include "TestUtils.hh"
 #include "Register8bit.hh"
@@ -24,6 +25,7 @@ bool testRegisterOR();
 bool testRegisterCMP();
 bool testStackPush();
 bool testStackPop();
+bool testStackPopAF();
 bool testJump();
 bool testJumpIm();
 bool testRegisterRLC();
