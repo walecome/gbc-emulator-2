@@ -232,7 +232,54 @@ bool TestCPU::testStackPop()
 
 bool TestCPU::testStackPopAF()
 {
-    return false;
+    Processor p{};
+    Register16bit reg{"value_reg"};
+
+    register16_t expected_value = 0xBEFF;
+
+    reg.setValue(expected_value);
+
+    p.pushStack(&reg);
+
+    register16_t current_sp = p.getValueSP();
+    register16_t expected_sp = current_sp + 2;
+
+    p.popStackAF();
+
+    if (!p.getFlagZ())
+        return false;
+
+    if (!p.getFlagN())
+        return false;
+
+    if (!p.getFlagH())
+        return false;
+
+    if (!p.getFlagC())
+        return false;
+
+    // All flags 0
+    expected_value = 0xBE0F;
+
+    reg.setValue(expected_value);
+
+    p.pushStack(&reg);
+
+    p.popStackAF();
+
+    if (p.getFlagZ())
+        return false;
+
+    if (p.getFlagN())
+        return false;
+
+    if (p.getFlagH())
+        return false;
+
+    if (p.getFlagC())
+        return false;
+
+    return true;
 }
 
 bool TestCPU::testJump()

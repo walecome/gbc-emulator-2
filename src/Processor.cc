@@ -281,6 +281,17 @@ void Processor::popStack(Register16bit *destination)
     stack_pointer->increment();
 }
 
+void Processor::popStackAF()
+{
+    popStack(AF);
+    register8_t f_data = F->getValue();
+
+    setFlagZ(bool((0x80 & f_data) != 0));
+    setFlagN(bool((0x40 & f_data) != 0));
+    setFlagH(bool((0x20 & f_data) != 0));
+    setFlagC(bool((0x10 & f_data) != 0));
+}
+
 void Processor::performJump()
 {
     register16_t current_pc = program_counter->getValue();

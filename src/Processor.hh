@@ -154,6 +154,12 @@ public:
   void popStack(Register16bit *destination);
 
   /**
+    Does the pop operation but with AF as destination register (altering flags).
+  */
+
+  void popStackAF();
+
+  /**
     Perform jump. Modifies the program counter by adding it to the value that is currently
     pointed at by the program counter.
   */

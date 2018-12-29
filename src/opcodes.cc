@@ -1646,7 +1646,7 @@ void Processor::OPCode0xF0()
 void Processor::OPCode0xF1()
 {
     // POP AF
-    popStack(AF);
+    popStackAF();
 }
 
 void Processor::OPCode0xF2()
