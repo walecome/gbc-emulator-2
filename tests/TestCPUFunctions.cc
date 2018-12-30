@@ -294,12 +294,86 @@ bool TestCPU::testJumpIm()
 
 bool TestCPU::testRegisterRLC()
 {
-    return false;
+    Processor p{};
+    Register8bit tmp{"tmp"};
+
+    register8_t value = 0xEB;          // 0b1110_1011
+    register8_t expected_value = 0xD7; // 0b1101_0111
+    bool expected_carry = true;
+    tmp.setValue(value);
+
+    p.rlcRegister(&tmp);
+
+    if (tmp.getValue() != expected_value)
+        return false;
+
+    if (p.getFlagC() != expected_carry)
+        return false;
+
+    if (p.getFlagH() || p.getFlagN())
+        return false;
+
+    if (p.getFlagZ())
+        return false;
+
+    // Check zero flag
+
+    tmp.setValue(0x00);
+
+    p.rlcRegister(&tmp);
+
+    if (tmp.getValue() != 0x00)
+        return false;
+
+    if (p.getFlagH() || p.getFlagN() || p.getFlagC())
+        return false;
+
+    if (!p.getFlagZ())
+        return false;
+
+    return true;
 }
 
 bool TestCPU::testRegisterRRC()
 {
-    return false;
+    Processor p{};
+    Register8bit tmp{"tmp"};
+
+    register8_t value = 0xEB;          // 0b1110_1011
+    register8_t expected_value = 0xF5; // 0b1111_0101
+    bool expected_carry = true;
+    tmp.setValue(value);
+
+    p.rrcRegister(&tmp);
+
+    if (tmp.getValue() != expected_value)
+        return false;
+
+    if (p.getFlagC() != expected_carry)
+        return false;
+
+    if (p.getFlagH() || p.getFlagN())
+        return false;
+
+    if (p.getFlagZ())
+        return false;
+
+    // Check zero flag
+
+    tmp.setValue(0x00);
+
+    p.rrcRegister(&tmp);
+
+    if (tmp.getValue() != 0x00)
+        return false;
+
+    if (p.getFlagH() || p.getFlagN() || p.getFlagC())
+        return false;
+
+    if (!p.getFlagZ())
+        return false;
+
+    return true;
 }
 
 bool TestCPU::testRegisterRL()
