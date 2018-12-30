@@ -38,27 +38,12 @@ void Processor::OPCodeCB0x05()
 void Processor::OPCodeCB0x06()
 {
     // RLC (HL)
-    byte_t data_source = loadFromMemory(HL);
 
-    if ((data_source & MSB_8BIT) == 0)
-    {
-        // MSB is 0
-        data_source <<= 1;
-        setFlagC(false);
-    }
-    else
-    {
-        // MSB is 1
-        data_source <<= 1;
-        data_source |= LSB_8BIT;
-        setFlagC(true);
-    }
-
-    loadIntoMemory(HL, data_source);
-
-    setFlagZ(data_source == 0x00);
-    setFlagN(false);
-    setFlagH(false);
+    // TODO test
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+    rlcRegister(&tmp);
+    loadIntoMemory(HL, &tmp);
 }
 
 void Processor::OPCodeCB0x07()
@@ -106,27 +91,12 @@ void Processor::OPCodeCB0x0D()
 void Processor::OPCodeCB0x0E()
 {
     // RRC (HL)
-    byte_t data_source = loadFromMemory(HL);
+    // TODO test
 
-    if ((data_source & LSB_8BIT) == 0)
-    {
-        // LSB is 0
-        data_source >>= 1;
-        setFlagC(false);
-    }
-    else
-    {
-        // LSB is 1
-        data_source >>= 1;
-        data_source |= MSB_8BIT;
-        setFlagC(true);
-    }
-
-    loadIntoMemory(HL, data_source);
-
-    setFlagZ(data_source == 0x00);
-    setFlagN(false);
-    setFlagH(false);
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+    rrcRegister(&tmp);
+    loadIntoMemory(HL, &tmp);
 }
 
 void Processor::OPCodeCB0x0F()
@@ -174,27 +144,12 @@ void Processor::OPCodeCB0x15()
 void Processor::OPCodeCB0x16()
 {
     // RL (HL)
-    byte_t data_source = loadFromMemory(HL);
 
-    if ((data_source & MSB_8BIT) == 0)
-    {
-        // MSB is 0
-        data_source <<= 1;
-        setFlagC(false);
-    }
-    else
-    {
-        // MSB is 1
-        data_source <<= 1;
-        data_source |= LSB_8BIT;
-        setFlagC(true);
-    }
-
-    loadIntoMemory(HL, data_source);
-
-    setFlagZ(data_source == 0x00);
-    setFlagN(false);
-    setFlagH(false);
+    // TODO test
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+    rlRegister(&tmp);
+    loadIntoMemory(HL, &tmp);
 }
 
 void Processor::OPCodeCB0x17()
@@ -242,28 +197,12 @@ void Processor::OPCodeCB0x1D()
 void Processor::OPCodeCB0x1E()
 {
     // RR (HL)
-    byte_t data_source = loadFromMemory(HL);
-    register8_t carry = (getFlagC() ? MSB_8BIT : 0);
 
-    if ((data_source & LSB_8BIT) == 0)
-    {
-        // LSB is 0
-        setFlagC(false);
-    }
-    else
-    {
-        // LSB is 1
-        setFlagC(true);
-    }
-
-    data_source >>= 1;
-    data_source |= carry;
-
-    loadIntoMemory(HL, data_source);
-
-    setFlagZ(data_source == 0x00);
-    setFlagN(false);
-    setFlagH(false);
+    // TODO test
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+    rrRegister(&tmp);
+    loadIntoMemory(HL, &tmp);
 }
 
 void Processor::OPCodeCB0x1F()
@@ -311,25 +250,12 @@ void Processor::OPCodeCB0x25()
 void Processor::OPCodeCB0x26()
 {
     // SLA (HL)
-    byte_t data_source = loadFromMemory(HL);
 
-    if ((data_source & MSB_8BIT) == 0)
-    {
-        // MSB is 0
-        setFlagC(false);
-    }
-    else
-    {
-        setFlagC(true);
-    }
-
-    data_source <<= 1;
-
-    loadIntoMemory(HL, data_source);
-
-    setFlagZ(data_source == 0x00);
-    setFlagN(false);
-    setFlagH(false);
+    // TODO test
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+    slaRegister(&tmp);
+    loadIntoMemory(HL, &tmp);
 }
 
 void Processor::OPCodeCB0x27()
@@ -378,28 +304,11 @@ void Processor::OPCodeCB0x2E()
 {
     // SRA (HL)
 
-    byte_t data_source = loadFromMemory(HL);
-    register8_t msb_val = data_source & MSB_8BIT;
-
-    if ((data_source & LSB_8BIT) == 0)
-    {
-        // LSB is 0
-        setFlagC(false);
-    }
-    else
-    {
-        // LSB is 1
-        setFlagC(true);
-    }
-
-    data_source >>= 1;
-    data_source |= msb_val;
-
-    loadIntoMemory(HL, data_source);
-
-    setFlagZ(data_source == 0x00);
-    setFlagN(false);
-    setFlagH(false);
+    // TODO test
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+    sraRegister(&tmp);
+    loadIntoMemory(HL, &tmp);
 }
 
 void Processor::OPCodeCB0x2F()
@@ -447,19 +356,12 @@ void Processor::OPCodeCB0x35()
 void Processor::OPCodeCB0x36()
 {
     // SWAP (HL)
-    byte_t val = loadFromMemory(HL);
 
-    register8_t new_low = (val & 0xF0) >> 4;
-    register8_t new_high = (val & 0x0F) << 4;
-
-    val = new_high + new_low;
-
-    loadIntoMemory(HL, val);
-
-    setFlagZ(val == 0x00);
-    setFlagN(false);
-    setFlagH(false);
-    setFlagC(false);
+    // TODO test
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+    swapNibbles(&tmp);
+    loadIntoMemory(HL, &tmp);
 }
 
 void Processor::OPCodeCB0x37()
@@ -508,26 +410,11 @@ void Processor::OPCodeCB0x3E()
 {
     // SRL (HL)
 
-    register8_t data_reg = loadFromMemory(HL);
-
-    if ((data_reg & LSB_8BIT) == 0)
-    {
-        // LSB is 0
-        setFlagC(false);
-    }
-    else
-    {
-        // LSB is 1
-        setFlagC(true);
-    }
-
-    data_reg >>= 1;
-
-    loadIntoMemory(HL, data_reg);
-
-    setFlagZ(data_reg == 0x00);
-    setFlagN(false);
-    setFlagH(false);
+    // TODO test
+    Register8bit tmp{"tmp"};
+    loadFromMemory(&tmp, HL);
+    srlRegister(&tmp);
+    loadIntoMemory(HL, &tmp);
 }
 
 void Processor::OPCodeCB0x3F()
