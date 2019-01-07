@@ -1,4 +1,5 @@
 #include "Processor.hh"
+
 // 8bit
 void Processor::setValueA(register8_t value) { A->setValue(value); }
 void Processor::setValueB(register8_t value) { B->setValue(value); }

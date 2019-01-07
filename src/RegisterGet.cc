@@ -1,5 +1,5 @@
 #include "Processor.hh"
-#include "Processor.hh"
+
 // 8bit
 Register8bit *Processor::getA() { return A; }
 Register8bit *Processor::getB() { return B; }
