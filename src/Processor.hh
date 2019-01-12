@@ -13,246 +13,44 @@ public:
   Processor();
   ~Processor();
 
-  /**
-    Reads instructions (and data) into the program memory vector given
-    binary filename
-    */
   void readInstructions(const char *filename);
-
-  /**
-    Fetches the instruction currently pointed at by the program counter.
-    Also increments the program counter to point at next instruction/data.
-     */
   opcode_t fetchInstruction();
-
-  /** 
-    Get the data pointed to by the program counter and increment the program
-    counter.
-  */
   byte_t getCurrentData();
-
-  /**
-    Loads data from where the program counter is pointing into the given register.
-    Also increments the program counter.
-   */
-
   void loadRegister(Register8bit *reg);
-
-  /**
-    Loads the data in data_reg into the address 0xFF00 + (value in address_reg).
-  */
-
   void loadIntoMemory(Register16bit *address_reg, Register8bit *data_reg);
-
-  /**
-    Loads the data in value into the address 0xFF00 + address_reg
-  */
-
   void loadIntoMemory(Register16bit *address_reg, byte_t value);
-
-  /**
-    Loads data from the memory address stored in 0xFF00 + address_reg and stores
-    it in data_reg.
-  */
-
   void loadFromMemory(Register8bit *data_reg, Register16bit *address_reg);
-
-  /**
-    Loads from memory address (0xFF00 + address_reg) and returns it.
-  */
-
   byte_t loadFromMemory(Register16bit *address_reg);
-
-  /**
-    Increments the value of the passed register and sets flags accordingly.
-    This function is only for 8bit registers since 16bit register increment
-    doesn't affect flags.
-  */
-
   void incrementRegister(Register8bit *reg);
-
-  /**
-    Decrements the value of the passed register and sets flags accordingly.
-    This function is only for 8bit registers since 16bit register decrement
-    doesn't affect flags.
-  */
-
   void decrementRegister(Register8bit *reg);
-
-  /**
-    Copies the value from the destination register to the source register
-  */
-
   void copyRegister(Register8bit *destination, Register8bit *source);
-
-  /**
-    Adds the values in the destination and source registers and stores the 
-    result in the destination register
-  */
-
   void addRegisters(Register8bit *destination, Register8bit *source);
   void addRegisters(Register16bit *destination, Register16bit *source);
-
-  /**
-    Subtracts the value in the accumulator (reg A) with the value in the
-    source register and stores the results in the accumulator
-  */
   void subRegisters(Register8bit *source);
-
-  /**
-    Adds registers with the carry included in the addition
-  */
   void addWithCarry(Register8bit *destination, Register8bit *source);
-
-  /**
-    Subtracts the value in the accumulator (reg A) with the value in the source
-    register. The subtraction also includes the carry value. Result is stored
-    in the accumulator.
-  */
-
   void subWithCarry(Register8bit *source);
-
-  /**
-    Performs a bitwise AND operation with the accumulator (reg A) and the passed
-    in register. The result is stored in the accumulator.
-  */
   void andRegisters(Register8bit *source);
-
-  /**
-    Performs a bitwise XOR operation with the accumulator (reg A) and the passed
-    in register. The result is stored in the accumulator.
-  */
   void xorRegisters(Register8bit *source);
-
-  /**
-    Performs a bitwise OR operation with the accumulator (reg A) and the passed
-    in register. The result is store in the accumulator.
-  */
-
   void orRegisters(Register8bit *source);
-
-  /**
-    Compares the value in the passed in register with the value in the
-    accumulator (reg A). Sets flags as a regular subtraction but the result
-    of the subtraction is not used.
-  */
-
   void cmpRegisters(Register8bit *source);
-
-  /**
-    Pushes the value in the passed 16bit register into the program stack.
-    This will decrement the stack pointer by 2.
-  */
-
   void pushStack(Register16bit *source);
-
-  /**
-    Pops a 16bit value from the stack and stores the values in the passed in
-    register. This will increment the stack pointer by 2.
-  */
-
   void popStack(Register16bit *destination);
-
-  /**
-    Does the pop operation but with AF as destination register (altering flags).
-  */
-
   void popStackAF();
-
-  /**
-    Perform jump. Modifies the program counter by adding it to the value that is currently
-    pointed at by the program counter.
-  */
-
   void performJump();
-
-  /** 
-    Performs a jump to a 16bit address stored in the program memory.
-  */
   void jumpIm16bit();
-
-  /**
-    Performs a left bitwise rotation on the given register. MSB will also be
-    stored in the carry flag.
-  */
-
   void rlcRegister(Register8bit *source);
-
-  /**
-    Performs a right bitwise rotation on the given register. LSB will also be
-    stored in the carry flag.
-  */
-
   void rrcRegister(Register8bit *source);
-
-  /**
-    Performs a left bitwise rotation through the carry given the register.
-  */
-
   void rlRegister(Register8bit *source);
-
-  /**
-    Performs a right bitwise rotation through the carry given the register.
-  */
-
   void rrRegister(Register8bit *source);
-
-  /**
-    Performs a left bitwise shift into the carry.
-  */
-
   void slaRegister(Register8bit *source);
-
-  /**
-    Performs a right bitwise shift into carry. Perserves MSB.
-  */
-
   void sraRegister(Register8bit *source);
-
-  /**
-    Swaps the upper and lower nibbles of given register.
-  */
   void swapNibbles(Register8bit *reg);
-
-  /**
-    Performs a right bitwise shift into carry. MSB is set to 0.
-  */
-
   void srlRegister(Register8bit *reg);
-
-  /**
-    Tests bit b of register reg.
-  */
   void testBit(int b, Register8bit *reg);
-
-  /**
-    Test bit b of data at address in address_reg.
-  */
-
   void testBit(int b, Register16bit *reg);
-
-  /**
-    Sets bit b in reg to 0.
-  */
-
   void resetBit(int b, Register8bit *reg);
-
-  /**
-    Sets bit b in data located at address of address_reg to 0.
-  */
-
   void resetBit(int b, Register16bit *address_reg);
-
-  /**
-    Sets bit b in reg to 1.
-  */
-
   void setBit(int b, Register8bit *reg);
-
-  /**
-    Sets bit b in data located at address of address_reg to 1.
-  */
-
   void setBit(int b, Register16bit *reg);
 
   // Handle flags according to operation results
@@ -262,50 +60,50 @@ public:
   void checkFlagH(register8_t result);
 
   // Getters for 8bit registers
-  Register8bit *getA();
-  Register8bit *getB();
-  Register8bit *getC();
-  Register8bit *getD();
-  Register8bit *getE();
-  Register8bit *getF();
-  Register8bit *getH();
-  Register8bit *getL();
+  Register8bit *getA() { return A; }
+  Register8bit *getB() { return B; }
+  Register8bit *getC() { return C; }
+  Register8bit *getD() { return D; }
+  Register8bit *getE() { return E; }
+  Register8bit *getF() { return F; }
+  Register8bit *getH() { return H; }
+  Register8bit *getL() { return L; }
 
-  register8_t getValueA();
-  register8_t getValueB();
-  register8_t getValueC();
-  register8_t getValueD();
-  register8_t getValueE();
-  register8_t getValueF();
-  register8_t getValueH();
-  register8_t getValueL();
+  register8_t getValueA() { return A->getValue(); }
+  register8_t getValueB() { return B->getValue(); }
+  register8_t getValueC() { return C->getValue(); }
+  register8_t getValueD() { return D->getValue(); }
+  register8_t getValueE() { return E->getValue(); }
+  register8_t getValueF() { return F->getValue(); }
+  register8_t getValueH() { return H->getValue(); }
+  register8_t getValueL() { return L->getValue(); }
 
   // Getters for 16bit registers
-  Register16bit *getAF();
-  Register16bit *getBC();
-  Register16bit *getDE();
-  Register16bit *getHL();
+  Register16bit *getAF() { return AF; }
+  Register16bit *getBC() { return BC; }
+  Register16bit *getDE() { return DE; }
+  Register16bit *getHL() { return HL; }
 
-  register16_t getValueAF();
-  register16_t getValueBC();
-  register16_t getValueDE();
-  register16_t getValueHL();
+  register16_t getValueAF() { return AF->getValue(); }
+  register16_t getValueBC() { return BC->getValue(); }
+  register16_t getValueDE() { return DE->getValue(); }
+  register16_t getValueHL() { return HL->getValue(); }
 
   // Setters for 8bit registers
-  void setValueA(register8_t value);
-  void setValueB(register8_t value);
-  void setValueC(register8_t value);
-  void setValueD(register8_t value);
-  void setValueE(register8_t value);
-  void setValueF(register8_t value);
-  void setValueH(register8_t value);
-  void setValueL(register8_t value);
+  void setValueA(register8_t value) { A->setValue(value); }
+  void setValueB(register8_t value) { B->setValue(value); }
+  void setValueC(register8_t value) { C->setValue(value); }
+  void setValueD(register8_t value) { D->setValue(value); }
+  void setValueE(register8_t value) { E->setValue(value); }
+  void setValueF(register8_t value) { F->setValue(value); }
+  void setValueH(register8_t value) { H->setValue(value); }
+  void setValueL(register8_t value) { L->setValue(value); }
 
   // Setters for 16bit registers
-  void setValueAF(register16_t value);
-  void setValueBC(register16_t value);
-  void setValueDE(register16_t value);
-  void setValueHL(register16_t value);
+  void setValueAF(register16_t value) { AF->setValue(value); }
+  void setValueBC(register16_t value) { BC->setValue(value); }
+  void setValueDE(register16_t value) { DE->setValue(value); }
+  void setValueHL(register16_t value) { HL->setValue(value); }
 
   // PC
   register16_t getValuePC();
