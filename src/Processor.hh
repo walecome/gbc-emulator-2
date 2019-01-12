@@ -13,7 +13,10 @@ public:
   Processor();
   ~Processor();
 
+  // Utils
   void readInstructions(const char *filename);
+
+  // Opcode helpers
   opcode_t fetchInstruction();
   byte_t getCurrentData();
   void loadRegister(Register8bit *reg);
@@ -106,55 +109,55 @@ public:
   void setValueHL(register16_t value) { HL->setValue(value); }
 
   // PC
-  register16_t getValuePC();
-  void setValuePC(register16_t value);
+  register16_t getValuePC() { return program_counter->getValue(); }
+  void setValuePC(register16_t value) { program_counter->setValue(value); }
 
   // SP
-  register16_t getValueSP();
-  void setValueSP(register16_t value);
+  register16_t getValueSP() { return stack_pointer->getValue(); }
+  void setValueSP(register16_t value) { stack_pointer->setValue(value); }
 
   // Getters for flags
-  bool getFlagC();
-  bool getFlagH();
-  bool getFlagN();
-  bool getFlagZ();
+  bool getFlagC() { return flagC; }
+  bool getFlagH() { return flagH; }
+  bool getFlagN() { return flagN; }
+  bool getFlagZ() { return flagZ; }
 
   // Setters for flags
-  void setFlagC(bool value);
-  void setFlagH(bool value);
-  void setFlagN(bool value);
-  void setFlagZ(bool value);
+  void setFlagC(bool value) { flagC = value; }
+  void setFlagH(bool value) { flagH = value; }
+  void setFlagN(bool value) { flagN = value; }
+  void setFlagZ(bool value) { flagZ = value; }
 
-  Memory *getRAM();
-  Memory *getStack();
-  std::vector<opcode_t> &getProgramMem();
+  Memory *getRAM() { return ram; }
+  Memory *getStack() { return stack; }
+  std::vector<opcode_t> &getProgramMem() { return program_memory; }
 
 private:
   std::vector<opcode_t> program_memory{};
   opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];
-  Memory *ram = new Memory(RAM_MAX_SIZE);
-  Memory *stack = new Memory(RAM_MAX_SIZE);
+  Memory *ram{new Memory(RAM_MAX_SIZE)};
+  Memory *stack{new Memory(RAM_MAX_SIZE)};
 
   // Handle stack pointer as 16 bit register
-  Register16bit *stack_pointer = new Register16bit("SP");
+  Register16bit *stack_pointer{new Register16bit("SP")};
 
   // Handle program counter as 16 bit register
-  Register16bit *program_counter = new Register16bit("PC");
+  Register16bit *program_counter{new Register16bit("PC")};
 
   // Registers
-  Register8bit *A = new Register8bit("A");
-  Register8bit *B = new Register8bit("B");
-  Register8bit *C = new Register8bit("C");
-  Register8bit *D = new Register8bit("A");
-  Register8bit *E = new Register8bit("E");
-  Register8bit *F = new Register8bit("F");
-  Register8bit *H = new Register8bit("H");
-  Register8bit *L = new Register8bit("L");
+  Register8bit *A{new Register8bit("A")};
+  Register8bit *B{new Register8bit("B")};
+  Register8bit *C{new Register8bit("C")};
+  Register8bit *D{new Register8bit("A")};
+  Register8bit *E{new Register8bit("E")};
+  Register8bit *F{new Register8bit("F")};
+  Register8bit *H{new Register8bit("H")};
+  Register8bit *L{new Register8bit("L")};
 
-  Register16bit *AF = new Register16bit("AF", A, F);
-  Register16bit *BC = new Register16bit("BC", B, C);
-  Register16bit *DE = new Register16bit("DE", D, E);
-  Register16bit *HL = new Register16bit("HL", H, L);
+  Register16bit *AF{new Register16bit("AF", A, F)};
+  Register16bit *BC{new Register16bit("BC", B, C)};
+  Register16bit *DE{new Register16bit("DE", D, E)};
+  Register16bit *HL{new Register16bit("HL", H, L)};
 
   // Flags
   bool flagC{false};

@@ -25,33 +25,9 @@ Processor::~Processor()
     delete HL;
 
     delete ram;
-}
-
-/**
-    Reads instructions (and data) into the program memory vector given
-    binary filename
-*/
-void Processor::readInstructions(const char *filename)
-{
-    // open the file as binary
-    std::ifstream file(filename, std::ios::binary);
-
-    // Stop eating new lines in binary mode
-    file.unsetf(std::ios::skipws);
-
-    std::streampos fileSize;
-
-    file.seekg(0, std::ios::end);
-    fileSize = file.tellg();
-    file.seekg(0, std::ios::beg);
-
-    // reserve capacity
-    program_memory.reserve(fileSize);
-
-    // read the data:
-    program_memory.insert(program_memory.begin(),
-                          std::istream_iterator<opcode_t>(file),
-                          std::istream_iterator<opcode_t>());
+    delete stack;
+    delete stack_pointer;
+    delete program_counter;
 }
 
 /**
@@ -736,87 +712,4 @@ void Processor::checkFlagC(int result)
 void Processor::checkFlagH(register8_t result)
 {
     // TODO
-}
-
-// PC
-
-register16_t Processor::getValuePC()
-{
-    return program_counter->getValue();
-}
-
-void Processor::setValuePC(register16_t value)
-{
-    program_counter->setValue(value);
-}
-
-// SP
-
-register16_t Processor::getValueSP()
-{
-    return stack_pointer->getValue();
-}
-
-void Processor::setValueSP(register16_t value)
-{
-    stack_pointer->setValue(value);
-}
-
-// Flag getters
-
-bool Processor::getFlagC()
-{
-    return flagC;
-}
-
-bool Processor::getFlagH()
-{
-    return flagH;
-}
-
-bool Processor::getFlagN()
-{
-    return flagN;
-}
-
-bool Processor::getFlagZ()
-{
-    return flagZ;
-}
-
-// Flag setters
-
-void Processor::setFlagC(bool value)
-{
-    flagC = value;
-}
-
-void Processor::setFlagH(bool value)
-{
-    flagH = value;
-}
-
-void Processor::setFlagN(bool value)
-{
-    flagN = value;
-}
-
-void Processor::setFlagZ(bool value)
-{
-    flagZ = value;
-}
-
-Memory *Processor::getRAM()
-{
-    return this->ram;
-}
-
-Memory *Processor::getStack()
-{
-    return this->stack;
-}
-
-std::vector<opcode_t> &Processor::getProgramMem()
-{
-    return this->program_memory;
 }
