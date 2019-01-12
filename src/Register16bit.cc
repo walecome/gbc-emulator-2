@@ -25,7 +25,7 @@ void Register16bit::setValue(register16_t value)
     low->setValue((register8_t)(value & 0x00FF));
 }
 
-register16_t Register16bit::getValue()
+register16_t Register16bit::getValue() const
 {
     return (high->getValue() << 8) + low->getValue();
 }
@@ -52,4 +52,12 @@ Register8bit *Register16bit::getHighRegister()
 Register8bit *Register16bit::getLowRegister()
 {
     return this->low;
+}
+
+std::ostream &operator<<(std::ostream &os, const Register16bit &reg)
+{
+    os << reg.getName() << ": 0x"
+       << std::uppercase << std::hex << (unsigned)reg.getValue();
+
+    return os;
 }

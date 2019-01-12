@@ -1,5 +1,6 @@
 #pragma once
 #include <iterator>
+#include <iostream>
 #include <fstream>
 #include <vector>
 #include "Constants.hh"
@@ -15,6 +16,7 @@ public:
 
   // Utils
   void readInstructions(const char *filename);
+  void print();
 
   // Opcode helpers
   opcode_t fetchInstruction();
@@ -148,7 +150,7 @@ private:
   Register8bit *A{new Register8bit("A")};
   Register8bit *B{new Register8bit("B")};
   Register8bit *C{new Register8bit("C")};
-  Register8bit *D{new Register8bit("A")};
+  Register8bit *D{new Register8bit("D")};
   Register8bit *E{new Register8bit("E")};
   Register8bit *F{new Register8bit("F")};
   Register8bit *H{new Register8bit("H")};

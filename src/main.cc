@@ -117,7 +117,14 @@ int main()
     std::cout << "Running tests..." << std::endl;
     tests(p);
 
-    std::cout << "Done" << std::endl;
+    std::cout << "Printing processor" << std::endl;
+    p.print();
+
+    std::cout
+        << "Done" << std::endl;
+
+    std::cout << *p.getA() << std::endl;
+    std::cout << *p.getAF() << std::endl;
 
     return 0;
 }
