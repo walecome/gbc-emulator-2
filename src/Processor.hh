@@ -14,6 +14,10 @@ public:
   Processor();
   ~Processor();
 
+  // Weffc++
+  Processor(const Processor &) = delete;
+  void operator=(const Processor &) = delete;
+
   // Utils
   void readInstructions(const char *filename);
   void print();

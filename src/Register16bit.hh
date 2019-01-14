@@ -7,9 +7,22 @@
 class Register16bit
 {
 public:
-  Register16bit(std::string name);
-  Register16bit(std::string _name, Register8bit *_high, Register8bit *_low) : name{_name}, high{_high}, low{_low} {}
+  Register16bit(const std::string &name)
+      : name{name},
+        high{new Register8bit(name + "_high")},
+        low{new Register8bit(name + "_low")},
+        free_self{true} {}
+
+  Register16bit(const std::string &_name,
+                Register8bit *_high, Register8bit *_low)
+      : name{_name}, high{_high}, low{_low} {}
+
   ~Register16bit();
+
+  // Weffc++
+  Register16bit(const Register16bit &) = delete;
+  void operator=(const Register16bit &) = delete;
+
   register16_t getValue() const;
   void setValue(register16_t value);
   std::string getName() const { return name; }

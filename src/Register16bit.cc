@@ -1,21 +1,11 @@
 #include "Register16bit.hh"
 
-Register16bit::Register16bit(std::string name)
-{
-    this->name = name;
-
-    this->high = new Register8bit(name + "_high");
-    this->low = new Register8bit(name + "_low");
-
-    this->free_self = true;
-}
-
 Register16bit::~Register16bit()
 {
-    if (this->free_self)
+    if (free_self)
     {
-        delete this->high;
-        delete this->low;
+        delete high;
+        delete low;
     }
 }
 
@@ -46,12 +36,12 @@ void Register16bit::decrement()
 
 Register8bit *Register16bit::getHighRegister()
 {
-    return this->high;
+    return high;
 }
 
 Register8bit *Register16bit::getLowRegister()
 {
-    return this->low;
+    return low;
 }
 
 std::ostream &operator<<(std::ostream &os, const Register16bit &reg)

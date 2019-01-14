@@ -16,5 +16,5 @@ public:
   }
 
 private:
-  std::vector<byte_t> memory;
+  std::vector<byte_t> memory{};
 };
