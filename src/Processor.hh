@@ -137,10 +137,10 @@ public:
 
   Memory *getRAM() { return ram; }
   Memory *getStack() { return stack; }
-  std::vector<opcode_t> &getProgramMem() { return program_memory; }
+  Memory *getProgramMem() { return program_memory; }
 
 private:
-  std::vector<opcode_t> program_memory{};
+  Memory *program_memory{new Memory(PC_MAX_SIZE)};
   opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];
   Memory *ram{new Memory(RAM_MAX_SIZE)};
   Memory *stack{new Memory(RAM_MAX_SIZE)};

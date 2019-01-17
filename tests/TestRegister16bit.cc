@@ -1,5 +1,5 @@
 #include "TestRegister16bit.hh"
-
+#include <cassert>
 bool TestRegister16bit::testInitialValue()
 {
     Register16bit reg("tmp");
@@ -43,8 +43,12 @@ bool TestRegister16bit::testIncrement()
     {
         reg.increment();
 
-        if (reg.getValue() != ++expected_value)
+        ++expected_value;
+
+        if (reg.getValue() != expected_value)
+        {
             return false;
+        }
     }
 
     return true;

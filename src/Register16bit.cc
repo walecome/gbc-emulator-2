@@ -23,8 +23,8 @@ register16_t Register16bit::getValue() const
 void Register16bit::increment()
 {
     register16_t current_value = getValue();
-
-    setValue(++current_value);
+    ++current_value;
+    setValue(current_value);
 }
 
 void Register16bit::decrement()

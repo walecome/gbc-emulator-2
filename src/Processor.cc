@@ -4,8 +4,6 @@ Processor::Processor()
 {
     setValuePC(PC_START);
     setValueSP(SP_START);
-    // TODO Change program memory into a "real" memory
-    this->program_memory.reserve((unsigned)PC_MAX_SIZE);
 }
 
 Processor::~Processor()
@@ -36,7 +34,7 @@ Processor::~Processor()
 */
 opcode_t Processor::fetchInstruction()
 {
-    opcode_t opcode = program_memory[program_counter->getValue()];
+    opcode_t opcode = program_memory->getData(program_counter->getValue());
 
     program_counter->increment();
 
@@ -49,7 +47,7 @@ opcode_t Processor::fetchInstruction()
 */
 byte_t Processor::getCurrentData()
 {
-    byte_t data = program_memory[program_counter->getValue()];
+    byte_t data = program_memory->getData(program_counter->getValue());
     program_counter->increment();
 
     return data;
@@ -365,7 +363,7 @@ void Processor::popStackAF()
 void Processor::performJump()
 {
     register16_t current_pc = program_counter->getValue();
-    byte_t offset = program_memory[current_pc];
+    byte_t offset = program_memory->getData(current_pc);
 
     // TODO this this logic
     register16_t new_pc = (register16_t)((int16_t)current_pc + (int8_t)offset);

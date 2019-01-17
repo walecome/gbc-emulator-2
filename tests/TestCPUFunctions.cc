@@ -11,7 +11,7 @@ bool TestCPU::testLoadReg()
 
     register16_t index = p.getValuePC();
 
-    p.getProgramMem()[index] = value;
+    p.getProgramMem()->setData(index, value);
 
     Register8bit reg("Temp");
 

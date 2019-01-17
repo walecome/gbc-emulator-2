@@ -1,10 +1,36 @@
 #include "Processor.hh"
 #include <iomanip>
 
-void hexPrint(unsigned value, unsigned length)
+void hexPrint(unsigned value, unsigned length, bool flush = false)
 {
     std::cout << "0x" << std::setfill('0')
               << std::setw(length) << std::hex << value;
+
+    if (flush)
+        std::cout << std::endl;
+}
+
+// TODO move to own file
+void readMetaData(const std::vector<opcode_t> &data)
+{
+    std::ostringstream is{};
+
+    for (int i = 0; i < 11; ++i)
+    {
+        char c = data[0x0134 + i];
+        if (c == 0)
+            break;
+        is << c;
+    }
+
+    std::string name{is.str()};
+    std::cout << "name: " << name << std::endl;
+
+    // ROM size
+    register8_t rom_size = data[0x148];
+
+    std::cout << "rom size: ";
+    hexPrint(rom_size, 2, true);
 }
 
 /**
@@ -25,13 +51,39 @@ void Processor::readInstructions(const char *filename)
     fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
-    // reserve capacity
-    program_memory.reserve(fileSize);
+    std::vector<opcode_t> tmp{};
 
     // read the data:
-    program_memory.insert(program_memory.begin(),
-                          std::istream_iterator<opcode_t>(file),
-                          std::istream_iterator<opcode_t>());
+    tmp.insert(tmp.begin(),
+               std::istream_iterator<opcode_t>(file),
+               std::istream_iterator<opcode_t>());
+
+    readMetaData(tmp);
+
+    return;
+
+    std::cout << "Starting with PC: ";
+    hexPrint(program_counter->getValue(), 4);
+    std::cout << std::endl;
+
+    for (opcode_t val : tmp)
+    {
+        program_memory->setData(program_counter->getValue(), val);
+        program_counter->increment();
+        hexPrint(program_counter->getValue(), 4);
+        std::cout << std::endl;
+    }
+
+    std::cout << program_counter->getValue() << std::endl;
+
+    std::cout << "Inserted " << tmp.size() << " elements into program memory"
+              << std::endl;
+
+    std::cout << "Ending with PC: ";
+    hexPrint(program_counter->getValue(), 4);
+    std::cout << std::endl;
+
+    // program_counter->setValue(PC_START);
 }
 
 /**
