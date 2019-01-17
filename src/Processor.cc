@@ -711,5 +711,6 @@ void Processor::checkFlagC(int result)
 
 void Processor::checkFlagH(register8_t result)
 {
-    // TODO
+    // TODO double check
+    setFlagH((result & 0x10) == 0x10);
 }
