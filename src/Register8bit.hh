@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
-#include "Constants.hh"
 #include <iostream>
+#include <iomanip>
+
+#include "Constants.hh"
 
 class Register8bit
 {

@@ -20,6 +20,7 @@ public:
 
   // Utils
   void readInstructions(const char *filename);
+  void printStack(register16_t start, register16_t end);
   void print();
 
   // Opcode helpers

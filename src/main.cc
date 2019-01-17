@@ -97,34 +97,13 @@ int main()
 {
     std::string filename = "roms/pokemon_silver.gbc";
 
-    std::cout << "Creating processor..." << std::endl;
     Processor p{};
-    std::cout << "Creating reading instructions from binary file..."
+    std::cout << "Reading instructions from binary file..."
               << std::endl;
+
     p.readInstructions(filename.c_str());
-
-    std::cout << "AF value: " << std::hex << p.getAF() << std::endl;
-    std::cout << "Setting A to 0xEB" << std::endl;
-    p.setValueA(0xEB);
-    std::cout << "AF value: " << std::hex << (int)p.getValueAF() << std::endl;
-
-    std::cout << "Setting AF to 0xBEEF" << std::endl;
-    p.setValueAF(0xBEEF);
-    std::cout << "AF value: " << std::hex << p.getAF() << std::endl;
-    std::cout << "A value: " << std::hex << (int)p.getValueA() << std::endl;
-    std::cout << "F value: " << std::hex << (int)p.getValueF() << std::endl;
-
-    std::cout << "Running tests..." << std::endl;
-    tests(p);
-
-    std::cout << "Printing processor" << std::endl;
     p.print();
-
-    std::cout
-        << "Done" << std::endl;
-
-    std::cout << *p.getA() << std::endl;
-    std::cout << *p.getAF() << std::endl;
+    p.printStack(10, 20);
 
     return 0;
 }

@@ -26,8 +26,9 @@ void Register8bit::decrement()
 
 std::ostream &operator<<(std::ostream &os, const Register8bit &reg)
 {
-    os << reg.getName() << ": 0x"
-       << std::uppercase << std::hex << (unsigned)reg.getValue();
+    os << reg.getName() << ": 0x" << std::setfill('0')
+       << std::setw(2) << std::uppercase << std::hex
+       << (unsigned)reg.getValue();
 
     return os;
 }
