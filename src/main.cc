@@ -8,7 +8,6 @@
 #include <assert.h>
 
 // User headers
-#include "Instruction.hh"
 #include "Constants.hh"
 #include "Processor.hh"
 
