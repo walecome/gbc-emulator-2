@@ -5,4 +5,5 @@
 tools/*out*
 **/*.gdb_history
 emulator
+gui
 emulator_test
