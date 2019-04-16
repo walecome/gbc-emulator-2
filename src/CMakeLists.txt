@@ -1,0 +1,8 @@
+add_sources(main.cc)
+add_sources(Memory.cc)
+add_sources(opcodes_cb.cc)
+add_sources(opcodes.cc)
+add_sources(Processor.cc)
+add_sources(ProcessorUtil.cc)
+add_sources(Register8bit.cc)
+add_sources(Register16bit.cc)

@@ -1,5 +1,7 @@
+build/
 *vscode*
 *cquery*
+*ccls*
 *o
 *.out
 tools/*out*
