@@ -1,3 +1,4 @@
+include_directories(.)
 cmake_minimum_required(VERSION 3.10)
 project(emulator CXX)
 
@@ -19,7 +20,7 @@ endmacro()
 
 add_subdirectory(src/)
 
-message(STATUS "${SRCS}")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ## Copy rom files to build folder
 file(COPY roms DESTINATION ${CMAKE_BINARY_DIR})
@@ -28,3 +29,7 @@ set(CMAKE_CXX_FLAGS "-g -std=c++17 -Wall -Wextra -Weffc++ -pedantic -Wsuggest-at
 
 add_executable(emulator ${SRCS})
 target_compile_features(emulator PUBLIC cxx_std_17)
+
+## Copy compile_commands.json to project directory
+file(COPY ${CMAKE_BINARY_DIR}/compile_commands.json DESTINATION ${CMAKE_HOME_DIRECTORY})
+

@@ -9,3 +9,4 @@ tools/*out*
 emulator
 gui
 emulator_test
+compile_commands.json
