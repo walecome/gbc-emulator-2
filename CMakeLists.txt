@@ -28,8 +28,13 @@ file(COPY roms DESTINATION ${CMAKE_BINARY_DIR})
 set(CMAKE_CXX_FLAGS "-g -std=c++17 -Wall -Wextra -Weffc++ -pedantic -Wsuggest-attribute=const")
 
 add_executable(emulator ${SRCS})
+
+
 target_compile_features(emulator PUBLIC cxx_std_17)
 
-## Copy compile_commands.json to project directory
-file(COPY ${CMAKE_BINARY_DIR}/compile_commands.json DESTINATION ${CMAKE_HOME_DIRECTORY})
-
+## Move compile_commands.json to project directory after make
+add_custom_command(
+        TARGET emulator POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_BINARY_DIR}/compile_commands.json
+                ${CMAKE_HOME_DIRECTORY}/compile_commands.json)
