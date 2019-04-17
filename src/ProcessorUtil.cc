@@ -36,6 +36,11 @@ void Processor::readInstructions(const char *filename) {
     // open the file as binary
     std::ifstream file(filename, std::ios::binary);
 
+    if (!file.is_open()) {
+        std::cerr << "Error reading file " << filename << std::endl;
+        return;
+    }
+
     // Stop eating new lines in binary mode
     file.unsetf(std::ios::skipws);
 

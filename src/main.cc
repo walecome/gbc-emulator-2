@@ -12,7 +12,7 @@
 #include "Processor.hh"
 
 int main() {
-    std::string filename = "roms/pokemon_silver.gbc";
+    std::string filename { "roms/pokemon_silver.gbc" };
 
     Processor p {};
     std::cout << "Reading instructions from binary file..." << std::endl;
