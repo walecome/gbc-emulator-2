@@ -1,12 +1,11 @@
 #include "Processor.hh"
 #include "TestAddition.hh"
-#include "TestRegister8bit.hh"
-#include "TestRegister16bit.hh"
 #include "TestCPUFunctions.hh"
+#include "TestRegister16bit.hh"
+#include "TestRegister8bit.hh"
 
-int main()
-{
-    Processor p{};
+int main() {
+    Processor p {};
 
     TestRegister8bit::runAllTests();
     TestRegister16bit::runAllTests();

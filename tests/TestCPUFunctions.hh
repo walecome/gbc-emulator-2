@@ -1,12 +1,11 @@
 #pragma once
 #include <iostream>
 #include "Processor.hh"
-#include "TestUtils.hh"
-#include "Register8bit.hh"
 #include "Register16bit.hh"
+#include "Register8bit.hh"
+#include "TestUtils.hh"
 
-namespace TestCPU
-{
+namespace TestCPU {
 void runAllTests();
 bool testLoadReg();
 bool testLoadIntoMem();
@@ -39,4 +38,4 @@ bool testRegisterSRL();
 bool testBitTest();
 bool testBitReset();
 bool testBitSet();
-} // namespace TestCPU
+}  // namespace TestCPU

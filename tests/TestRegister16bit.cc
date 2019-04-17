@@ -1,23 +1,19 @@
 #include "TestRegister16bit.hh"
 #include <cassert>
-bool TestRegister16bit::testInitialValue()
-{
+bool TestRegister16bit::testInitialValue() {
     Register16bit reg("tmp");
     register16_t expected_value = 0xFFFF;
 
     return reg.getValue() == expected_value;
 }
 
-bool TestRegister16bit::testSetGet()
-{
+bool TestRegister16bit::testSetGet() {
     Register16bit reg("tmp");
 
-    for (register16_t i = 0x0000; i < 0xFFFF; ++i)
-    {
+    for (register16_t i = 0x0000; i < 0xFFFF; ++i) {
         reg.setValue(i);
 
-        if (reg.getValue() != i)
-        {
+        if (reg.getValue() != i) {
             return false;
         }
     }
@@ -31,22 +27,19 @@ bool TestRegister16bit::testSetGet()
     return (reg.getValue() == expected_value);
 }
 
-bool TestRegister16bit::testIncrement()
-{
+bool TestRegister16bit::testIncrement() {
     Register16bit reg("tmp");
 
     // Start somewhere in the middle
     register16_t expected_value = 0xEB00;
     reg.setValue(expected_value);
 
-    for (register16_t i = 0x0000; i < 0xFFFF; ++i)
-    {
+    for (register16_t i = 0x0000; i < 0xFFFF; ++i) {
         reg.increment();
 
         ++expected_value;
 
-        if (reg.getValue() != expected_value)
-        {
+        if (reg.getValue() != expected_value) {
             return false;
         }
     }
@@ -54,27 +47,23 @@ bool TestRegister16bit::testIncrement()
     return true;
 }
 
-bool TestRegister16bit::testDecrement()
-{
+bool TestRegister16bit::testDecrement() {
     Register16bit reg("tmp");
 
     // Start somewhere in the middle
     register16_t expected_value = 0xEB00;
     reg.setValue(expected_value);
 
-    for (register16_t i = 0x0000; i < 0xFFFF; ++i)
-    {
+    for (register16_t i = 0x0000; i < 0xFFFF; ++i) {
         reg.decrement();
 
-        if (reg.getValue() != --expected_value)
-            return false;
+        if (reg.getValue() != --expected_value) return false;
     }
 
     return true;
 }
 
-void TestRegister16bit::runAllTests()
-{
+void TestRegister16bit::runAllTests() {
     TestUtils::runTestNoArg(TestRegister16bit::testInitialValue,
                             "TestRegister16bit::testInitialValue");
     TestUtils::runTestNoArg(TestRegister16bit::testSetGet,

@@ -1,11 +1,10 @@
 #pragma once
-#include <iostream>
 #include <functional>
+#include <iostream>
 #include <string>
 #include "Processor.hh"
 
-namespace TestUtils
-{
+namespace TestUtils {
 void log(std::string msg);
 void err(std::string msg);
 void runCPUTest(std::function<bool(Processor &)> testFunc, Processor &p,
@@ -19,4 +18,4 @@ void printResults();
 extern int total_tests;
 extern int passed_tests;
 extern int failed_tests;
-} // namespace TestUtils
+}  // namespace TestUtils

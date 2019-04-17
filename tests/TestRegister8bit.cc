@@ -1,23 +1,19 @@
 #include "TestRegister8bit.hh"
 
-bool TestRegister8bit::testInitialValue()
-{
+bool TestRegister8bit::testInitialValue() {
     Register8bit reg("tmp");
     register8_t expected_value = 0xFF;
 
     return reg.getValue() == expected_value;
 }
 
-bool TestRegister8bit::testSetGet()
-{
+bool TestRegister8bit::testSetGet() {
     Register8bit reg("tmp");
 
-    for (register8_t i = 0x00; i < 0xFF; ++i)
-    {
+    for (register8_t i = 0x00; i < 0xFF; ++i) {
         reg.setValue(i);
 
-        if (reg.getValue() != i)
-        {
+        if (reg.getValue() != i) {
             return false;
         }
     }
@@ -30,46 +26,39 @@ bool TestRegister8bit::testSetGet()
     return reg.getValue() == expected_value;
 }
 
-bool TestRegister8bit::testIncrement()
-{
+bool TestRegister8bit::testIncrement() {
     Register8bit reg("tmp");
 
     // Start somewhere in the middle
     register8_t expected_value = 0xEB;
     reg.setValue(expected_value);
 
-    for (register8_t i = 0x00; i < 0xFF; ++i)
-    {
+    for (register8_t i = 0x00; i < 0xFF; ++i) {
         reg.increment();
 
-        if (reg.getValue() != ++expected_value)
-            return false;
+        if (reg.getValue() != ++expected_value) return false;
     }
 
     return true;
 }
 
-bool TestRegister8bit::testDecrement()
-{
+bool TestRegister8bit::testDecrement() {
     Register8bit reg("tmp");
 
     // Start somewhere in the middle
     register8_t expected_value = 0xEB;
     reg.setValue(expected_value);
 
-    for (register8_t i = 0x00; i < 0xFF; ++i)
-    {
+    for (register8_t i = 0x00; i < 0xFF; ++i) {
         reg.decrement();
 
-        if (reg.getValue() != --expected_value)
-            return false;
+        if (reg.getValue() != --expected_value) return false;
     }
 
     return true;
 }
 
-void TestRegister8bit::runAllTests()
-{
+void TestRegister8bit::runAllTests() {
     TestUtils::runTestNoArg(TestRegister8bit::testInitialValue,
                             "TestRegister8bit::testInitialValue");
     TestUtils::runTestNoArg(TestRegister8bit::testSetGet,

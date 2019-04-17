@@ -1,13 +1,11 @@
 #include "Processor.hh"
 
-Processor::Processor()
-{
+Processor::Processor() {
     setValuePC(PC_START);
     setValueSP(SP_START);
 }
 
-Processor::~Processor()
-{
+Processor::~Processor() {
     delete A;
     delete B;
     delete C;
@@ -32,8 +30,7 @@ Processor::~Processor()
     Fetches the instruction currently pointed at by the program counter.
     Also increments the program counter to point at next instruction/data.
 */
-opcode_t Processor::fetchInstruction()
-{
+opcode_t Processor::fetchInstruction() {
     opcode_t opcode = program_memory->getData(program_counter->getValue());
 
     program_counter->increment();
@@ -41,12 +38,11 @@ opcode_t Processor::fetchInstruction()
     return opcode;
 }
 
-/** 
+/**
     Get the data pointed to by the program counter and increment the program
     counter.
 */
-byte_t Processor::getCurrentData()
-{
+byte_t Processor::getCurrentData() {
     byte_t data = program_memory->getData(program_counter->getValue());
     program_counter->increment();
 
@@ -54,19 +50,18 @@ byte_t Processor::getCurrentData()
 }
 
 /**
-    Loads data from where the program counter is pointing into the given register.
-    Also increments the program counter.
+    Loads data from where the program counter is pointing into the given
+   register. Also increments the program counter.
 */
-void Processor::loadRegister(Register8bit *reg)
-{
+void Processor::loadRegister(Register8bit *reg) {
     reg->setValue(getCurrentData());
 }
 
 /**
     Loads the data in data_reg into the address 0xFF00 + (value in address_reg).
 */
-void Processor::loadIntoMemory(Register16bit *address_reg, Register8bit *data_reg)
-{
+void Processor::loadIntoMemory(Register16bit *address_reg,
+                               Register8bit *data_reg) {
     register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
 
     byte_t data = data_reg->getValue();
@@ -77,8 +72,7 @@ void Processor::loadIntoMemory(Register16bit *address_reg, Register8bit *data_re
 /**
     Loads the data in value into the address 0xFF00 + address_reg
 */
-void Processor::loadIntoMemory(Register16bit *address_reg, byte_t value)
-{
+void Processor::loadIntoMemory(Register16bit *address_reg, byte_t value) {
     register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
 
     ram->setData(address, value);
@@ -88,8 +82,8 @@ void Processor::loadIntoMemory(Register16bit *address_reg, byte_t value)
     Loads data from the memory address stored in 0xFF00 + address_reg and stores
     it in data_reg.
 */
-void Processor::loadFromMemory(Register8bit *data_reg, Register16bit *address_reg)
-{
+void Processor::loadFromMemory(Register8bit *data_reg,
+                               Register16bit *address_reg) {
     register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
 
     byte_t data = ram->getData(address);
@@ -100,8 +94,7 @@ void Processor::loadFromMemory(Register8bit *data_reg, Register16bit *address_re
 /**
     Loads from memory address (0xFF00 + address_reg) and returns it.
 */
-byte_t Processor::loadFromMemory(Register16bit *address_reg)
-{
+byte_t Processor::loadFromMemory(Register16bit *address_reg) {
     register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
 
     return ram->getData(address);
@@ -112,8 +105,7 @@ byte_t Processor::loadFromMemory(Register16bit *address_reg)
     This function is only for 8bit registers since 16bit register increment
     doesn't affect flags.
 */
-void Processor::incrementRegister(Register8bit *reg)
-{
+void Processor::incrementRegister(Register8bit *reg) {
     reg->increment();
 
     register8_t result = reg->getValue();
@@ -128,8 +120,7 @@ void Processor::incrementRegister(Register8bit *reg)
     This function is only for 8bit registers since 16bit register decrement
     doesn't affect flags.
 */
-void Processor::decrementRegister(Register8bit *reg)
-{
+void Processor::decrementRegister(Register8bit *reg) {
     reg->decrement();
 
     register8_t result = reg->getValue();
@@ -142,14 +133,12 @@ void Processor::decrementRegister(Register8bit *reg)
 /**
     Copies the value from the destination register to the source register
 */
-void Processor::copyRegister(Register8bit *destination, Register8bit *source)
-{
+void Processor::copyRegister(Register8bit *destination, Register8bit *source) {
     destination->setValue(source->getValue());
 }
 
 template <class reg_type, class value_type>
-int add_helper(reg_type *a, reg_type *b)
-{
+int add_helper(reg_type *a, reg_type *b) {
     value_type value_dest = a->getValue();
     value_type value_source = b->getValue();
 
@@ -163,11 +152,10 @@ int add_helper(reg_type *a, reg_type *b)
 }
 
 /**
-    Adds the values in the destination and source registers and stores the 
+    Adds the values in the destination and source registers and stores the
     result in the destination register
 */
-void Processor::addRegisters(Register8bit *destination, Register8bit *source)
-{
+void Processor::addRegisters(Register8bit *destination, Register8bit *source) {
     int result = add_helper<Register8bit, register8_t>(destination, source);
 
     register8_t value_dest = (register8_t)result;
@@ -179,11 +167,11 @@ void Processor::addRegisters(Register8bit *destination, Register8bit *source)
 }
 
 /**
-    Adds the values in the destination and source registers and stores the 
+    Adds the values in the destination and source registers and stores the
     result in the destination register
 */
-void Processor::addRegisters(Register16bit *destination, Register16bit *source)
-{
+void Processor::addRegisters(Register16bit *destination,
+                             Register16bit *source) {
     int result = add_helper<Register16bit, register16_t>(destination, source);
 
     register16_t value_dest = (register16_t)result;
@@ -197,8 +185,7 @@ void Processor::addRegisters(Register16bit *destination, Register16bit *source)
     Subtracts the value in the accumulator (reg A) with the value in the
     source register and stores the results in the accumulator
 */
-void Processor::subRegisters(Register8bit *source)
-{
+void Processor::subRegisters(Register8bit *source) {
     register8_t value_dest = A->getValue();
     register8_t value_source = source->getValue();
 
@@ -212,8 +199,7 @@ void Processor::subRegisters(Register8bit *source)
 /**
     Adds registers with the carry included in the addition
 */
-void Processor::addWithCarry(Register8bit *destination, Register8bit *source)
-{
+void Processor::addWithCarry(Register8bit *destination, Register8bit *source) {
     register8_t value_dest = destination->getValue();
     register8_t value_source = source->getValue();
 
@@ -222,8 +208,7 @@ void Processor::addWithCarry(Register8bit *destination, Register8bit *source)
     int result = value_dest + value_source + carry;
 
     // Overflow
-    if (result > 0xFF)
-    {
+    if (result > 0xFF) {
         setFlagC(true);
     }
 
@@ -235,9 +220,7 @@ void Processor::addWithCarry(Register8bit *destination, Register8bit *source)
     register. The subtraction also includes the carry value. Result is stored
     in the accumulator.
 */
-void Processor::subWithCarry(Register8bit *source)
-{
-
+void Processor::subWithCarry(Register8bit *source) {
     register8_t value_dest = A->getValue();
     register8_t value_source = source->getValue();
     int carry = (getFlagC() ? 1 : 0);
@@ -254,8 +237,7 @@ void Processor::subWithCarry(Register8bit *source)
     Performs a bitwise AND operation with the accumulator (reg A) and the passed
     in register. The result is stored in the accumulator.
 */
-void Processor::andRegisters(Register8bit *source)
-{
+void Processor::andRegisters(Register8bit *source) {
     register8_t data_a = A->getValue();
     register8_t data_source = source->getValue();
 
@@ -269,8 +251,7 @@ void Processor::andRegisters(Register8bit *source)
     Performs a bitwise XOR operation with the accumulator (reg A) and the passed
     in register. The result is stored in the accumulator.
 */
-void Processor::xorRegisters(Register8bit *source)
-{
+void Processor::xorRegisters(Register8bit *source) {
     register8_t data_a = A->getValue();
     register8_t data_source = source->getValue();
 
@@ -284,8 +265,7 @@ void Processor::xorRegisters(Register8bit *source)
     Performs a bitwise OR operation with the accumulator (reg A) and the passed
     in register. The result is store in the accumulator.
 */
-void Processor::orRegisters(Register8bit *source)
-{
+void Processor::orRegisters(Register8bit *source) {
     register8_t data_a = A->getValue();
     register8_t data_source = source->getValue();
 
@@ -300,8 +280,7 @@ void Processor::orRegisters(Register8bit *source)
     accumulator (reg A). Sets flags as a regular subtraction but the result
     of the subtraction is not used.
 */
-void Processor::cmpRegisters(Register8bit *source)
-{
+void Processor::cmpRegisters(Register8bit *source) {
     register8_t value_a = A->getValue();
     register8_t value_source = source->getValue();
 
@@ -317,8 +296,7 @@ void Processor::cmpRegisters(Register8bit *source)
     Pushes the value in the passed 16bit register into the program stack.
     This will decrement the stack pointer by 2.
 */
-void Processor::pushStack(Register16bit *source)
-{
+void Processor::pushStack(Register16bit *source) {
     stack_pointer->decrement();
     stack->setData(stack_pointer->getValue(),
                    source->getHighRegister()->getValue());
@@ -331,8 +309,7 @@ void Processor::pushStack(Register16bit *source)
     Pops a 16bit value from the stack and stores the values in the passed in
     register. This will increment the stack pointer by 2.
 */
-void Processor::popStack(Register16bit *destination)
-{
+void Processor::popStack(Register16bit *destination) {
     byte_t data_low = stack->getData(stack_pointer->getValue());
     destination->getLowRegister()->setValue(data_low);
     stack_pointer->increment();
@@ -345,8 +322,7 @@ void Processor::popStack(Register16bit *destination)
 /**
     Does the pop operation but with AF as destination register (altering flags).
 */
-void Processor::popStackAF()
-{
+void Processor::popStackAF() {
     popStack(AF);
     register8_t f_data = F->getValue();
 
@@ -357,11 +333,10 @@ void Processor::popStackAF()
 }
 
 /**
-    Perform jump. Modifies the program counter by adding it to the value that is currently
-    pointed at by the program counter.
+    Perform jump. Modifies the program counter by adding it to the value that is
+   currently pointed at by the program counter.
 */
-void Processor::performJump()
-{
+void Processor::performJump() {
     register16_t current_pc = program_counter->getValue();
     byte_t offset = program_memory->getData(current_pc);
 
@@ -371,11 +346,10 @@ void Processor::performJump()
     program_counter->setValue(new_pc);
 }
 
-/** 
+/**
     Performs a jump to a 16bit address stored in the program memory.
 */
-void Processor::jumpIm16bit()
-{
+void Processor::jumpIm16bit() {
     register8_t data_low = getCurrentData();
     register8_t data_high = getCurrentData();
 
@@ -387,18 +361,14 @@ void Processor::jumpIm16bit()
     Performs a left bitwise rotation on the given register. MSB will also be
     stored in the carry flag.
 */
-void Processor::rlcRegister(Register8bit *source)
-{
+void Processor::rlcRegister(Register8bit *source) {
     register8_t data_source = source->getValue();
 
-    if ((data_source & MSB_8BIT) == 0)
-    {
+    if ((data_source & MSB_8BIT) == 0) {
         // MSB is 0
         data_source <<= 1;
         setFlagC(false);
-    }
-    else
-    {
+    } else {
         // MSB is 1
         data_source <<= 1;
         data_source |= LSB_8BIT;
@@ -416,18 +386,14 @@ void Processor::rlcRegister(Register8bit *source)
     Performs a right bitwise rotation on the given register. LSB will also be
     stored in the carry flag.
 */
-void Processor::rrcRegister(Register8bit *source)
-{
+void Processor::rrcRegister(Register8bit *source) {
     register8_t data_source = source->getValue();
 
-    if ((data_source & LSB_8BIT) == 0)
-    {
+    if ((data_source & LSB_8BIT) == 0) {
         // LSB is 0
         data_source >>= 1;
         setFlagC(false);
-    }
-    else
-    {
+    } else {
         // LSB is 1
         data_source >>= 1;
         data_source |= MSB_8BIT;
@@ -444,18 +410,14 @@ void Processor::rrcRegister(Register8bit *source)
 /**
     Performs a left bitwise rotation through the carry given the register.
 */
-void Processor::rlRegister(Register8bit *source)
-{
+void Processor::rlRegister(Register8bit *source) {
     register8_t data_source = source->getValue();
     register8_t carry = (getFlagC() ? 1 : 0);
 
-    if ((data_source & MSB_8BIT) == 0)
-    {
+    if ((data_source & MSB_8BIT) == 0) {
         // MSB is 0
         setFlagC(false);
-    }
-    else
-    {
+    } else {
         // MSB is 1
         setFlagC(true);
     }
@@ -472,18 +434,14 @@ void Processor::rlRegister(Register8bit *source)
 /**
     Performs a right bitwise rotation through the carry given the register.
 */
-void Processor::rrRegister(Register8bit *source)
-{
+void Processor::rrRegister(Register8bit *source) {
     register8_t data_source = source->getValue();
     register8_t carry = (getFlagC() ? MSB_8BIT : 0);
 
-    if ((data_source & LSB_8BIT) == 0)
-    {
+    if ((data_source & LSB_8BIT) == 0) {
         // LSB is 0
         setFlagC(false);
-    }
-    else
-    {
+    } else {
         // LSB is 1
         setFlagC(true);
     }
@@ -500,17 +458,13 @@ void Processor::rrRegister(Register8bit *source)
 /**
     Performs a left bitwise shift into the carry.
 */
-void Processor::slaRegister(Register8bit *source)
-{
+void Processor::slaRegister(Register8bit *source) {
     register8_t data_source = source->getValue();
 
-    if ((data_source & MSB_8BIT) == 0)
-    {
+    if ((data_source & MSB_8BIT) == 0) {
         // MSB is 0
         setFlagC(false);
-    }
-    else
-    {
+    } else {
         setFlagC(true);
     }
 
@@ -526,18 +480,14 @@ void Processor::slaRegister(Register8bit *source)
 /**
     Performs a right bitwise shift into carry. Perserves MSB.
 */
-void Processor::sraRegister(Register8bit *source)
-{
+void Processor::sraRegister(Register8bit *source) {
     register8_t data_source = source->getValue();
     register8_t msb_val = data_source & MSB_8BIT;
 
-    if ((data_source & LSB_8BIT) == 0)
-    {
+    if ((data_source & LSB_8BIT) == 0) {
         // LSB is 0
         setFlagC(false);
-    }
-    else
-    {
+    } else {
         // LSB is 1
         setFlagC(true);
     }
@@ -555,8 +505,7 @@ void Processor::sraRegister(Register8bit *source)
 /**
     Swaps the upper and lower nibbles of given register.
 */
-void Processor::swapNibbles(Register8bit *reg)
-{
+void Processor::swapNibbles(Register8bit *reg) {
     register8_t val = reg->getValue();
 
     register8_t new_low = (val & 0xF0) >> 4;
@@ -575,17 +524,13 @@ void Processor::swapNibbles(Register8bit *reg)
 /**
     Performs a right bitwise shift into carry. MSB is set to 0.
 */
-void Processor::srlRegister(Register8bit *reg)
-{
+void Processor::srlRegister(Register8bit *reg) {
     register8_t data_reg = reg->getValue();
 
-    if ((data_reg & LSB_8BIT) == 0)
-    {
+    if ((data_reg & LSB_8BIT) == 0) {
         // LSB is 0
         setFlagC(false);
-    }
-    else
-    {
+    } else {
         // LSB is 1
         setFlagC(true);
     }
@@ -602,18 +547,14 @@ void Processor::srlRegister(Register8bit *reg)
 /**
     Tests bit b of register reg.
 */
-void Processor::testBit(int b, Register8bit *reg)
-{
+void Processor::testBit(int b, Register8bit *reg) {
     register8_t reg_val = reg->getValue();
     register8_t mask = (1 << b);
 
-    if ((reg_val & mask) == 0)
-    {
+    if ((reg_val & mask) == 0) {
         // Bit b is 0
         setFlagZ(true);
-    }
-    else
-    {
+    } else {
         // Bit b is 1
         setFlagZ(false);
     }
@@ -625,18 +566,14 @@ void Processor::testBit(int b, Register8bit *reg)
 /**
     Test bit b of data at address in address_reg.
 */
-void Processor::testBit(int b, Register16bit *reg)
-{
+void Processor::testBit(int b, Register16bit *reg) {
     byte_t reg_val = loadFromMemory(reg);
     register8_t mask = (1 << b);
 
-    if ((reg_val & mask) == 0)
-    {
+    if ((reg_val & mask) == 0) {
         // Bit b is 0
         setFlagZ(true);
-    }
-    else
-    {
+    } else {
         // Bit b is 1
         setFlagZ(false);
     }
@@ -648,8 +585,7 @@ void Processor::testBit(int b, Register16bit *reg)
 /**
     Sets bit b in reg to 0.
 */
-void Processor::resetBit(int b, Register8bit *reg)
-{
+void Processor::resetBit(int b, Register8bit *reg) {
     register8_t reg_val = reg->getValue();
 
     reg_val &= ~(1 << b);
@@ -660,8 +596,7 @@ void Processor::resetBit(int b, Register8bit *reg)
 /**
     Sets bit b in data located at address of address_reg to 0.
 */
-void Processor::resetBit(int b, Register16bit *reg)
-{
+void Processor::resetBit(int b, Register16bit *reg) {
     // TODO: Probably wrong, should not offset with FF00
     byte_t val = loadFromMemory(reg);
 
@@ -673,8 +608,7 @@ void Processor::resetBit(int b, Register16bit *reg)
 /**
     Sets bit b in reg to 1.
 */
-void Processor::setBit(int b, Register8bit *reg)
-{
+void Processor::setBit(int b, Register8bit *reg) {
     register8_t reg_val = reg->getValue();
 
     reg_val |= (1 << b);
@@ -685,8 +619,7 @@ void Processor::setBit(int b, Register8bit *reg)
 /**
     Sets bit b in data located at address of address_reg to 1.
 */
-void Processor::setBit(int b, Register16bit *reg)
-{
+void Processor::setBit(int b, Register16bit *reg) {
     byte_t val = loadFromMemory(reg);
 
     val |= (1 << b);
@@ -697,18 +630,13 @@ void Processor::setBit(int b, Register16bit *reg)
 // Flags
 
 template <class T>
-void Processor::checkFlagZ(T result)
-{
+void Processor::checkFlagZ(T result) {
     setFlagZ(result == 0x00);
 }
 
-void Processor::checkFlagC(int result)
-{
-    setFlagC(result > 0xFF);
-}
+void Processor::checkFlagC(int result) { setFlagC(result > 0xFF); }
 
-void Processor::checkFlagH(register8_t result)
-{
+void Processor::checkFlagH(register8_t result) {
     // TODO double check
     setFlagH((result & 0x10) == 0x10);
 }
