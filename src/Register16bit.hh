@@ -1,10 +1,14 @@
 #pragma once
+
+// System headers
 #include <iomanip>
 #include <iostream>
+#include <memory>
 #include <string>
-#include "Register8bit.hh"
 
+// User headers
 #include "Constants.hh"
+#include "Register8bit.hh"
 
 class Register16bit {
    public:
@@ -14,9 +18,9 @@ class Register16bit {
           low { new Register8bit(name + "_low") },
           free_self { true } {}
 
-    Register16bit(const std::string &_name, Register8bit *_high,
-                  Register8bit *_low)
-        : name { _name }, high { _high }, low { _low } {}
+    Register16bit(const std::string &_name, ptr<Register8bit> high,
+                  ptr<Register8bit> low)
+        : name { _name }, high { high }, low { low } {}
 
     ~Register16bit();
 
@@ -35,9 +39,8 @@ class Register16bit {
     friend std::ostream &operator<<(std::ostream &, const Register16bit &);
 
    private:
-    std::string name;
-    Register8bit *high;
-    Register8bit *low;
+    const std::string name;
+    ptr<Register8bit> high, low;
 
     // Used for deleting resources that were allocated using the name only
     // constructor

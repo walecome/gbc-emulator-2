@@ -1,10 +1,66 @@
 #pragma once
 
+// System headers
+#include <memory>
+
+// User headers
+#include "Constants.hh"
+#include "Register16bit.hh"
+#include "Register8bit.hh"
+
 class InstructionDecoder {
     InstructionDecoder();
 
    private:
     // Keep pointer to registers
+    ptr<Register8bit> A, B, C, D, E, F, H, L;
+    ptr<Register16bit> AF, BC, DE, HL;
+
+    // Opcode helpers
+    opcode_t fetchInstruction();
+    byte_t getCurrentData();
+    void loadRegister(const ptr<Register8bit> &reg);
+    void loadIntoMemory(const ptr<Register16bit> &address_reg,
+                        const ptr<Register8bit> &data_reg);
+    void loadIntoMemory(const ptr<Register16bit> &address_reg, byte_t value);
+    void loadFromMemory(const ptr<Register8bit> &data_reg,
+                        const ptr<Register16bit> &address_reg);
+    byte_t loadFromMemory(const ptr<Register16bit> &address_reg);
+    void incrementRegister(const ptr<Register8bit> &reg);
+    void decrementRegister(const ptr<Register8bit> &reg);
+    void copyRegister(const ptr<Register8bit> &destination,
+                      const ptr<Register8bit> &source);
+    void addRegisters(const ptr<Register8bit> &destination,
+                      const ptr<Register8bit> &source);
+    void addRegisters(const ptr<Register16bit> &destination,
+                      const ptr<Register16bit> &source);
+    void subRegisters(const ptr<Register8bit> &source);
+    void addWithCarry(const ptr<Register8bit> &destination,
+                      const ptr<Register8bit> &source);
+    void subWithCarry(const ptr<Register8bit> &source);
+    void andRegisters(const ptr<Register8bit> &source);
+    void xorRegisters(const ptr<Register8bit> &source);
+    void orRegisters(const ptr<Register8bit> &source);
+    void cmpRegisters(const ptr<Register8bit> &source);
+    void pushStack(const ptr<Register16bit> &source);
+    void popStack(const ptr<Register16bit> &destination);
+    void popStackAF();
+    void performJump();
+    void jumpIm16bit();
+    void rlcRegister(const ptr<Register8bit> &source);
+    void rrcRegister(const ptr<Register8bit> &source);
+    void rlRegister(const ptr<Register8bit> &source);
+    void rrRegister(const ptr<Register8bit> &source);
+    void slaRegister(const ptr<Register8bit> &source);
+    void sraRegister(const ptr<Register8bit> &source);
+    void swapNibbles(const ptr<Register8bit> &reg);
+    void srlRegister(const ptr<Register8bit> &reg);
+    void testBit(int b, const ptr<Register8bit> &reg);
+    void testBit(int b, const ptr<Register16bit> &reg);
+    void resetBit(int b, const ptr<Register8bit> &reg);
+    void resetBit(int b, const ptr<Register16bit> &address_reg);
+    void setBit(int b, const ptr<Register8bit> &reg);
+    void setBit(int b, const ptr<Register16bit> &reg);
 
     // Regular opcodes
     void OPCode0x00();

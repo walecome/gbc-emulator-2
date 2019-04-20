@@ -1,8 +1,9 @@
 /*
-    Useful contants are defined in this file.
+    Useful constants and type declarations are defined in this file.
 */
 #pragma once
 #include <stdint.h>
+#include <memory>
 
 using opcode_t = uint8_t;
 using byte_t = uint8_t;
@@ -29,3 +30,6 @@ constexpr register16_t SP_START = 0xFFFF;
 constexpr register16_t PC_MAX_SIZE = 0xFFFF;
 constexpr register16_t RAM_MAX_SIZE = 0xFFFF;
 constexpr register16_t RAM_DATA_OFFSET = 0xFF00;
+
+template <typename T>
+using ptr = std::shared_ptr<T>;
