@@ -1,0 +1,2 @@
+- Move opcodes to instruction_decoder class
+- Remove raw pointers, replace with std::unique_ptr

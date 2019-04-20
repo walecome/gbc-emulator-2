@@ -1,50 +1,51 @@
 #include <iostream>
-#include "Processor.hh"
 
-void Processor::OPCode0x00() {
+#include "InstructionDecoder.hh"
+
+void InstructionDecoder::OPCode0x00() {
     // NOP
 }
 
-void Processor::OPCode0x01() {
+void InstructionDecoder::OPCode0x01() {
     // LD BC, d16
     // TODO double check
     loadRegister(C);
     loadRegister(B);
 }
 
-void Processor::OPCode0x02() {
+void InstructionDecoder::OPCode0x02() {
     // LD (BC), A
     // TODO double check
     register8_t data = loadFromMemory(BC);
 }
 
-void Processor::OPCode0x03() {
+void InstructionDecoder::OPCode0x03() {
     // INC BC
     BC->increment();
 }
 
-void Processor::OPCode0x04() {
+void InstructionDecoder::OPCode0x04() {
     // INC B
     incrementRegister(B);
 }
 
-void Processor::OPCode0x05() {
+void InstructionDecoder::OPCode0x05() {
     // DEC B
     decrementRegister(B);
 }
 
-void Processor::OPCode0x06() {
+void InstructionDecoder::OPCode0x06() {
     // LD B, d8
     loadRegister(B);
 }
 
-void Processor::OPCode0x07() {
+void InstructionDecoder::OPCode0x07() {
     // RLCA
     // TODO double check
     rlcRegister(A);
 }
 
-void Processor::OPCode0x08() {
+void InstructionDecoder::OPCode0x08() {
     // LD (a16), SP
     // TODO double check
     register8_t data_low = getCurrentData();
@@ -54,7 +55,7 @@ void Processor::OPCode0x08() {
     stack_pointer->getHighRegister()->setValue(data_high);
 }
 
-void Processor::OPCode0x09() {
+void InstructionDecoder::OPCode0x09() {
     // ADD HL, BC
 
     register16_t value_hl = HL->getValue();
@@ -66,87 +67,87 @@ void Processor::OPCode0x09() {
     HL->setValue(value_hl);
 }
 
-void Processor::OPCode0x0A() {
+void InstructionDecoder::OPCode0x0A() {
     // LD A, (BC)
     loadFromMemory(A, BC);
 }
 
-void Processor::OPCode0x0B() {
+void InstructionDecoder::OPCode0x0B() {
     // DEC BC
     BC->decrement();
 }
 
-void Processor::OPCode0x0C() {
+void InstructionDecoder::OPCode0x0C() {
     // INC C
     C->increment();
 }
 
-void Processor::OPCode0x0D() {
+void InstructionDecoder::OPCode0x0D() {
     // DEC C
     C->decrement();
 }
 
-void Processor::OPCode0x0E() {
+void InstructionDecoder::OPCode0x0E() {
     // LD C, d8
     loadRegister(C);
 }
 
-void Processor::OPCode0x0F() {
+void InstructionDecoder::OPCode0x0F() {
     // RRCA
     // TODO double check
     rrcRegister(A);
 }
 
-void Processor::OPCode0x10() {
+void InstructionDecoder::OPCode0x10() {
     // STOP 0
     // TODO fix
     std::cout << "STOP" << std::endl;
 }
 
-void Processor::OPCode0x11() {
+void InstructionDecoder::OPCode0x11() {
     // LD DE, d16
     // TODO double check
     loadRegister(E);
     loadRegister(D);
 }
 
-void Processor::OPCode0x12() {
+void InstructionDecoder::OPCode0x12() {
     // LD (DE), A
     loadIntoMemory(DE, A);
 }
 
-void Processor::OPCode0x13() {
+void InstructionDecoder::OPCode0x13() {
     // INC DE
     DE->increment();
 }
 
-void Processor::OPCode0x14() {
+void InstructionDecoder::OPCode0x14() {
     // INC D
     D->increment();
 }
 
-void Processor::OPCode0x15() {
+void InstructionDecoder::OPCode0x15() {
     // DEC D
     D->decrement();
 }
 
-void Processor::OPCode0x16() {
+void InstructionDecoder::OPCode0x16() {
     // LD D, d8
     loadRegister(D);
 }
 
-void Processor::OPCode0x17() {
+void InstructionDecoder::OPCode0x17() {
     // RLA
     // TODO double check
     rlRegister(A);
 }
 
-void Processor::OPCode0x18() {
+void InstructionDecoder::OPCode0x18() {
     // JR d8
     performJump();
 }
 
-void Processor::OPCode0x19() {
+void InstructionDecoder::OPCode0x19() {
     // ADD HL, DE
     register16_t value_hl = HL->getValue();
     register16_t value_de = DE->getValue();
@@ -156,38 +157,38 @@ void Processor::OPCode0x19() {
     HL->setValue(value_hl);
 }
 
-void Processor::OPCode0x1A() {
+void InstructionDecoder::OPCode0x1A() {
     // LD A, (DE)
     loadFromMemory(A, DE);
 }
 
-void Processor::OPCode0x1B() {
+void InstructionDecoder::OPCode0x1B() {
     // DEC DE
     DE->decrement();
 }
 
-void Processor::OPCode0x1C() {
+void InstructionDecoder::OPCode0x1C() {
     // INC E
     E->increment();
 }
 
-void Processor::OPCode0x1D() {
+void InstructionDecoder::OPCode0x1D() {
     // DEC E
     E->decrement();
 }
 
-void Processor::OPCode0x1E() {
+void InstructionDecoder::OPCode0x1E() {
     // LD E, d8
     loadRegister(E);
 }
 
-void Processor::OPCode0x1F() {
+void InstructionDecoder::OPCode0x1F() {
     // RRA
     // TODO double check
     rrRegister(A);
 }
 
-void Processor::OPCode0x20() {
+void InstructionDecoder::OPCode0x20() {
     // JR NZ, r8
     // TODO double check
     if (!getFlagZ()) {
@@ -195,43 +196,43 @@ void Processor::OPCode0x20() {
     }
 }
 
-void Processor::OPCode0x21() {
+void InstructionDecoder::OPCode0x21() {
     // LD HL, d16
     loadRegister(H);
     loadRegister(L);
 }
 
-void Processor::OPCode0x22() {
+void InstructionDecoder::OPCode0x22() {
     // LD (HL+), A
     // TODO fix??
 }
 
-void Processor::OPCode0x23() {
+void InstructionDecoder::OPCode0x23() {
     // INC HL
     HL->increment();
 }
 
-void Processor::OPCode0x24() {
+void InstructionDecoder::OPCode0x24() {
     // INC H
     H->increment();
 }
 
-void Processor::OPCode0x25() {
+void InstructionDecoder::OPCode0x25() {
     // DEC H
     H->decrement();
 }
 
-void Processor::OPCode0x26() {
+void InstructionDecoder::OPCode0x26() {
     // LD H, d8
     loadRegister(H);
 }
 
-void Processor::OPCode0x27() {
+void InstructionDecoder::OPCode0x27() {
     // DAA
     // TODO fix
 }
 
-void Processor::OPCode0x28() {
+void InstructionDecoder::OPCode0x28() {
     // JR Z, r8
     // TODO double check
 
@@ -240,7 +241,7 @@ void Processor::OPCode0x28() {
     }
 }
 
-void Processor::OPCode0x29() {
+void InstructionDecoder::OPCode0x29() {
     // ADD HL, HL
     register16_t data_hl = HL->getValue();
 
@@ -249,62 +250,62 @@ void Processor::OPCode0x29() {
     HL->setValue(data_hl);
 }
 
-void Processor::OPCode0x2A() {
+void InstructionDecoder::OPCode0x2A() {
     // LD A, (HL+)
     // TODO FIX??
 }
 
-void Processor::OPCode0x2B() {
+void InstructionDecoder::OPCode0x2B() {
     // DEC HL
     HL->decrement();
 }
 
-void Processor::OPCode0x2C() {
+void InstructionDecoder::OPCode0x2C() {
     // INC L
     L->increment();
 }
 
-void Processor::OPCode0x2D() {
+void InstructionDecoder::OPCode0x2D() {
     // DEC L
     L->decrement();
 }
 
-void Processor::OPCode0x2E() {
+void InstructionDecoder::OPCode0x2E() {
     // LD L, d8
     loadRegister(L);
 }
 
-void Processor::OPCode0x2F() {
+void InstructionDecoder::OPCode0x2F() {
     // CPL
     A->setValue(~A->getValue());
     setFlagN(true);
     setFlagH(true);
 }
 
-void Processor::OPCode0x30() {
+void InstructionDecoder::OPCode0x30() {
     // JR NC, r8
     if (!getFlagC()) {
         performJump();
     }
 }
 
-void Processor::OPCode0x31() {
+void InstructionDecoder::OPCode0x31() {
     // LD SP, d16
     loadRegister(stack_pointer->getLowRegister());
     loadRegister(stack_pointer->getHighRegister());
 }
 
-void Processor::OPCode0x32() {
+void InstructionDecoder::OPCode0x32() {
     // LD (HL-), A
     // TODO FIX
 }
 
-void Processor::OPCode0x33() {
+void InstructionDecoder::OPCode0x33() {
     // INC SP
     stack_pointer->increment();
 }
 
-void Processor::OPCode0x34() {
+void InstructionDecoder::OPCode0x34() {
     // INC (HL)
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
     byte_t data = ram->getData(address);
@@ -314,7 +315,7 @@ void Processor::OPCode0x34() {
     ram->setData(address, data);
 }
 
-void Processor::OPCode0x35() {
+void InstructionDecoder::OPCode0x35() {
     // DEC (HL)
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
     byte_t data = ram->getData(address);
@@ -324,7 +325,7 @@ void Processor::OPCode0x35() {
     ram->setData(address, data);
 }
 
-void Processor::OPCode0x36() {
+void InstructionDecoder::OPCode0x36() {
     // LD (HL), d8
     byte_t data = getCurrentData();
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
@@ -332,19 +333,19 @@ void Processor::OPCode0x36() {
     ram->setData(address, data);
 }
 
-void Processor::OPCode0x37() {
+void InstructionDecoder::OPCode0x37() {
     // DAA
     // TODO fix
 }
 
-void Processor::OPCode0x38() {
+void InstructionDecoder::OPCode0x38() {
     // JR C, r8
     if (getFlagC()) {
         performJump();
     }
 }
 
-void Processor::OPCode0x39() {
+void InstructionDecoder::OPCode0x39() {
     // ADD HL, SP
     register16_t data_hl = HL->getValue();
     register16_t data_sp = stack_pointer->getValue();
@@ -354,32 +355,32 @@ void Processor::OPCode0x39() {
     HL->setValue(data_hl);
 }
 
-void Processor::OPCode0x3A() {
+void InstructionDecoder::OPCode0x3A() {
     // LD A, (HL-)
     // TODO fix memory management
 }
 
-void Processor::OPCode0x3B() {
+void InstructionDecoder::OPCode0x3B() {
     // DEC SP
     stack_pointer->decrement();
 }
 
-void Processor::OPCode0x3C() {
+void InstructionDecoder::OPCode0x3C() {
     // INC A
     A->increment();
 }
 
-void Processor::OPCode0x3D() {
+void InstructionDecoder::OPCode0x3D() {
     // DEC A
     A->decrement();
 }
 
-void Processor::OPCode0x3E() {
+void InstructionDecoder::OPCode0x3E() {
     // LD A, d8
     loadRegister(A);
 }
 
-void Processor::OPCode0x3F() {
+void InstructionDecoder::OPCode0x3F() {
     // CCF
     setFlagC(!getFlagC());
 
@@ -387,357 +388,357 @@ void Processor::OPCode0x3F() {
     setFlagH(false);
 }
 
-void Processor::OPCode0x40() {
+void InstructionDecoder::OPCode0x40() {
     // LD B, B
     // Do nothing...
 }
 
-void Processor::OPCode0x41() {
+void InstructionDecoder::OPCode0x41() {
     // LD B, C
     copyRegister(B, C);
 }
 
-void Processor::OPCode0x42() {
+void InstructionDecoder::OPCode0x42() {
     // LD B, D
     copyRegister(B, D);
 }
 
-void Processor::OPCode0x43() {
+void InstructionDecoder::OPCode0x43() {
     // LD B, E
     copyRegister(B, E);
 }
 
-void Processor::OPCode0x44() {
+void InstructionDecoder::OPCode0x44() {
     // LD B, H
     copyRegister(B, H);
 }
 
-void Processor::OPCode0x45() {
+void InstructionDecoder::OPCode0x45() {
     // LD B, L
     copyRegister(B, L);
 }
 
-void Processor::OPCode0x46() {
+void InstructionDecoder::OPCode0x46() {
     // LD B, (HL)
     loadFromMemory(B, HL);
 }
 
-void Processor::OPCode0x47() {
+void InstructionDecoder::OPCode0x47() {
     // LD B, A
     copyRegister(B, A);
 }
 
-void Processor::OPCode0x48() {
+void InstructionDecoder::OPCode0x48() {
     // LD C, B
     copyRegister(C, B);
 }
 
-void Processor::OPCode0x49() {
+void InstructionDecoder::OPCode0x49() {
     // LD C, C
     // Do nothing...
 }
 
-void Processor::OPCode0x4A() {
+void InstructionDecoder::OPCode0x4A() {
     // LD C, D
     copyRegister(C, D);
 }
 
-void Processor::OPCode0x4B() {
+void InstructionDecoder::OPCode0x4B() {
     // LD C, E
     copyRegister(C, E);
 }
 
-void Processor::OPCode0x4C() {
+void InstructionDecoder::OPCode0x4C() {
     // LD C, H
     copyRegister(C, H);
 }
 
-void Processor::OPCode0x4D() {
+void InstructionDecoder::OPCode0x4D() {
     // LD C, L
     copyRegister(C, L);
 }
 
-void Processor::OPCode0x4E() {
+void InstructionDecoder::OPCode0x4E() {
     // LD C, (HL)
     loadFromMemory(C, HL);
 }
 
-void Processor::OPCode0x4F() {
+void InstructionDecoder::OPCode0x4F() {
     // LD C, A
     copyRegister(C, A);
 }
 
-void Processor::OPCode0x50() {
+void InstructionDecoder::OPCode0x50() {
     // LD D, B
     copyRegister(D, B);
 }
 
-void Processor::OPCode0x51() {
+void InstructionDecoder::OPCode0x51() {
     // LD D, C
     copyRegister(D, C);
 }
 
-void Processor::OPCode0x52() {
+void InstructionDecoder::OPCode0x52() {
     // LD D, D
     // Do nothing...
 }
 
-void Processor::OPCode0x53() {
+void InstructionDecoder::OPCode0x53() {
     // LD D, E
     copyRegister(D, E);
 }
 
-void Processor::OPCode0x54() {
+void InstructionDecoder::OPCode0x54() {
     // LD D, H
     copyRegister(D, H);
 }
 
-void Processor::OPCode0x55() {
+void InstructionDecoder::OPCode0x55() {
     // LD D, L
     copyRegister(D, L);
 }
 
-void Processor::OPCode0x56() {
+void InstructionDecoder::OPCode0x56() {
     // LD D, (HL)
     loadFromMemory(D, HL);
 }
 
-void Processor::OPCode0x57() {
+void InstructionDecoder::OPCode0x57() {
     // LD D, A
     copyRegister(D, A);
 }
 
-void Processor::OPCode0x58() {
+void InstructionDecoder::OPCode0x58() {
     // LD E, B
     copyRegister(E, B);
 }
 
-void Processor::OPCode0x59() {
+void InstructionDecoder::OPCode0x59() {
     // LD E, C
     copyRegister(E, C);
 }
 
-void Processor::OPCode0x5A() {
+void InstructionDecoder::OPCode0x5A() {
     // LD E, D
     copyRegister(E, D);
 }
 
-void Processor::OPCode0x5B() {
+void InstructionDecoder::OPCode0x5B() {
     // LD E, E
     // Do nothing...
 }
 
-void Processor::OPCode0x5C() {
+void InstructionDecoder::OPCode0x5C() {
     // LD E, H
     copyRegister(E, H);
 }
 
-void Processor::OPCode0x5D() {
+void InstructionDecoder::OPCode0x5D() {
     // LD E, L
     copyRegister(E, L);
 }
 
-void Processor::OPCode0x5E() {
+void InstructionDecoder::OPCode0x5E() {
     // LD E, (HL)
     loadFromMemory(E, HL);
 }
 
-void Processor::OPCode0x5F() {
+void InstructionDecoder::OPCode0x5F() {
     // LD E, A
     copyRegister(E, A);
 }
 
-void Processor::OPCode0x60() {
+void InstructionDecoder::OPCode0x60() {
     // LD H, B
     copyRegister(H, B);
 }
 
-void Processor::OPCode0x61() {
+void InstructionDecoder::OPCode0x61() {
     // LD H, C
     copyRegister(H, C);
 }
 
-void Processor::OPCode0x62() {
+void InstructionDecoder::OPCode0x62() {
     // LD H, D
     copyRegister(H, D);
 }
 
-void Processor::OPCode0x63() {
+void InstructionDecoder::OPCode0x63() {
     // LD H, E
     copyRegister(H, E);
 }
 
-void Processor::OPCode0x64() {
+void InstructionDecoder::OPCode0x64() {
     // LD H, H
     // Do nothing...
 }
 
-void Processor::OPCode0x65() {
+void InstructionDecoder::OPCode0x65() {
     // LD H, L
     copyRegister(H, L);
 }
 
-void Processor::OPCode0x66() {
+void InstructionDecoder::OPCode0x66() {
     // LD H, (HL)
     loadFromMemory(H, HL);
 }
 
-void Processor::OPCode0x67() {
+void InstructionDecoder::OPCode0x67() {
     // LD H, A
     copyRegister(H, A);
 }
 
-void Processor::OPCode0x68() {
+void InstructionDecoder::OPCode0x68() {
     // LD L, B
     copyRegister(L, B);
 }
 
-void Processor::OPCode0x69() {
+void InstructionDecoder::OPCode0x69() {
     // LD L, C
     copyRegister(L, C);
 }
 
-void Processor::OPCode0x6A() {
+void InstructionDecoder::OPCode0x6A() {
     // LD L, D
     copyRegister(L, D);
 }
 
-void Processor::OPCode0x6B() {
+void InstructionDecoder::OPCode0x6B() {
     // LD L, E
     copyRegister(L, E);
 }
 
-void Processor::OPCode0x6C() {
+void InstructionDecoder::OPCode0x6C() {
     // LD L, H
     copyRegister(L, H);
 }
 
-void Processor::OPCode0x6D() {
+void InstructionDecoder::OPCode0x6D() {
     // LD L, L
     // Do nothing...
 }
 
-void Processor::OPCode0x6E() {
+void InstructionDecoder::OPCode0x6E() {
     // LD L, (HL)
     loadFromMemory(L, HL);
 }
 
-void Processor::OPCode0x6F() {
+void InstructionDecoder::OPCode0x6F() {
     // LD L, A
     copyRegister(L, A);
 }
 
-void Processor::OPCode0x70() {
+void InstructionDecoder::OPCode0x70() {
     // LD (HL), B
     loadIntoMemory(HL, B);
 }
 
-void Processor::OPCode0x71() {
+void InstructionDecoder::OPCode0x71() {
     // LD (HL), C
     loadIntoMemory(HL, C);
 }
 
-void Processor::OPCode0x72() {
+void InstructionDecoder::OPCode0x72() {
     // LD (HL), D
     loadIntoMemory(HL, D);
 }
 
-void Processor::OPCode0x73() {
+void InstructionDecoder::OPCode0x73() {
     // LD (HL), E
     loadIntoMemory(HL, E);
 }
 
-void Processor::OPCode0x74() {
+void InstructionDecoder::OPCode0x74() {
     // LD (HL), H
     loadIntoMemory(HL, H);
 }
 
-void Processor::OPCode0x75() {
+void InstructionDecoder::OPCode0x75() {
     // LD (HL), L
     loadIntoMemory(HL, L);
 }
 
-void Processor::OPCode0x76() {
+void InstructionDecoder::OPCode0x76() {
     // HALT
     // TODO stop??
 }
 
-void Processor::OPCode0x77() {
+void InstructionDecoder::OPCode0x77() {
     // LD (HL), A
     loadIntoMemory(HL, A);
 }
 
-void Processor::OPCode0x78() {
+void InstructionDecoder::OPCode0x78() {
     // LD A, B
     copyRegister(A, B);
 }
 
-void Processor::OPCode0x79() {
+void InstructionDecoder::OPCode0x79() {
     // LD A, C
     copyRegister(A, C);
 }
 
-void Processor::OPCode0x7A() {
+void InstructionDecoder::OPCode0x7A() {
     // LD A, D
     copyRegister(A, D);
 }
 
-void Processor::OPCode0x7B() {
+void InstructionDecoder::OPCode0x7B() {
     // LD A, E
     copyRegister(A, E);
 }
 
-void Processor::OPCode0x7C() {
+void InstructionDecoder::OPCode0x7C() {
     // LD A, H
     copyRegister(A, H);
 }
 
-void Processor::OPCode0x7D() {
+void InstructionDecoder::OPCode0x7D() {
     // LD A, L
     copyRegister(A, L);
 }
 
-void Processor::OPCode0x7E() {
+void InstructionDecoder::OPCode0x7E() {
     // LD A, (HL)
     loadFromMemory(A, HL);
 }
 
-void Processor::OPCode0x7F() {
+void InstructionDecoder::OPCode0x7F() {
     // LD A, A
     // Do nothing...
 }
 
-void Processor::OPCode0x80() {
+void InstructionDecoder::OPCode0x80() {
     // ADD A, B
     addRegisters(A, B);
 }
 
-void Processor::OPCode0x81() {
+void InstructionDecoder::OPCode0x81() {
     // ADD A, C
     addRegisters(A, C);
 }
 
-void Processor::OPCode0x82() {
+void InstructionDecoder::OPCode0x82() {
     // ADD A, D
     addRegisters(A, D);
 }
 
-void Processor::OPCode0x83() {
+void InstructionDecoder::OPCode0x83() {
     // ADD A, E
     addRegisters(A, E);
 }
 
-void Processor::OPCode0x84() {
+void InstructionDecoder::OPCode0x84() {
     // ADD A, H
     addRegisters(A, H);
 }
 
-void Processor::OPCode0x85() {
+void InstructionDecoder::OPCode0x85() {
     // ADD A, L
     addRegisters(A, L);
 }
 
-void Processor::OPCode0x86() {
+void InstructionDecoder::OPCode0x86() {
     // ADD A, (HL)
     register8_t data_a = A->getValue();
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
@@ -748,82 +749,82 @@ void Processor::OPCode0x86() {
     A->setValue(result);
 }
 
-void Processor::OPCode0x87() {
+void InstructionDecoder::OPCode0x87() {
     // ADD A, A
     addRegisters(A, A);
 }
 
-void Processor::OPCode0x88() {
+void InstructionDecoder::OPCode0x88() {
     // ADC A, B
     addWithCarry(A, B);
 }
 
-void Processor::OPCode0x89() {
+void InstructionDecoder::OPCode0x89() {
     // ADC A, C
     addWithCarry(A, C);
 }
 
-void Processor::OPCode0x8A() {
+void InstructionDecoder::OPCode0x8A() {
     // ADC A, D
     addWithCarry(A, D);
 }
 
-void Processor::OPCode0x8B() {
+void InstructionDecoder::OPCode0x8B() {
     // ADC A, E
     addWithCarry(A, E);
 }
 
-void Processor::OPCode0x8C() {
+void InstructionDecoder::OPCode0x8C() {
     // ADC A, H
     addWithCarry(A, H);
 }
 
-void Processor::OPCode0x8D() {
+void InstructionDecoder::OPCode0x8D() {
     // ADC A, L
     addWithCarry(A, L);
 }
 
-void Processor::OPCode0x8E() {
+void InstructionDecoder::OPCode0x8E() {
     // ADC A, (HL)
     // TODO fix
 }
 
-void Processor::OPCode0x8F() {
+void InstructionDecoder::OPCode0x8F() {
     // ADC A, A
     addWithCarry(A, A);
 }
 
-void Processor::OPCode0x90() {
+void InstructionDecoder::OPCode0x90() {
     // SUB B
     subRegisters(B);
 }
 
-void Processor::OPCode0x91() {
+void InstructionDecoder::OPCode0x91() {
     // SUB C
     subRegisters(C);
 }
 
-void Processor::OPCode0x92() {
+void InstructionDecoder::OPCode0x92() {
     // SUB D
     subRegisters(D);
 }
 
-void Processor::OPCode0x93() {
+void InstructionDecoder::OPCode0x93() {
     // SUB E
     subRegisters(E);
 }
 
-void Processor::OPCode0x94() {
+void InstructionDecoder::OPCode0x94() {
     // SUB H
     subRegisters(H);
 }
 
-void Processor::OPCode0x95() {
+void InstructionDecoder::OPCode0x95() {
     // SUB L
     subRegisters(L);
 }
 
-void Processor::OPCode0x96() {
+void InstructionDecoder::OPCode0x96() {
     // SUB (HL)
     // TODO double check this!!
     Register8bit tmp { "tmp" };
@@ -832,42 +833,42 @@ void Processor::OPCode0x96() {
     subRegisters(&tmp);
 }
 
-void Processor::OPCode0x97() {
+void InstructionDecoder::OPCode0x97() {
     // SUB A
     subRegisters(A);
 }
 
-void Processor::OPCode0x98() {
+void InstructionDecoder::OPCode0x98() {
     // SBC A, B
     subWithCarry(B);
 }
 
-void Processor::OPCode0x99() {
+void InstructionDecoder::OPCode0x99() {
     // SBC A, C
     subWithCarry(C);
 }
 
-void Processor::OPCode0x9A() {
+void InstructionDecoder::OPCode0x9A() {
     // SBC A, D
     subWithCarry(D);
 }
 
-void Processor::OPCode0x9B() {
+void InstructionDecoder::OPCode0x9B() {
     // SBC A, E
     subWithCarry(E);
 }
 
-void Processor::OPCode0x9C() {
+void InstructionDecoder::OPCode0x9C() {
     // SBC A, H
     subWithCarry(H);
 }
 
-void Processor::OPCode0x9D() {
+void InstructionDecoder::OPCode0x9D() {
     // SBC A, L
     subWithCarry(L);
 }
 
-void Processor::OPCode0x9E() {
+void InstructionDecoder::OPCode0x9E() {
     // SBC A, (HL)
     // TODO double check
 
@@ -878,42 +879,42 @@ void Processor::OPCode0x9E() {
     subWithCarry(&tmp);
 }
 
-void Processor::OPCode0x9F() {
+void InstructionDecoder::OPCode0x9F() {
     // SBC A, A
     subWithCarry(A);
 }
 
-void Processor::OPCode0xA0() {
+void InstructionDecoder::OPCode0xA0() {
     // AND B
     andRegisters(B);
 }
 
-void Processor::OPCode0xA1() {
+void InstructionDecoder::OPCode0xA1() {
     // AND C
     andRegisters(C);
 }
 
-void Processor::OPCode0xA2() {
+void InstructionDecoder::OPCode0xA2() {
     // AND D
     andRegisters(D);
 }
 
-void Processor::OPCode0xA3() {
+void InstructionDecoder::OPCode0xA3() {
     // AND E
     andRegisters(E);
 }
 
-void Processor::OPCode0xA4() {
+void InstructionDecoder::OPCode0xA4() {
     // AND H
     andRegisters(H);
 }
 
-void Processor::OPCode0xA5() {
+void InstructionDecoder::OPCode0xA5() {
     // AND L
     andRegisters(L);
 }
 
-void Processor::OPCode0xA6() {
+void InstructionDecoder::OPCode0xA6() {
     // AND (HL)
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
 
@@ -926,42 +927,42 @@ void Processor::OPCode0xA6() {
     A->setValue(data_a);
 }
 
-void Processor::OPCode0xA7() {
+void InstructionDecoder::OPCode0xA7() {
     // AND A
     // Do nothing...
 }
 
-void Processor::OPCode0xA8() {
+void InstructionDecoder::OPCode0xA8() {
     // XOR B
     xorRegisters(B);
 }
 
-void Processor::OPCode0xA9() {
+void InstructionDecoder::OPCode0xA9() {
     // XOR C
     xorRegisters(C);
 }
 
-void Processor::OPCode0xAA() {
+void InstructionDecoder::OPCode0xAA() {
     // XOR D
     xorRegisters(D);
 }
 
-void Processor::OPCode0xAB() {
+void InstructionDecoder::OPCode0xAB() {
     // XOR E
     xorRegisters(E);
 }
 
-void Processor::OPCode0xAC() {
+void InstructionDecoder::OPCode0xAC() {
     // XOR H
     xorRegisters(H);
 }
 
-void Processor::OPCode0xAD() {
+void InstructionDecoder::OPCode0xAD() {
     // XOR L
     xorRegisters(L);
 }
 
-void Processor::OPCode0xAE() {
+void InstructionDecoder::OPCode0xAE() {
     // XOR (HL)
     // TODO double check
     Register8bit tmp { "tmp" };
@@ -970,42 +971,42 @@ void Processor::OPCode0xAE() {
     xorRegisters(&tmp);
 }
 
-void Processor::OPCode0xAF() {
+void InstructionDecoder::OPCode0xAF() {
     // XOR A
     xorRegisters(A);
 }
 
-void Processor::OPCode0xB0() {
+void InstructionDecoder::OPCode0xB0() {
     // OR B
     orRegisters(B);
 }
 
-void Processor::OPCode0xB1() {
+void InstructionDecoder::OPCode0xB1() {
     // OR C
     orRegisters(C);
 }
 
-void Processor::OPCode0xB2() {
+void InstructionDecoder::OPCode0xB2() {
     // OR D
     orRegisters(D);
 }
 
-void Processor::OPCode0xB3() {
+void InstructionDecoder::OPCode0xB3() {
     // OR E
     orRegisters(E);
 }
 
-void Processor::OPCode0xB4() {
+void InstructionDecoder::OPCode0xB4() {
     // OR H
     orRegisters(H);
 }
 
-void Processor::OPCode0xB5() {
+void InstructionDecoder::OPCode0xB5() {
     // OR L
     orRegisters(L);
 }
 
-void Processor::OPCode0xB6() {
+void InstructionDecoder::OPCode0xB6() {
     // OR (HL)
     // TODO double check
     Register8bit tmp { "tmp" };
@@ -1013,42 +1014,42 @@ void Processor::OPCode0xB6() {
     orRegisters(&tmp);
 }
 
-void Processor::OPCode0xB7() {
+void InstructionDecoder::OPCode0xB7() {
     // OR A
     // Do nothing...
 }
 
-void Processor::OPCode0xB8() {
+void InstructionDecoder::OPCode0xB8() {
     // CP B
     cmpRegisters(B);
 }
 
-void Processor::OPCode0xB9() {
+void InstructionDecoder::OPCode0xB9() {
     // CP C
     cmpRegisters(C);
 }
 
-void Processor::OPCode0xBA() {
+void InstructionDecoder::OPCode0xBA() {
     // CP D
     cmpRegisters(D);
 }
 
-void Processor::OPCode0xBB() {
+void InstructionDecoder::OPCode0xBB() {
     // CP E
     cmpRegisters(E);
 }
 
-void Processor::OPCode0xBC() {
+void InstructionDecoder::OPCode0xBC() {
     // CP H
     cmpRegisters(H);
 }
 
-void Processor::OPCode0xBD() {
+void InstructionDecoder::OPCode0xBD() {
     // CP L
     cmpRegisters(L);
 }
 
-void Processor::OPCode0xBE() {
+void InstructionDecoder::OPCode0xBE() {
     // CP (HL)
     byte_t data = ram->getData(HL->getValue());
 
@@ -1058,24 +1059,24 @@ void Processor::OPCode0xBE() {
     setFlagC(A->getValue() < data);
 }
 
-void Processor::OPCode0xBF() {
+void InstructionDecoder::OPCode0xBF() {
     // CP A
     cmpRegisters(A);
 }
 
-void Processor::OPCode0xC0() {
+void InstructionDecoder::OPCode0xC0() {
     // RET NZ
     if (!getFlagZ()) {
         popStack(program_counter);
     }
 }
 
-void Processor::OPCode0xC1() {
+void InstructionDecoder::OPCode0xC1() {
     // POP BC
     popStack(BC);
 }
 
-void Processor::OPCode0xC2() {
+void InstructionDecoder::OPCode0xC2() {
     // JP NZ, a16
     if (!getFlagZ()) {
         jumpIm16bit();
@@ -1086,12 +1087,12 @@ void Processor::OPCode0xC2() {
     }
 }
 
-void Processor::OPCode0xC3() {
+void InstructionDecoder::OPCode0xC3() {
     // JP a16
     jumpIm16bit();
 }
 
-void Processor::OPCode0xC4() {
+void InstructionDecoder::OPCode0xC4() {
     // CALL NZ, a16
     if (!getFlagZ()) {
         byte_t data_low = getCurrentData();
@@ -1107,12 +1108,12 @@ void Processor::OPCode0xC4() {
     }
 }
 
-void Processor::OPCode0xC5() {
+void InstructionDecoder::OPCode0xC5() {
     // PUSH BC
     pushStack(BC);
 }
 
-void Processor::OPCode0xC6() {
+void InstructionDecoder::OPCode0xC6() {
     // ADD A, d8
     // TODO fix flags
     register8_t data = getCurrentData();
@@ -1123,25 +1124,25 @@ void Processor::OPCode0xC6() {
     A->setValue(data_a);
 }
 
-void Processor::OPCode0xC7() {
+void InstructionDecoder::OPCode0xC7() {
     // RST 00H
     pushStack(program_counter);
     program_counter->setValue(0x0000);
 }
 
-void Processor::OPCode0xC8() {
+void InstructionDecoder::OPCode0xC8() {
     // RET Z
     if (getFlagZ()) {
         popStack(program_counter);
     }
 }
 
-void Processor::OPCode0xC9() {
+void InstructionDecoder::OPCode0xC9() {
     // RET
     popStack(program_counter);
 }
 
-void Processor::OPCode0xCA() {
+void InstructionDecoder::OPCode0xCA() {
     // JP Z, a16
     if (getFlagZ()) {
         jumpIm16bit();
@@ -1151,11 +1152,11 @@ void Processor::OPCode0xCA() {
     }
 }
 
-void Processor::OPCode0xCB() {
+void InstructionDecoder::OPCode0xCB() {
     // Prefix CB
 }
 
-void Processor::OPCode0xCC() {
+void InstructionDecoder::OPCode0xCC() {
     // CALL Z, a16
     if (getFlagZ()) {
         byte_t data_low = getCurrentData();
@@ -1171,7 +1172,7 @@ void Processor::OPCode0xCC() {
     }
 }
 
-void Processor::OPCode0xCD() {
+void InstructionDecoder::OPCode0xCD() {
     // CALL a16
     byte_t data_low = getCurrentData();
     byte_t data_high = getCurrentData();
@@ -1182,7 +1183,7 @@ void Processor::OPCode0xCD() {
     program_counter->getHighRegister()->setValue(data_high);
 }
 
-void Processor::OPCode0xCE() {
+void InstructionDecoder::OPCode0xCE() {
     // ADC A, d8
     // TODO double check...
     Register8bit tmp { "tmp" };
@@ -1191,25 +1192,25 @@ void Processor::OPCode0xCE() {
     addWithCarry(A, &tmp);
 }
 
-void Processor::OPCode0xCF() {
+void InstructionDecoder::OPCode0xCF() {
     // RST 08H
     pushStack(program_counter);
     program_counter->setValue(0x0008);
 }
 
-void Processor::OPCode0xD0() {
+void InstructionDecoder::OPCode0xD0() {
     // RET NC
     if (!getFlagC()) {
         popStack(program_counter);
     }
 }
 
-void Processor::OPCode0xD1() {
+void InstructionDecoder::OPCode0xD1() {
     // POP DE
     popStack(DE);
 }
 
-void Processor::OPCode0xD2() {
+void InstructionDecoder::OPCode0xD2() {
     // JP NC, a16
     if (!getFlagC()) {
         jumpIm16bit();
@@ -1219,12 +1220,12 @@ void Processor::OPCode0xD2() {
     }
 }
 
-void Processor::OPCode0xD3() {
+void InstructionDecoder::OPCode0xD3() {
     // No instruction
     throw 1;
 }
 
-void Processor::OPCode0xD4() {
+void InstructionDecoder::OPCode0xD4() {
     // CALL NC, a16
     if (!getFlagC()) {
         byte_t data_low = getCurrentData();
@@ -1240,12 +1241,12 @@ void Processor::OPCode0xD4() {
     }
 }
 
-void Processor::OPCode0xD5() {
+void InstructionDecoder::OPCode0xD5() {
     // PUSH DE
     pushStack(DE);
 }
 
-void Processor::OPCode0xD6() {
+void InstructionDecoder::OPCode0xD6() {
     // SUB d8
     // TODO double check..
     Register8bit tmp { "tmp" };
@@ -1254,25 +1255,25 @@ void Processor::OPCode0xD6() {
     subRegisters(&tmp);
 }
 
-void Processor::OPCode0xD7() {
+void InstructionDecoder::OPCode0xD7() {
     // RST 10H
     pushStack(program_counter);
     program_counter->setValue(0x0010);
 }
 
-void Processor::OPCode0xD8() {
+void InstructionDecoder::OPCode0xD8() {
     // RET C
     if (getFlagC()) {
         popStack(program_counter);
     }
 }
 
-void Processor::OPCode0xD9() {
+void InstructionDecoder::OPCode0xD9() {
     // RETI
     // TODO fix interupts
 }
 
-void Processor::OPCode0xDA() {
+void InstructionDecoder::OPCode0xDA() {
     // JP C, a16
     if (getFlagC()) {
         jumpIm16bit();
@@ -1282,12 +1283,12 @@ void Processor::OPCode0xDA() {
     }
 }
 
-void Processor::OPCode0xDB() {
+void InstructionDecoder::OPCode0xDB() {
     // No instruction
     throw 1;
 }
 
-void Processor::OPCode0xDC() {
+void InstructionDecoder::OPCode0xDC() {
     // CALL C, a16
     if (getFlagC()) {
         byte_t data_low = getCurrentData();
@@ -1303,12 +1304,12 @@ void Processor::OPCode0xDC() {
     }
 }
 
-void Processor::OPCode0xDD() {
+void InstructionDecoder::OPCode0xDD() {
     // No instruction
     throw 1;
 }
 
-void Processor::OPCode0xDE() {
+void InstructionDecoder::OPCode0xDE() {
     // SBC A, d8
     // TODO double check
     Register8bit tmp { "tmp" };
@@ -1317,61 +1318,61 @@ void Processor::OPCode0xDE() {
     subWithCarry(&tmp);
 }
 
-void Processor::OPCode0xDF() {
+void InstructionDecoder::OPCode0xDF() {
     // RST 18H
     pushStack(program_counter);
     program_counter->setValue(0x0018);
 }
 
-void Processor::OPCode0xE0() {
+void InstructionDecoder::OPCode0xE0() {
     // LDH (a8), A
     register16_t address = 0xFF00 + getCurrentData();
     ram->setData(address, A->getValue());
 }
 
-void Processor::OPCode0xE1() {
+void InstructionDecoder::OPCode0xE1() {
     // POP HL
     popStack(HL);
 }
 
-void Processor::OPCode0xE2() {
+void InstructionDecoder::OPCode0xE2() {
     // LD (C), A
     register16_t address = 0xFF00 + C->getValue();
     ram->setData(address, A->getValue());
 }
 
-void Processor::OPCode0xE3() {
+void InstructionDecoder::OPCode0xE3() {
     // No instruction
     throw 1;
 }
 
-void Processor::OPCode0xE4() {
+void InstructionDecoder::OPCode0xE4() {
     // No instruction
     throw 1;
 }
 
-void Processor::OPCode0xE5() {
+void InstructionDecoder::OPCode0xE5() {
     // PUSH HL
     pushStack(HL);
 }
 
-void Processor::OPCode0xE6() {
+void InstructionDecoder::OPCode0xE6() {
     // AND d8
     A->setValue(A->getValue() & getCurrentData());
 }
 
-void Processor::OPCode0xE7() {
+void InstructionDecoder::OPCode0xE7() {
     // RST 20H
     pushStack(program_counter);
     program_counter->setValue(0x0020);
 }
 
-void Processor::OPCode0xE8() {
+void InstructionDecoder::OPCode0xE8() {
     // ADD SP, r8
     // TODO FIX (signed)
 }
 
-void Processor::OPCode0xE9() {
+void InstructionDecoder::OPCode0xE9() {
     // JP (HL)
     // TODO double check
     program_counter->getLowRegister()->setValue(
@@ -1381,114 +1382,114 @@ void Processor::OPCode0xE9() {
         HL->getHighRegister()->getValue());
 }
 
-void Processor::OPCode0xEA() {
+void InstructionDecoder::OPCode0xEA() {
     // LD (a16), A
     // TODO fix
 }
 
-void Processor::OPCode0xEB() {
+void InstructionDecoder::OPCode0xEB() {
     // No instruction
     throw 0xEB;
 }
 
-void Processor::OPCode0xEC() {
+void InstructionDecoder::OPCode0xEC() {
     // No instruction
     throw 0xEC;
 }
 
-void Processor::OPCode0xED() {
+void InstructionDecoder::OPCode0xED() {
     // No instruction
     throw 0xED;
 }
 
-void Processor::OPCode0xEE() {
+void InstructionDecoder::OPCode0xEE() {
     // XOR d8
     A->setValue(A->getValue() ^ getCurrentData());
 }
 
-void Processor::OPCode0xEF() {
+void InstructionDecoder::OPCode0xEF() {
     // RST 28H
     pushStack(program_counter);
     program_counter->setValue(0x0028);
 }
 
-void Processor::OPCode0xF0() {
+void InstructionDecoder::OPCode0xF0() {
     // LDH A, (a8)
     register16_t address = 0xFF00 + getCurrentData();
     byte_t data = ram->getData(address);
     A->setValue(data);
 }
 
-void Processor::OPCode0xF1() {
+void InstructionDecoder::OPCode0xF1() {
     // POP AF
     popStackAF();
 }
 
-void Processor::OPCode0xF2() {
+void InstructionDecoder::OPCode0xF2() {
     // LD A, (C)
     register16_t address = 0xFF00 + C->getValue();
     byte_t data = ram->getData(address);
     A->setValue(data);
 }
 
-void Processor::OPCode0xF3() {
+void InstructionDecoder::OPCode0xF3() {
     // DI
     // TODO disable interupts according to manual
 }
 
-void Processor::OPCode0xF4() {
+void InstructionDecoder::OPCode0xF4() {
     // No instruction
     throw 0xF4;
 }
 
-void Processor::OPCode0xF5() {
+void InstructionDecoder::OPCode0xF5() {
     // PUSH AF
     pushStack(AF);
 }
 
-void Processor::OPCode0xF6() {
+void InstructionDecoder::OPCode0xF6() {
     // OR d8
     A->setValue(A->getValue() | getCurrentData());
 }
 
-void Processor::OPCode0xF7() {
+void InstructionDecoder::OPCode0xF7() {
     // RST 30H
     pushStack(program_counter);
     program_counter->setValue(0x0030);
 }
 
-void Processor::OPCode0xF8() {
+void InstructionDecoder::OPCode0xF8() {
     // LD HL, SP+r8
     // TODO fix
 }
 
-void Processor::OPCode0xF9() {
+void InstructionDecoder::OPCode0xF9() {
     // LD SP, HL
     copyRegister(stack_pointer->getLowRegister(), HL->getLowRegister());
     copyRegister(stack_pointer->getHighRegister(), HL->getHighRegister());
 }
 
-void Processor::OPCode0xFA() {
+void InstructionDecoder::OPCode0xFA() {
     // LD A, (a16)
     // TODO fix
 }
 
-void Processor::OPCode0xFB() {
+void InstructionDecoder::OPCode0xFB() {
     // EI
     // TODO enable interupts according to manual
 }
 
-void Processor::OPCode0xFC() {
+void InstructionDecoder::OPCode0xFC() {
     // No instruction
     throw 0xFC;
 }
 
-void Processor::OPCode0xFD() {
+void InstructionDecoder::OPCode0xFD() {
     // No instruction
     throw 0xFD;
 }
 
-void Processor::OPCode0xFE() {
+void InstructionDecoder::OPCode0xFE() {
     // CP d8
     // Double check
     Register8bit tmp { "tmp" };
@@ -1496,7 +1497,7 @@ void Processor::OPCode0xFE() {
     cmpRegisters(&tmp);
 }
 
-void Processor::OPCode0xFF() {
+void InstructionDecoder::OPCode0xFF() {
     // RST 38H
     pushStack(program_counter);
     program_counter->setValue(0x0038);
