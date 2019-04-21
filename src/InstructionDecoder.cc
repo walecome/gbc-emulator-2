@@ -4,32 +4,24 @@
     Assign the member pointers for registers etc to those from the processor.
 */
 InstructionDecoder::InstructionDecoder(ptr<Processor> processor)
-    : cpu { processor } {
-    // 8-bit register
-    A = cpu->A;
-    B = cpu->B;
-    C = cpu->C;
-    D = cpu->A;
-    E = cpu->A;
-    F = cpu->A;
-    H = cpu->A;
-    L = cpu->A;
-
-    // 16-bit register
-    AF = cpu->AF;
-    BC = cpu->BC;
-    DE = cpu->DE;
-    HL = cpu->HL;
-
-    // PC and SP
-    PC = cpu->PC;
-    SP = cpu->SP;
-
-    // Memory
-    program_memory = cpu->program_memory;
-    ram = cpu->ram;
-    stack = cpu->stack;
-}
+    : cpu { processor },
+      program_memory { cpu->program_memory },
+      ram { cpu->ram },
+      stack { cpu->stack },
+      SP { cpu->SP },
+      PC { cpu->PC },
+      A { cpu->A },
+      B { cpu->B },
+      C { cpu->C },
+      D { cpu->A },
+      E { cpu->A },
+      F { cpu->A },
+      H { cpu->A },
+      L { cpu->A },
+      AF { cpu->AF },
+      BC { cpu->BC },
+      DE { cpu->DE },
+      HL { cpu->HL } {}
 
 /**
     Fetches the instruction currently pointed at by the program counter.
