@@ -9,7 +9,6 @@
 
 // User headers
 #include "Constants.hh"
-#include "InstructionDecoder.hh"
 #include "Memory.hh"
 #include "Register16bit.hh"
 #include "Register8bit.hh"
@@ -17,7 +16,6 @@
 class Processor {
    public:
     Processor();
-    ~Processor();
 
     // Weffc++
     Processor(const Processor &) = delete;
@@ -29,8 +27,7 @@ class Processor {
     void print();
 
     // Handle flags according to operation results
-    template <class T>
-    void checkFlagZ(T result);
+    void checkFlagZ(register8_t result);
     void checkFlagC(int result);
     void checkFlagH(register8_t result);
 
@@ -81,12 +78,12 @@ class Processor {
     void setValueHL(register16_t value) { HL->setValue(value); }
 
     // PC
-    register16_t getValuePC() { return pc->getValue(); }
-    void setValuePC(register16_t value) { pc->setValue(value); }
+    register16_t getValuePC() { return PC->getValue(); }
+    void setValuePC(register16_t value) { PC->setValue(value); }
 
     // SP
-    register16_t getValueSP() { return sp->getValue(); }
-    void setValueSP(register16_t value) { sp->setValue(value); }
+    register16_t getValueSP() { return SP->getValue(); }
+    void setValueSP(register16_t value) { SP->setValue(value); }
 
     // Getters for flags
     bool getFlagC() { return flagC; }
@@ -136,15 +133,4 @@ class Processor {
     bool flagH { false };
     bool flagN { false };
     bool flagZ { false };
-
-    /** This is ugly and stupid and should be fixed...
-        Reasoning for this is that we want to access the CPU registers and
-        memory from the InstructionDecoder class. One solution is to pass
-        pointers to all registers etc but this makes the code look terrible.
-        This is probably considered broken C++ since we're constructing the
-        processor class, which consists of the InstructionDecoder, which in
-        turn is constructed from a partially constructed Processor class.
-        Will probably work though.. :)
-    */
-    InstructionDecoder instructionDecoder { ptr<Processor>(this) };
 };

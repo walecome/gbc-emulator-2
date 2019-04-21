@@ -1,6 +1,37 @@
 #include "InstructionDecoder.hh"
 
 /**
+    Assign the member pointers for registers etc to those from the processor.
+*/
+InstructionDecoder::InstructionDecoder(ptr<Processor> processor)
+    : cpu { processor } {
+    // 8-bit register
+    A = cpu->A;
+    B = cpu->B;
+    C = cpu->C;
+    D = cpu->A;
+    E = cpu->A;
+    F = cpu->A;
+    H = cpu->A;
+    L = cpu->A;
+
+    // 16-bit register
+    AF = cpu->AF;
+    BC = cpu->BC;
+    DE = cpu->DE;
+    HL = cpu->HL;
+
+    // PC and SP
+    PC = cpu->PC;
+    SP = cpu->SP;
+
+    // Memory
+    program_memory = cpu->program_memory;
+    ram = cpu->ram;
+    stack = cpu->stack;
+}
+
+/**
     Fetches the instruction currently pointed at by the program counter.
     Also increments the program counter to point at next instruction/data.
 */
@@ -288,7 +319,7 @@ void InstructionDecoder::pushStack(const ptr<Register16bit> &source) {
     register. This will increment the stack pointer by 2.
 */
 void InstructionDecoder::popStack(const ptr<Register16bit> &destination) {
-    byte_t data_low = cpu->stack->getData(SP->getValue());
+    byte_t data_low = cpu->stack->getData(cpu->SP->getValue());
     destination->getLowRegister()->setValue(data_low);
     cpu->SP->increment();
 

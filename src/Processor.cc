@@ -6,14 +6,8 @@ Processor::Processor() {
 }
 
 // Flags
-
-template <class T>
-void Processor::checkFlagZ(T result) {
-    setFlagZ(result == 0x00);
-}
-
+void Processor::checkFlagZ(register8_t result) { setFlagZ(result == 0x00); }
 void Processor::checkFlagC(int result) { setFlagC(result > 0xFF); }
-
 void Processor::checkFlagH(register8_t result) {
     // TODO double check
     setFlagH((result & 0x10) == 0x10);

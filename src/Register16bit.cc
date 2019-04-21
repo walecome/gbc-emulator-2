@@ -1,12 +1,5 @@
 #include "Register16bit.hh"
 
-Register16bit::~Register16bit() {
-    if (free_self) {
-        delete high;
-        delete low;
-    }
-}
-
 void Register16bit::setValue(register16_t value) {
     high->setValue((register8_t)(value >> 8));
     low->setValue((register8_t)(value & 0x00FF));
@@ -28,9 +21,9 @@ void Register16bit::decrement() {
     setValue(--current_value);
 }
 
-Register8bit *Register16bit::getHighRegister() { return high; }
+ptr<Register8bit> Register16bit::getHighRegister() { return high; }
 
-Register8bit *Register16bit::getLowRegister() { return low; }
+ptr<Register8bit> Register16bit::getLowRegister() { return low; }
 
 std::ostream &operator<<(std::ostream &os, const Register16bit &reg) {
     os << reg.getName() << ": 0x" << std::setfill('0') << std::setw(4)

@@ -61,26 +61,26 @@ void Processor::readInstructions(const char *filename) {
     return;
 
     std::cout << "Starting with PC: ";
-    hexPrint(program_counter->getValue(), 4);
+    hexPrint(PC->getValue(), 4);
     std::cout << std::endl;
 
     for (opcode_t val : tmp) {
-        program_memory->setData(program_counter->getValue(), val);
-        program_counter->increment();
-        hexPrint(program_counter->getValue(), 4);
+        program_memory->setData(PC->getValue(), val);
+        PC->increment();
+        hexPrint(PC->getValue(), 4);
         std::cout << std::endl;
     }
 
-    std::cout << program_counter->getValue() << std::endl;
+    std::cout << PC->getValue() << std::endl;
 
     std::cout << "Inserted " << tmp.size() << " elements into program memory"
               << std::endl;
 
     std::cout << "Ending with PC: ";
-    hexPrint(program_counter->getValue(), 4);
+    hexPrint(PC->getValue(), 4);
     std::cout << std::endl;
 
-    // program_counter->setValue(PC_START);
+    // PC->setValue(PC_START);
 }
 
 /**
@@ -114,7 +114,7 @@ void Processor::print() {
 
     std::cout << "\t" << *AF << "\t" << *BC << std::endl;
     std::cout << "\t" << *DE << "\t" << *HL << std::endl << std::endl;
-    std::cout << "\t" << *stack_pointer << "\t";
-    std::cout << *program_counter << std::endl;
+    std::cout << "\t" << *SP << "\t";
+    std::cout << *PC << std::endl;
     std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
 }

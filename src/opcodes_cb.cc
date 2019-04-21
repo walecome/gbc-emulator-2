@@ -34,10 +34,10 @@ void InstructionDecoder::OPCodeCB0x06() {
     // RLC (HL)
 
     // TODO test
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
-    rlcRegister(&tmp);
-    loadIntoMemory(HL, &tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
+    rlcRegister(tmp);
+    loadIntoMemory(HL, tmp);
 }
 
 void InstructionDecoder::OPCodeCB0x07() {
@@ -79,10 +79,10 @@ void InstructionDecoder::OPCodeCB0x0E() {
     // RRC (HL)
     // TODO test
 
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
-    rrcRegister(&tmp);
-    loadIntoMemory(HL, &tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
+    rrcRegister(tmp);
+    loadIntoMemory(HL, tmp);
 }
 
 void InstructionDecoder::OPCodeCB0x0F() {
@@ -124,10 +124,10 @@ void InstructionDecoder::OPCodeCB0x16() {
     // RL (HL)
 
     // TODO test
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
-    rlRegister(&tmp);
-    loadIntoMemory(HL, &tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
+    rlRegister(tmp);
+    loadIntoMemory(HL, tmp);
 }
 
 void InstructionDecoder::OPCodeCB0x17() {
@@ -169,10 +169,10 @@ void InstructionDecoder::OPCodeCB0x1E() {
     // RR (HL)
 
     // TODO test
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
-    rrRegister(&tmp);
-    loadIntoMemory(HL, &tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
+    rrRegister(tmp);
+    loadIntoMemory(HL, tmp);
 }
 
 void InstructionDecoder::OPCodeCB0x1F() {
@@ -214,10 +214,10 @@ void InstructionDecoder::OPCodeCB0x26() {
     // SLA (HL)
 
     // TODO test
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
-    slaRegister(&tmp);
-    loadIntoMemory(HL, &tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
+    slaRegister(tmp);
+    loadIntoMemory(HL, tmp);
 }
 
 void InstructionDecoder::OPCodeCB0x27() {
@@ -259,10 +259,10 @@ void InstructionDecoder::OPCodeCB0x2E() {
     // SRA (HL)
 
     // TODO test
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
-    sraRegister(&tmp);
-    loadIntoMemory(HL, &tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
+    sraRegister(tmp);
+    loadIntoMemory(HL, tmp);
 }
 
 void InstructionDecoder::OPCodeCB0x2F() {
@@ -304,10 +304,10 @@ void InstructionDecoder::OPCodeCB0x36() {
     // SWAP (HL)
 
     // TODO test
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
-    swapNibbles(&tmp);
-    loadIntoMemory(HL, &tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
+    swapNibbles(tmp);
+    loadIntoMemory(HL, tmp);
 }
 
 void InstructionDecoder::OPCodeCB0x37() {
@@ -349,10 +349,10 @@ void InstructionDecoder::OPCodeCB0x3E() {
     // SRL (HL)
 
     // TODO test
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
-    srlRegister(&tmp);
-    loadIntoMemory(HL, &tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
+    srlRegister(tmp);
+    loadIntoMemory(HL, tmp);
 }
 
 void InstructionDecoder::OPCodeCB0x3F() {

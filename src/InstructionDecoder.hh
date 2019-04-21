@@ -5,16 +5,23 @@
 
 // User headers
 #include "Constants.hh"
+#include "Memory.hh"
 #include "Processor.hh"
 #include "Register16bit.hh"
 #include "Register8bit.hh"
 
 class InstructionDecoder {
-    InstructionDecoder(ptr<Processor> processor) : cpu { processor } {}
+   public:
+    InstructionDecoder(ptr<Processor> processor);
 
    private:
-    // Keep pointer to registers
+    // Keep pointer to CPU and registers
     ptr<Processor> cpu;
+
+    ptr<Memory> program_memory, ram, stack;
+    ptr<Register16bit> SP, PC;
+    ptr<Register8bit> A, B, C, D, E, F, H, L;
+    ptr<Register16bit> AF, BC, DE, HL;
 
     // Opcode helpers
     opcode_t fetchInstruction();

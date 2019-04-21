@@ -51,8 +51,8 @@ void InstructionDecoder::OPCode0x08() {
     register8_t data_low = getCurrentData();
     register8_t data_high = getCurrentData();
 
-    stack_pointer->getLowRegister()->setValue(data_low);
-    stack_pointer->getHighRegister()->setValue(data_high);
+    SP->getLowRegister()->setValue(data_low);
+    SP->getHighRegister()->setValue(data_high);
 }
 
 void InstructionDecoder::OPCode0x09() {
@@ -191,7 +191,7 @@ void InstructionDecoder::OPCode0x1F() {
 void InstructionDecoder::OPCode0x20() {
     // JR NZ, r8
     // TODO double check
-    if (!getFlagZ()) {
+    if (!cpu->getFlagZ()) {
         performJump();
     }
 }
@@ -236,7 +236,7 @@ void InstructionDecoder::OPCode0x28() {
     // JR Z, r8
     // TODO double check
 
-    if (getFlagZ()) {
+    if (cpu->getFlagZ()) {
         performJump();
     }
 }
@@ -278,21 +278,21 @@ void InstructionDecoder::OPCode0x2E() {
 void InstructionDecoder::OPCode0x2F() {
     // CPL
     A->setValue(~A->getValue());
-    setFlagN(true);
-    setFlagH(true);
+    cpu->setFlagN(true);
+    cpu->setFlagH(true);
 }
 
 void InstructionDecoder::OPCode0x30() {
     // JR NC, r8
-    if (!getFlagC()) {
+    if (!cpu->getFlagC()) {
         performJump();
     }
 }
 
 void InstructionDecoder::OPCode0x31() {
     // LD SP, d16
-    loadRegister(stack_pointer->getLowRegister());
-    loadRegister(stack_pointer->getHighRegister());
+    loadRegister(SP->getLowRegister());
+    loadRegister(SP->getHighRegister());
 }
 
 void InstructionDecoder::OPCode0x32() {
@@ -302,7 +302,7 @@ void InstructionDecoder::OPCode0x32() {
 
 void InstructionDecoder::OPCode0x33() {
     // INC SP
-    stack_pointer->increment();
+    SP->increment();
 }
 
 void InstructionDecoder::OPCode0x34() {
@@ -340,7 +340,7 @@ void InstructionDecoder::OPCode0x37() {
 
 void InstructionDecoder::OPCode0x38() {
     // JR C, r8
-    if (getFlagC()) {
+    if (cpu->getFlagC()) {
         performJump();
     }
 }
@@ -348,7 +348,7 @@ void InstructionDecoder::OPCode0x38() {
 void InstructionDecoder::OPCode0x39() {
     // ADD HL, SP
     register16_t data_hl = HL->getValue();
-    register16_t data_sp = stack_pointer->getValue();
+    register16_t data_sp = SP->getValue();
 
     data_hl += data_sp;
 
@@ -362,7 +362,7 @@ void InstructionDecoder::OPCode0x3A() {
 
 void InstructionDecoder::OPCode0x3B() {
     // DEC SP
-    stack_pointer->decrement();
+    SP->decrement();
 }
 
 void InstructionDecoder::OPCode0x3C() {
@@ -382,10 +382,10 @@ void InstructionDecoder::OPCode0x3E() {
 
 void InstructionDecoder::OPCode0x3F() {
     // CCF
-    setFlagC(!getFlagC());
+    cpu->setFlagC(!cpu->getFlagC());
 
-    setFlagN(false);
-    setFlagH(false);
+    cpu->setFlagN(false);
+    cpu->setFlagH(false);
 }
 
 void InstructionDecoder::OPCode0x40() {
@@ -827,10 +827,10 @@ void InstructionDecoder::OPCode0x95() {
 void InstructionDecoder::OPCode0x96() {
     // SUB (HL)
     // TODO double check this!!
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
 
-    subRegisters(&tmp);
+    subRegisters(tmp);
 }
 
 void InstructionDecoder::OPCode0x97() {
@@ -872,11 +872,11 @@ void InstructionDecoder::OPCode0x9E() {
     // SBC A, (HL)
     // TODO double check
 
-    Register8bit tmp { "tmp" };
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
 
-    loadFromMemory(&tmp, HL);
+    loadFromMemory(tmp, HL);
 
-    subWithCarry(&tmp);
+    subWithCarry(tmp);
 }
 
 void InstructionDecoder::OPCode0x9F() {
@@ -965,10 +965,10 @@ void InstructionDecoder::OPCode0xAD() {
 void InstructionDecoder::OPCode0xAE() {
     // XOR (HL)
     // TODO double check
-    Register8bit tmp { "tmp" };
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
 
-    loadFromMemory(&tmp, HL);
-    xorRegisters(&tmp);
+    loadFromMemory(tmp, HL);
+    xorRegisters(tmp);
 }
 
 void InstructionDecoder::OPCode0xAF() {
@@ -1009,9 +1009,9 @@ void InstructionDecoder::OPCode0xB5() {
 void InstructionDecoder::OPCode0xB6() {
     // OR (HL)
     // TODO double check
-    Register8bit tmp { "tmp" };
-    loadFromMemory(&tmp, HL);
-    orRegisters(&tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    loadFromMemory(tmp, HL);
+    orRegisters(tmp);
 }
 
 void InstructionDecoder::OPCode0xB7() {
@@ -1053,10 +1053,10 @@ void InstructionDecoder::OPCode0xBE() {
     // CP (HL)
     byte_t data = ram->getData(HL->getValue());
 
-    setFlagZ(data == A->getValue());
+    cpu->setFlagZ(data == A->getValue());
     // TODO half carry flag
-    setFlagN(true);
-    setFlagC(A->getValue() < data);
+    cpu->setFlagN(true);
+    cpu->setFlagC(A->getValue() < data);
 }
 
 void InstructionDecoder::OPCode0xBF() {
@@ -1066,8 +1066,8 @@ void InstructionDecoder::OPCode0xBF() {
 
 void InstructionDecoder::OPCode0xC0() {
     // RET NZ
-    if (!getFlagZ()) {
-        popStack(program_counter);
+    if (!cpu->getFlagZ()) {
+        popStack(PC);
     }
 }
 
@@ -1078,12 +1078,12 @@ void InstructionDecoder::OPCode0xC1() {
 
 void InstructionDecoder::OPCode0xC2() {
     // JP NZ, a16
-    if (!getFlagZ()) {
+    if (!cpu->getFlagZ()) {
         jumpIm16bit();
     } else {
         // Skips these of we don't jump
-        program_counter->increment();
-        program_counter->increment();
+        PC->increment();
+        PC->increment();
     }
 }
 
@@ -1094,17 +1094,17 @@ void InstructionDecoder::OPCode0xC3() {
 
 void InstructionDecoder::OPCode0xC4() {
     // CALL NZ, a16
-    if (!getFlagZ()) {
+    if (!cpu->getFlagZ()) {
         byte_t data_low = getCurrentData();
         byte_t data_high = getCurrentData();
 
-        pushStack(program_counter);
+        pushStack(PC);
 
-        program_counter->getLowRegister()->setValue(data_low);
-        program_counter->getHighRegister()->setValue(data_high);
+        PC->getLowRegister()->setValue(data_low);
+        PC->getHighRegister()->setValue(data_high);
     } else {
-        program_counter->increment();
-        program_counter->increment();
+        PC->increment();
+        PC->increment();
     }
 }
 
@@ -1126,29 +1126,29 @@ void InstructionDecoder::OPCode0xC6() {
 
 void InstructionDecoder::OPCode0xC7() {
     // RST 00H
-    pushStack(program_counter);
-    program_counter->setValue(0x0000);
+    pushStack(PC);
+    PC->setValue(0x0000);
 }
 
 void InstructionDecoder::OPCode0xC8() {
     // RET Z
-    if (getFlagZ()) {
-        popStack(program_counter);
+    if (cpu->getFlagZ()) {
+        popStack(PC);
     }
 }
 
 void InstructionDecoder::OPCode0xC9() {
     // RET
-    popStack(program_counter);
+    popStack(PC);
 }
 
 void InstructionDecoder::OPCode0xCA() {
     // JP Z, a16
-    if (getFlagZ()) {
+    if (cpu->getFlagZ()) {
         jumpIm16bit();
     } else {
-        program_counter->increment();
-        program_counter->increment();
+        PC->increment();
+        PC->increment();
     }
 }
 
@@ -1158,17 +1158,17 @@ void InstructionDecoder::OPCode0xCB() {
 
 void InstructionDecoder::OPCode0xCC() {
     // CALL Z, a16
-    if (getFlagZ()) {
+    if (cpu->getFlagZ()) {
         byte_t data_low = getCurrentData();
         byte_t data_high = getCurrentData();
 
-        pushStack(program_counter);
+        pushStack(PC);
 
-        program_counter->getLowRegister()->setValue(data_low);
-        program_counter->getHighRegister()->setValue(data_high);
+        PC->getLowRegister()->setValue(data_low);
+        PC->getHighRegister()->setValue(data_high);
     } else {
-        program_counter->increment();
-        program_counter->increment();
+        PC->increment();
+        PC->increment();
     }
 }
 
@@ -1177,31 +1177,30 @@ void InstructionDecoder::OPCode0xCD() {
     byte_t data_low = getCurrentData();
     byte_t data_high = getCurrentData();
 
-    pushStack(program_counter);
+    pushStack(PC);
 
-    program_counter->getLowRegister()->setValue(data_low);
-    program_counter->getHighRegister()->setValue(data_high);
+    PC->getLowRegister()->setValue(data_low);
+    PC->getHighRegister()->setValue(data_high);
 }
 
 void InstructionDecoder::OPCode0xCE() {
     // ADC A, d8
     // TODO double check...
-    Register8bit tmp { "tmp" };
-    tmp.setValue(getCurrentData());
-
-    addWithCarry(A, &tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    tmp->setValue(getCurrentData());
+    addWithCarry(A, tmp);
 }
 
 void InstructionDecoder::OPCode0xCF() {
     // RST 08H
-    pushStack(program_counter);
-    program_counter->setValue(0x0008);
+    pushStack(PC);
+    PC->setValue(0x0008);
 }
 
 void InstructionDecoder::OPCode0xD0() {
     // RET NC
-    if (!getFlagC()) {
-        popStack(program_counter);
+    if (!cpu->getFlagC()) {
+        popStack(PC);
     }
 }
 
@@ -1212,11 +1211,11 @@ void InstructionDecoder::OPCode0xD1() {
 
 void InstructionDecoder::OPCode0xD2() {
     // JP NC, a16
-    if (!getFlagC()) {
+    if (!cpu->getFlagC()) {
         jumpIm16bit();
     } else {
-        program_counter->increment();
-        program_counter->increment();
+        PC->increment();
+        PC->increment();
     }
 }
 
@@ -1227,17 +1226,17 @@ void InstructionDecoder::OPCode0xD3() {
 
 void InstructionDecoder::OPCode0xD4() {
     // CALL NC, a16
-    if (!getFlagC()) {
+    if (!cpu->getFlagC()) {
         byte_t data_low = getCurrentData();
         byte_t data_high = getCurrentData();
 
-        pushStack(program_counter);
+        pushStack(PC);
 
-        program_counter->getLowRegister()->setValue(data_low);
-        program_counter->getHighRegister()->setValue(data_high);
+        PC->getLowRegister()->setValue(data_low);
+        PC->getHighRegister()->setValue(data_high);
     } else {
-        program_counter->increment();
-        program_counter->increment();
+        PC->increment();
+        PC->increment();
     }
 }
 
@@ -1249,22 +1248,21 @@ void InstructionDecoder::OPCode0xD5() {
 void InstructionDecoder::OPCode0xD6() {
     // SUB d8
     // TODO double check..
-    Register8bit tmp { "tmp" };
-    tmp.setValue(getCurrentData());
-
-    subRegisters(&tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    tmp->setValue(getCurrentData());
+    subRegisters(tmp);
 }
 
 void InstructionDecoder::OPCode0xD7() {
     // RST 10H
-    pushStack(program_counter);
-    program_counter->setValue(0x0010);
+    pushStack(PC);
+    PC->setValue(0x0010);
 }
 
 void InstructionDecoder::OPCode0xD8() {
     // RET C
-    if (getFlagC()) {
-        popStack(program_counter);
+    if (cpu->getFlagC()) {
+        popStack(PC);
     }
 }
 
@@ -1275,11 +1273,11 @@ void InstructionDecoder::OPCode0xD9() {
 
 void InstructionDecoder::OPCode0xDA() {
     // JP C, a16
-    if (getFlagC()) {
+    if (cpu->getFlagC()) {
         jumpIm16bit();
     } else {
-        program_counter->increment();
-        program_counter->increment();
+        PC->increment();
+        PC->increment();
     }
 }
 
@@ -1290,17 +1288,17 @@ void InstructionDecoder::OPCode0xDB() {
 
 void InstructionDecoder::OPCode0xDC() {
     // CALL C, a16
-    if (getFlagC()) {
+    if (cpu->getFlagC()) {
         byte_t data_low = getCurrentData();
         byte_t data_high = getCurrentData();
 
-        pushStack(program_counter);
+        pushStack(PC);
 
-        program_counter->getLowRegister()->setValue(data_low);
-        program_counter->getHighRegister()->setValue(data_high);
+        PC->getLowRegister()->setValue(data_low);
+        PC->getHighRegister()->setValue(data_high);
     } else {
-        program_counter->increment();
-        program_counter->increment();
+        PC->increment();
+        PC->increment();
     }
 }
 
@@ -1312,16 +1310,15 @@ void InstructionDecoder::OPCode0xDD() {
 void InstructionDecoder::OPCode0xDE() {
     // SBC A, d8
     // TODO double check
-    Register8bit tmp { "tmp" };
-    tmp.setValue(getCurrentData());
-
-    subWithCarry(&tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    tmp->setValue(getCurrentData());
+    subWithCarry(tmp);
 }
 
 void InstructionDecoder::OPCode0xDF() {
     // RST 18H
-    pushStack(program_counter);
-    program_counter->setValue(0x0018);
+    pushStack(PC);
+    PC->setValue(0x0018);
 }
 
 void InstructionDecoder::OPCode0xE0() {
@@ -1363,8 +1360,8 @@ void InstructionDecoder::OPCode0xE6() {
 
 void InstructionDecoder::OPCode0xE7() {
     // RST 20H
-    pushStack(program_counter);
-    program_counter->setValue(0x0020);
+    pushStack(PC);
+    PC->setValue(0x0020);
 }
 
 void InstructionDecoder::OPCode0xE8() {
@@ -1375,11 +1372,9 @@ void InstructionDecoder::OPCode0xE8() {
 void InstructionDecoder::OPCode0xE9() {
     // JP (HL)
     // TODO double check
-    program_counter->getLowRegister()->setValue(
-        HL->getLowRegister()->getValue());
+    PC->getLowRegister()->setValue(HL->getLowRegister()->getValue());
 
-    program_counter->getHighRegister()->setValue(
-        HL->getHighRegister()->getValue());
+    PC->getHighRegister()->setValue(HL->getHighRegister()->getValue());
 }
 
 void InstructionDecoder::OPCode0xEA() {
@@ -1409,8 +1404,8 @@ void InstructionDecoder::OPCode0xEE() {
 
 void InstructionDecoder::OPCode0xEF() {
     // RST 28H
-    pushStack(program_counter);
-    program_counter->setValue(0x0028);
+    pushStack(PC);
+    PC->setValue(0x0028);
 }
 
 void InstructionDecoder::OPCode0xF0() {
@@ -1454,8 +1449,8 @@ void InstructionDecoder::OPCode0xF6() {
 
 void InstructionDecoder::OPCode0xF7() {
     // RST 30H
-    pushStack(program_counter);
-    program_counter->setValue(0x0030);
+    pushStack(PC);
+    PC->setValue(0x0030);
 }
 
 void InstructionDecoder::OPCode0xF8() {
@@ -1465,8 +1460,8 @@ void InstructionDecoder::OPCode0xF8() {
 
 void InstructionDecoder::OPCode0xF9() {
     // LD SP, HL
-    copyRegister(stack_pointer->getLowRegister(), HL->getLowRegister());
-    copyRegister(stack_pointer->getHighRegister(), HL->getHighRegister());
+    copyRegister(SP->getLowRegister(), HL->getLowRegister());
+    copyRegister(SP->getHighRegister(), HL->getHighRegister());
 }
 
 void InstructionDecoder::OPCode0xFA() {
@@ -1492,13 +1487,13 @@ void InstructionDecoder::OPCode0xFD() {
 void InstructionDecoder::OPCode0xFE() {
     // CP d8
     // Double check
-    Register8bit tmp { "tmp" };
-    tmp.setValue(getCurrentData());
-    cmpRegisters(&tmp);
+    ptr<Register8bit> tmp { std::make_shared<Register8bit>("tmp") };
+    tmp->setValue(getCurrentData());
+    cmpRegisters(tmp);
 }
 
 void InstructionDecoder::OPCode0xFF() {
     // RST 38H
-    pushStack(program_counter);
-    program_counter->setValue(0x0038);
+    pushStack(PC);
+    PC->setValue(0x0038);
 }
