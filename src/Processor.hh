@@ -104,7 +104,6 @@ class Processor {
     ptr<Memory> getStack() { return stack; }
     ptr<Memory> getProgramMem() { return program_memory; }
 
-   private:
     opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];
 
     ptr<Memory> program_memory { std::make_shared<Memory>(PC_MAX_SIZE) };
@@ -112,10 +111,10 @@ class Processor {
     ptr<Memory> stack { std::make_shared<Memory>(RAM_MAX_SIZE) };
 
     // Handle stack pointer as 16 bit register
-    ptr<Register16bit> sp { std::make_shared<Register16bit>("SP") };
+    ptr<Register16bit> SP { std::make_shared<Register16bit>("SP") };
 
     // Handle program counter as 16 bit register
-    ptr<Register16bit> pc { std::make_shared<Register16bit>("PC") };
+    ptr<Register16bit> PC { std::make_shared<Register16bit>("PC") };
 
     // Registers
     ptr<Register8bit> A { std::make_shared<Register8bit>("A") };
@@ -138,5 +137,14 @@ class Processor {
     bool flagN { false };
     bool flagZ { false };
 
-    // OPCode definitions
+    /** This is ugly and stupid and should be fixed...
+        Reasoning for this is that we want to access the CPU registers and
+        memory from the InstructionDecoder class. One solution is to pass
+        pointers to all registers etc but this makes the code look terrible.
+        This is probably considered broken C++ since we're constructing the
+        processor class, which consists of the InstructionDecoder, which in
+        turn is constructed from a partially constructed Processor class.
+        Will probably work though.. :)
+    */
+    InstructionDecoder instructionDecoder { ptr<Processor>(this) };
 };
