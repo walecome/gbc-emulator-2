@@ -13,6 +13,11 @@
 #include "Register16bit.hh"
 #include "Register8bit.hh"
 
+/**
+    This class is basically just to keep track of the state of the emulate CPU.
+    It keeps the registers, memory and so on as members, but all modifications
+    are done (using opcodes) using the instruction decoder.
+*/
 class Processor {
    public:
     Processor();
@@ -23,8 +28,8 @@ class Processor {
 
     // Utils
     void readInstructions(const char *filename);
-    void printStack(register16_t start, register16_t end);
-    void print();
+    void printStack(int radius);
+    void dump();
 
     // Handle flags according to operation results
     void checkFlagZ(register8_t result);

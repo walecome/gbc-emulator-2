@@ -86,34 +86,42 @@ void Processor::readInstructions(const char *filename) {
 /**
    Prints the stack content from stack to end.
 */
-void Processor::printStack(register16_t start, register16_t end) {
+void Processor::printStack(int radius) {
+    register16_t start = std::max<int>(0, (int)(SP->getValue()) - radius);
+    register16_t end = std::min<int>(SP_START, (int)(SP->getValue()) + radius);
+
     std::cout << "Stack: " << std::endl;
+    std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
     byte_t value;
     while (start != end) {
+        ++start;
         value = stack->getData(start);
 
         std::cout << "\t";
         hexPrint(start, 4);
         std::cout << ": ";
         hexPrint(value, 2);
-        std::cout << std::endl;
-        ++start;
-    }
 
+        if (start == SP->getValue()) {
+            std::cout << " <---";
+        }
+
+        std::cout << std::endl;
+    }
+    std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
     std::cout << "Done printing stack" << std::endl;
 }
 
-void Processor::print() {
+void Processor::dump() {
     std::cout << "Printing processor" << std::endl;
     std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
     std::cout << "\t" << *A << "\t\t" << *B << std::endl
               << "\t" << *D << "\t\t" << *C << std::endl
               << "\t" << *E << "\t\t" << *F << std::endl
-              << "\t" << *H << "\t\t" << *L << std::endl
-              << std::endl;
+              << "\t" << *H << "\t\t" << *L << std::endl;
 
     std::cout << "\t" << *AF << "\t" << *BC << std::endl;
-    std::cout << "\t" << *DE << "\t" << *HL << std::endl << std::endl;
+    std::cout << "\t" << *DE << "\t" << *HL << std::endl;
     std::cout << "\t" << *SP << "\t";
     std::cout << *PC << std::endl;
     std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;

@@ -22,8 +22,8 @@ int main() {
 
     std::cout << "Reading instructions from binary file..." << std::endl;
     processor.readInstructions(filename.c_str());
-    processor.print();
-    processor.printStack(10, 20);
+    processor.dump();
+    processor.printStack(10);
 
     return 0;
 }
