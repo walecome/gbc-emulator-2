@@ -41,10 +41,6 @@ void InstructionDecoder::map_opcode_functions() {
     this->map_cb_opcodes();
 }
 
-/**
-    Fetches the instruction currently pointed at by the program counter.
-    Also increments the program counter to point at next instruction/data.
-*/
 opcode_t InstructionDecoder::fetchInstruction() {
     opcode_t opcode = cpu->program_memory->getData(cpu->PC->getValue());
 
@@ -53,10 +49,6 @@ opcode_t InstructionDecoder::fetchInstruction() {
     return opcode;
 }
 
-/**
-    Get the data pointed to by the program counter and increment the program
-    counter.
-*/
 byte_t InstructionDecoder::getCurrentData() {
     byte_t data = cpu->program_memory->getData(cpu->PC->getValue());
     cpu->PC->increment();
@@ -64,17 +56,10 @@ byte_t InstructionDecoder::getCurrentData() {
     return data;
 }
 
-/**
-    Loads data from where the program counter is pointing into the given
-   register. Also increments the program counter.
-*/
 void InstructionDecoder::loadRegister(const ptr<Register8bit> &reg) {
     reg->setValue(getCurrentData());
 }
 
-/**
-    Loads the data in data_reg into the address 0xFF00 + (value in address_reg).
-*/
 void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
                                         const ptr<Register8bit> &data_reg) {
     register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
@@ -84,9 +69,6 @@ void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
     cpu->ram->setData(address, data);
 }
 
-/**
-    Loads the data in value into the address 0xFF00 + address_reg
-*/
 void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
                                         byte_t value) {
     register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
@@ -94,10 +76,6 @@ void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
     cpu->ram->setData(address, value);
 }
 
-/**
-    Loads data from the memory address stored in 0xFF00 + address_reg and stores
-    it in data_reg.
-*/
 void InstructionDecoder::loadFromMemory(const ptr<Register8bit> &data_reg,
                                         const ptr<Register16bit> &address_reg) {
     register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
@@ -107,9 +85,6 @@ void InstructionDecoder::loadFromMemory(const ptr<Register8bit> &data_reg,
     data_reg->setValue(data);
 }
 
-/**
-    Loads from memory address (0xFF00 + address_reg) and returns it.
-*/
 byte_t InstructionDecoder::loadFromMemory(
     const ptr<Register16bit> &address_reg) {
     register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
@@ -117,11 +92,6 @@ byte_t InstructionDecoder::loadFromMemory(
     return cpu->ram->getData(address);
 }
 
-/**
-    Increments the value of the passed register and sets flags accordingly.
-    This function is only for 8bit registers since 16bit register increment
-    doesn't affect flags.
-*/
 void InstructionDecoder::incrementRegister(const ptr<Register8bit> &reg) {
     reg->increment();
 
@@ -132,11 +102,6 @@ void InstructionDecoder::incrementRegister(const ptr<Register8bit> &reg) {
     cpu->checkFlagH(result);
 }
 
-/**
-    Decrements the value of the passed register and sets flags accordingly.
-    This function is only for 8bit registers since 16bit register decrement
-    doesn't affect flags.
-*/
 void InstructionDecoder::decrementRegister(const ptr<Register8bit> &reg) {
     reg->decrement();
 
@@ -147,9 +112,6 @@ void InstructionDecoder::decrementRegister(const ptr<Register8bit> &reg) {
     cpu->checkFlagH(result);
 }
 
-/**
-    Copies the value from the destination register to the source register
-*/
 void InstructionDecoder::copyRegister(const ptr<Register8bit> &destination,
                                       const ptr<Register8bit> &source) {
     destination->setValue(source->getValue());
@@ -169,10 +131,6 @@ int add_helper(const ptr<reg_type> &a, const ptr<reg_type> &b) {
     return result;
 }
 
-/**
-    Adds the values in the destination and source registers and stores the
-    result in the destination register
-*/
 void InstructionDecoder::addRegisters(const ptr<Register8bit> &destination,
                                       const ptr<Register8bit> &source) {
     int result = add_helper<Register8bit, register8_t>(destination, source);
@@ -185,10 +143,6 @@ void InstructionDecoder::addRegisters(const ptr<Register8bit> &destination,
     cpu->checkFlagH(value_dest);
 }
 
-/**
-    Adds the values in the destination and source registers and stores the
-    result in the destination register
-*/
 void InstructionDecoder::addRegisters(const ptr<Register16bit> &destination,
                                       const ptr<Register16bit> &source) {
     int result = add_helper<Register16bit, register16_t>(destination, source);
@@ -200,10 +154,6 @@ void InstructionDecoder::addRegisters(const ptr<Register16bit> &destination,
     cpu->checkFlagH(value_dest);
 }
 
-/**
-    Subtracts the value in the accumulator (reg A) with the value in the
-    source register and stores the results in the accumulator
-*/
 void InstructionDecoder::subRegisters(const ptr<Register8bit> &source) {
     register8_t value_dest = cpu->A->getValue();
     register8_t value_source = source->getValue();
@@ -215,9 +165,6 @@ void InstructionDecoder::subRegisters(const ptr<Register8bit> &source) {
     cpu->setFlagN(true);
 }
 
-/**
-    Adds registers with the carry included in the addition
-*/
 void InstructionDecoder::addWithCarry(const ptr<Register8bit> &destination,
                                       const ptr<Register8bit> &source) {
     register8_t value_dest = destination->getValue();
@@ -235,11 +182,6 @@ void InstructionDecoder::addWithCarry(const ptr<Register8bit> &destination,
     destination->setValue((register8_t)result);
 }
 
-/**
-    Subtracts the value in the accumulator (reg A) with the value in the source
-    register. The subtraction also includes the carry value. Result is stored
-    in the accumulator.
-*/
 void InstructionDecoder::subWithCarry(const ptr<Register8bit> &source) {
     register8_t value_dest = cpu->A->getValue();
     register8_t value_source = source->getValue();
@@ -253,10 +195,6 @@ void InstructionDecoder::subWithCarry(const ptr<Register8bit> &source) {
     cpu->setFlagN(true);
 }
 
-/**
-    Performs a bitwise AND operation with the accumulator (reg A) and the passed
-    in register. The result is stored in the accumulator.
-*/
 void InstructionDecoder::andRegisters(const ptr<Register8bit> &source) {
     register8_t data_a = cpu->A->getValue();
     register8_t data_source = source->getValue();
@@ -267,10 +205,6 @@ void InstructionDecoder::andRegisters(const ptr<Register8bit> &source) {
     cpu->A->setValue(result);
 }
 
-/**
-    Performs a bitwise XOR operation with the accumulator (reg A) and the passed
-    in register. The result is stored in the accumulator.
-*/
 void InstructionDecoder::xorRegisters(const ptr<Register8bit> &source) {
     register8_t data_a = cpu->A->getValue();
     register8_t data_source = source->getValue();
@@ -281,10 +215,6 @@ void InstructionDecoder::xorRegisters(const ptr<Register8bit> &source) {
     cpu->A->setValue(result);
 }
 
-/**
-    Performs a bitwise OR operation with the accumulator (reg A) and the passed
-    in register. The result is store in the accumulator.
-*/
 void InstructionDecoder::orRegisters(const ptr<Register8bit> &source) {
     register8_t data_a = cpu->A->getValue();
     register8_t data_source = source->getValue();
@@ -295,11 +225,6 @@ void InstructionDecoder::orRegisters(const ptr<Register8bit> &source) {
     cpu->A->setValue(result);
 }
 
-/**
-    Compares the value in the passed in register with the value in the
-    accumulator (reg A). Sets flags as a regular subtraction but the result
-    of the subtraction is not used.
-*/
 void InstructionDecoder::cmpRegisters(const ptr<Register8bit> &source) {
     register8_t value_a = cpu->A->getValue();
     register8_t value_source = source->getValue();
@@ -311,10 +236,6 @@ void InstructionDecoder::cmpRegisters(const ptr<Register8bit> &source) {
     cpu->setFlagC(value_a < value_source);
 }
 
-/**
-    Pushes the value in the passed 16bit register into the program stack.
-    This will decrement the stack pointer by 2.
-*/
 void InstructionDecoder::pushStack(const ptr<Register16bit> &source) {
     cpu->SP->decrement();
     cpu->stack->setData(cpu->SP->getValue(),
@@ -324,10 +245,6 @@ void InstructionDecoder::pushStack(const ptr<Register16bit> &source) {
                         source->getLowRegister()->getValue());
 }
 
-/**
-    Pops a 16bit value from the stack and stores the values in the passed in
-    register. This will increment the stack pointer by 2.
-*/
 void InstructionDecoder::popStack(const ptr<Register16bit> &destination) {
     byte_t data_low = cpu->stack->getData(cpu->SP->getValue());
     destination->getLowRegister()->setValue(data_low);
@@ -338,9 +255,6 @@ void InstructionDecoder::popStack(const ptr<Register16bit> &destination) {
     cpu->SP->increment();
 }
 
-/**
-    Does the pop operation but with AF as destination register (altering flags).
-*/
 void InstructionDecoder::popStackAF() {
     popStack(cpu->AF);
     register8_t f_data = cpu->F->getValue();
@@ -351,10 +265,6 @@ void InstructionDecoder::popStackAF() {
     cpu->setFlagC(bool((0x10 & f_data) != 0));
 }
 
-/**
-    Perform jump. Modifies the program counter by adding it to the value that is
-   currently pointed at by the program counter.
-*/
 void InstructionDecoder::performJump() {
     register16_t current_pc = cpu->PC->getValue();
     byte_t offset = cpu->program_memory->getData(current_pc);
@@ -365,9 +275,6 @@ void InstructionDecoder::performJump() {
     cpu->PC->setValue(new_pc);
 }
 
-/**
-    Performs a jump to a 16bit address stored in the program memory.
-*/
 void InstructionDecoder::jumpIm16bit() {
     register8_t data_low = getCurrentData();
     register8_t data_high = getCurrentData();
@@ -376,10 +283,6 @@ void InstructionDecoder::jumpIm16bit() {
     cpu->PC->getHighRegister()->setValue(data_high);
 }
 
-/**
-    Performs a left bitwise rotation on the given register. MSB will also be
-    stored in the carry flag.
-*/
 void InstructionDecoder::rlcRegister(const ptr<Register8bit> &source) {
     register8_t data_source = source->getValue();
 
@@ -401,10 +304,6 @@ void InstructionDecoder::rlcRegister(const ptr<Register8bit> &source) {
     cpu->setFlagH(false);
 }
 
-/**
-    Performs a right bitwise rotation on the given register. LSB will also be
-    stored in the carry flag.
-*/
 void InstructionDecoder::rrcRegister(const ptr<Register8bit> &source) {
     register8_t data_source = source->getValue();
 
@@ -426,9 +325,6 @@ void InstructionDecoder::rrcRegister(const ptr<Register8bit> &source) {
     cpu->setFlagH(false);
 }
 
-/**
-    Performs a left bitwise rotation through the carry given the register.
-*/
 void InstructionDecoder::rlRegister(const ptr<Register8bit> &source) {
     register8_t data_source = source->getValue();
     register8_t carry = (cpu->getFlagC() ? 1 : 0);
@@ -450,9 +346,6 @@ void InstructionDecoder::rlRegister(const ptr<Register8bit> &source) {
     cpu->setFlagH(false);
 }
 
-/**
-    Performs a right bitwise rotation through the carry given the register.
-*/
 void InstructionDecoder::rrRegister(const ptr<Register8bit> &source) {
     register8_t data_source = source->getValue();
     register8_t carry = (cpu->getFlagC() ? MSB_8BIT : 0);
@@ -474,9 +367,6 @@ void InstructionDecoder::rrRegister(const ptr<Register8bit> &source) {
     cpu->setFlagH(false);
 }
 
-/**
-    Performs a left bitwise shift into the carry.
-*/
 void InstructionDecoder::slaRegister(const ptr<Register8bit> &source) {
     register8_t data_source = source->getValue();
 
@@ -496,9 +386,6 @@ void InstructionDecoder::slaRegister(const ptr<Register8bit> &source) {
     cpu->setFlagH(false);
 }
 
-/**
-    Performs a right bitwise shift into carry. Perserves MSB.
-*/
 void InstructionDecoder::sraRegister(const ptr<Register8bit> &source) {
     register8_t data_source = source->getValue();
     register8_t msb_val = data_source & MSB_8BIT;
@@ -521,9 +408,6 @@ void InstructionDecoder::sraRegister(const ptr<Register8bit> &source) {
     cpu->setFlagH(false);
 }
 
-/**
-    Swaps the upper and lower nibbles of given register.
-*/
 void InstructionDecoder::swapNibbles(const ptr<Register8bit> &reg) {
     register8_t val = reg->getValue();
 
@@ -540,9 +424,6 @@ void InstructionDecoder::swapNibbles(const ptr<Register8bit> &reg) {
     cpu->setFlagC(false);
 }
 
-/**
-    Performs a right bitwise shift into carry. MSB is set to 0.
-*/
 void InstructionDecoder::srlRegister(const ptr<Register8bit> &reg) {
     register8_t data_reg = reg->getValue();
 
@@ -563,9 +444,6 @@ void InstructionDecoder::srlRegister(const ptr<Register8bit> &reg) {
     cpu->setFlagH(false);
 }
 
-/**
-    Tests bit b of register reg.
-*/
 void InstructionDecoder::testBit(int b, const ptr<Register8bit> &reg) {
     register8_t reg_val = reg->getValue();
     register8_t mask = (1 << b);
@@ -582,9 +460,6 @@ void InstructionDecoder::testBit(int b, const ptr<Register8bit> &reg) {
     cpu->setFlagH(true);
 }
 
-/**
-    Test bit b of data at address in address_reg.
-*/
 void InstructionDecoder::testBit(int b, const ptr<Register16bit> &reg) {
     byte_t reg_val = loadFromMemory(reg);
     register8_t mask = (1 << b);
@@ -601,9 +476,6 @@ void InstructionDecoder::testBit(int b, const ptr<Register16bit> &reg) {
     cpu->setFlagH(true);
 }
 
-/**
-    Sets bit b in reg to 0.
-*/
 void InstructionDecoder::resetBit(int b, const ptr<Register8bit> &reg) {
     register8_t reg_val = reg->getValue();
 
@@ -612,9 +484,6 @@ void InstructionDecoder::resetBit(int b, const ptr<Register8bit> &reg) {
     reg->setValue(reg_val);
 }
 
-/**
-    Sets bit b in data located at address of address_reg to 0.
-*/
 void InstructionDecoder::resetBit(int b, const ptr<Register16bit> &reg) {
     // TODO: Probably wrong, should not offset with FF00
     byte_t val = loadFromMemory(reg);
@@ -624,9 +493,6 @@ void InstructionDecoder::resetBit(int b, const ptr<Register16bit> &reg) {
     loadIntoMemory(reg, val);
 }
 
-/**
-    Sets bit b in reg to 1.
-*/
 void InstructionDecoder::setBit(int b, const ptr<Register8bit> &reg) {
     register8_t reg_val = reg->getValue();
 
@@ -635,9 +501,6 @@ void InstructionDecoder::setBit(int b, const ptr<Register8bit> &reg) {
     reg->setValue(reg_val);
 }
 
-/**
-    Sets bit b in data located at address of address_reg to 1.
-*/
 void InstructionDecoder::setBit(int b, const ptr<Register16bit> &reg) {
     byte_t val = loadFromMemory(reg);
 

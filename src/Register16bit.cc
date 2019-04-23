@@ -17,13 +17,12 @@ void Register16bit::increment() {
 
 void Register16bit::decrement() {
     register16_t current_value = getValue();
-
     setValue(--current_value);
 }
 
-ptr<Register8bit> Register16bit::getHighRegister() { return high; }
+ptr<Register8bit> Register16bit::getHighRegister() const { return high; }
 
-ptr<Register8bit> Register16bit::getLowRegister() { return low; }
+ptr<Register8bit> Register16bit::getLowRegister() const { return low; }
 
 std::ostream &operator<<(std::ostream &os, const Register16bit &reg) {
     os << reg.getName() << ": 0x" << std::setfill('0') << std::setw(4)

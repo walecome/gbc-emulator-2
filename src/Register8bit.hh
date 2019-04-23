@@ -16,7 +16,14 @@ class Register8bit {
     register8_t getValue() const;
     void setValue(register8_t value);
     std::string getName() const { return name; }
+    /**
+     *   Increment value by one.
+     */
     void increment();
+
+    /**
+     *   Decrement value by one.
+     */
     void decrement();
 
     friend std::ostream &operator<<(std::ostream &, const Register8bit &);

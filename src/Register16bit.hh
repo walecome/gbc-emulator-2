@@ -28,10 +28,17 @@ class Register16bit {
     register16_t getValue() const;
     void setValue(register16_t value);
     std::string getName() const { return name; }
+    /**
+     *   Increment register value by one.
+     */
     void increment();
+
+    /**
+     *   Decrement register value by one.
+     */
     void decrement();
-    ptr<Register8bit> getHighRegister();
-    ptr<Register8bit> getLowRegister();
+    ptr<Register8bit> getHighRegister() const;
+    ptr<Register8bit> getLowRegister() const;
 
     friend std::ostream &operator<<(std::ostream &, const Register16bit &);
 

@@ -14,7 +14,7 @@
 #include "Register8bit.hh"
 
 /**
-    This class is basically just to keep track of the state of the emulate CPU.
+    This class is basically just to keep track of the state of the emulated CPU.
     It keeps the registers, memory and so on as members, but all modifications
     are done (using opcodes) using the instruction decoder.
 */
@@ -27,7 +27,15 @@ class Processor {
     void operator=(const Processor &) = delete;
 
     // Utils
+    /**
+        Reads instructions (and data) into the program memory vector given
+        binary filename
+    */
     void readInstructions(const char *filename);
+
+    /**
+        Prints the stack content in a radius from the stack pointer.
+    */
     void printStack(int radius);
     void dump();
 

@@ -28,10 +28,6 @@ void readMetaData(const std::vector<opcode_t> &data) {
     hexPrint(rom_size, 2, true);
 }
 
-/**
-    Reads instructions (and data) into the program memory vector given
-    binary filename
-*/
 void Processor::readInstructions(const char *filename) {
     // open the file as binary
     std::ifstream file(filename, std::ios::binary);
@@ -83,9 +79,6 @@ void Processor::readInstructions(const char *filename) {
     // PC->setValue(PC_START);
 }
 
-/**
-   Prints the stack content from stack to end.
-*/
 void Processor::printStack(int radius) {
     register16_t start = std::max<int>(0, (int)(SP->getValue()) - radius);
     register16_t end = std::min<int>(SP_START, (int)(SP->getValue()) + radius);

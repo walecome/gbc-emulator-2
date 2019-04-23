@@ -47,49 +47,226 @@ class InstructionDecoder {
     void map_cb_opcodes();
 
     // Opcode helpers
+
+    /**
+        Fetches the instruction currently pointed at by the program counter.
+        Also increments the program counter to point at next instruction/data.
+    */
     opcode_t fetchInstruction();
+
+    /**
+        Get the data pointed to by the program counter and increment the program
+        counter.
+    */
     byte_t getCurrentData();
+
+    /**
+        Loads data from where the program counter is pointing into the given
+       register. Also increments the program counter.
+    */
     void loadRegister(const ptr<Register8bit> &reg);
+
+    /**
+        Loads the data in data_reg into the address 0xFF00 + (value in
+       address_reg).
+    */
     void loadIntoMemory(const ptr<Register16bit> &address_reg,
                         const ptr<Register8bit> &data_reg);
+
+    /**
+        Loads the data in value into the address 0xFF00 + address_reg
+    */
     void loadIntoMemory(const ptr<Register16bit> &address_reg, byte_t value);
+
+    /**
+        Loads data from the memory address stored in 0xFF00 + address_reg and
+       stores it in data_reg.
+    */
     void loadFromMemory(const ptr<Register8bit> &data_reg,
                         const ptr<Register16bit> &address_reg);
+
+    /**
+        Loads from memory address (0xFF00 + address_reg) and returns it.
+    */
     byte_t loadFromMemory(const ptr<Register16bit> &address_reg);
+
+    /**
+        Increments the value of the passed register and sets flags accordingly.
+        This function is only for 8bit registers since 16bit register increment
+        doesn't affect flags.
+    */
     void incrementRegister(const ptr<Register8bit> &reg);
+
+    /**
+        Decrements the value of the passed register and sets flags accordingly.
+        This function is only for 8bit registers since 16bit register decrement
+        doesn't affect flags.
+    */
     void decrementRegister(const ptr<Register8bit> &reg);
+
+    /**
+        Copies the value from the destination register to the source register
+    */
     void copyRegister(const ptr<Register8bit> &destination,
                       const ptr<Register8bit> &source);
+
+    /**
+        Adds the values in the destination and source registers and stores the
+        result in the destination register
+    */
     void addRegisters(const ptr<Register8bit> &destination,
                       const ptr<Register8bit> &source);
+
+    /**
+        Adds the values in the destination and source registers and stores the
+        result in the destination register
+    */
     void addRegisters(const ptr<Register16bit> &destination,
                       const ptr<Register16bit> &source);
+
+    /**
+        Subtracts the value in the accumulator (reg A) with the value in the
+        source register and stores the results in the accumulator
+    */
     void subRegisters(const ptr<Register8bit> &source);
+
+    /**
+        Adds registers with the carry included in the addition
+    */
     void addWithCarry(const ptr<Register8bit> &destination,
                       const ptr<Register8bit> &source);
+
+    /**
+        Subtracts the value in the accumulator (reg A) with the value in the
+       source register. The subtraction also includes the carry value. Result is
+       stored in the accumulator.
+    */
     void subWithCarry(const ptr<Register8bit> &source);
+
+    /**
+        Performs a bitwise AND operation with the accumulator (reg A) and the
+       passed in register. The result is stored in the accumulator.
+    */
     void andRegisters(const ptr<Register8bit> &source);
+
+    /**
+        Performs a bitwise XOR operation with the accumulator (reg A) and the
+       passed in register. The result is stored in the accumulator.
+    */
     void xorRegisters(const ptr<Register8bit> &source);
+
+    /**
+        Performs a bitwise OR operation with the accumulator (reg A) and the
+       passed in register. The result is store in the accumulator.
+    */
     void orRegisters(const ptr<Register8bit> &source);
+
+    /**
+        Compares the value in the passed in register with the value in the
+        accumulator (reg A). Sets flags as a regular subtraction but the result
+        of the subtraction is not used.
+    */
     void cmpRegisters(const ptr<Register8bit> &source);
+
+    /**
+        Pushes the value in the passed 16bit register into the program stack.
+        This will decrement the stack pointer by 2.
+    */
     void pushStack(const ptr<Register16bit> &source);
+
+    /**
+        Pops a 16bit value from the stack and stores the values in the passed in
+        register. This will increment the stack pointer by 2.
+    */
     void popStack(const ptr<Register16bit> &destination);
+
+    /**
+        Does the pop operation but with AF as destination register (altering
+       flags).
+    */
     void popStackAF();
+
+    /**
+        Perform jump. Modifies the program counter by adding it to the value
+       that is currently pointed at by the program counter.
+    */
     void performJump();
+
+    /**
+        Performs a jump to a 16bit address stored in the program memory.
+    */
     void jumpIm16bit();
+
+    /**
+        Performs a left bitwise rotation on the given register. MSB will also be
+        stored in the carry flag.
+    */
     void rlcRegister(const ptr<Register8bit> &source);
+
+    /**
+        Performs a right bitwise rotation on the given register. LSB will also
+       be stored in the carry flag.
+    */
     void rrcRegister(const ptr<Register8bit> &source);
+
+    /**
+        Performs a left bitwise rotation through the carry given the register.
+    */
     void rlRegister(const ptr<Register8bit> &source);
+
+    /**
+        Performs a right bitwise rotation through the carry given the register.
+    */
     void rrRegister(const ptr<Register8bit> &source);
+
+    /**
+        Performs a left bitwise shift into the carry.
+    */
     void slaRegister(const ptr<Register8bit> &source);
+
+    /**
+        Performs a right bitwise shift into carry. Perserves MSB.
+    */
     void sraRegister(const ptr<Register8bit> &source);
+
+    /**
+        Swaps the upper and lower nibbles of given register.
+    */
     void swapNibbles(const ptr<Register8bit> &reg);
+
+    /**
+        Performs a right bitwise shift into carry. MSB is set to 0.
+    */
     void srlRegister(const ptr<Register8bit> &reg);
+
+    /**
+        Tests bit b of register reg.
+    */
     void testBit(int b, const ptr<Register8bit> &reg);
+
+    /**
+        Test bit b of data at address in address_reg.
+    */
     void testBit(int b, const ptr<Register16bit> &reg);
+
+    /**
+        Sets bit b in reg to 0.
+    */
     void resetBit(int b, const ptr<Register8bit> &reg);
+
+    /**
+        Sets bit b in data located at address of address_reg to 0.
+    */
     void resetBit(int b, const ptr<Register16bit> &address_reg);
+
+    /**
+        Sets bit b in reg to 1.
+    */
     void setBit(int b, const ptr<Register8bit> &reg);
+
+    /**
+        Sets bit b in data located at address of address_reg to 1.
+    */
     void setBit(int b, const ptr<Register16bit> &reg);
 
     // Regular opcodes
