@@ -4,6 +4,7 @@
 
 void InstructionDecoder::OPCode0x00() {
     // NOP
+    std::cout << "NOP" << std::endl;
 }
 
 void InstructionDecoder::OPCode0x01() {

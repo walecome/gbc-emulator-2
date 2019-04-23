@@ -106,8 +106,6 @@ class Processor {
     ptr<Memory> getStack() { return stack; }
     ptr<Memory> getProgramMem() { return program_memory; }
 
-    opcode_function opcode_function_table[NUMBER_OF_INSTRUCTIONS];
-
     ptr<Memory> program_memory { std::make_shared<Memory>(PC_MAX_SIZE) };
     ptr<Memory> ram { std::make_shared<Memory>(RAM_MAX_SIZE) };
     ptr<Memory> stack { std::make_shared<Memory>(RAM_MAX_SIZE) };

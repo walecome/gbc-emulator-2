@@ -3,11 +3,12 @@
 */
 #pragma once
 #include <stdint.h>
+#include <functional>
 #include <memory>
 
 using opcode_t = uint8_t;
 using byte_t = uint8_t;
-using opcode_function = void (*)();
+using opcode_function = std::function<void()>;
 constexpr int NUMBER_OF_INSTRUCTIONS = 256;
 
 constexpr byte_t LSB_8BIT = 0x01;

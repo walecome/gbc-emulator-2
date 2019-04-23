@@ -14,6 +14,18 @@ class InstructionDecoder {
    public:
     InstructionDecoder(ptr<Processor> processor);
 
+    /**
+        Execute the corresponding opcode function for the passed opcode.
+        Lookup is done in the opcode_functions table.
+    */
+    void executeInstruction(opcode_t opcode);
+
+    /**
+        Execute the corresponding opcode_cb function for the passed opcode.
+        Lookup is done in the opcode_cb_functions table.
+    */
+    void executeCBInstruction(opcode_t opcode);
+
    private:
     // Keep pointer to CPU and registers
     ptr<Processor> cpu;
@@ -22,6 +34,17 @@ class InstructionDecoder {
     ptr<Register16bit> SP, PC;
     ptr<Register8bit> A, B, C, D, E, F, H, L;
     ptr<Register16bit> AF, BC, DE, HL;
+
+    opcode_function opcode_functions[NUMBER_OF_INSTRUCTIONS];
+    opcode_function opcode_cb_functions[NUMBER_OF_INSTRUCTIONS];
+
+    /**
+    *   Maps the opcode functions to their correct index in the opcode_functions
+        and opcode_cb_functions table.
+    */
+    void map_opcode_functions();
+    void map_regular_opcodes();
+    void map_cb_opcodes();
 
     // Opcode helpers
     opcode_t fetchInstruction();

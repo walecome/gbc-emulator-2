@@ -16,14 +16,16 @@
 int main() {
     std::string filename { "roms/pokemon_silver.gbc" };
 
-    Processor processor {};
-    // InstructionDecoder instructionDecoder { std::make_shared<Processor>(
-    // processor) };
+    ptr<Processor> processor { std::make_shared<Processor>() };
+
+    InstructionDecoder instructionDecoder { processor };
 
     std::cout << "Reading instructions from binary file..." << std::endl;
-    processor.readInstructions(filename.c_str());
-    processor.dump();
-    processor.printStack(10);
+    processor->readInstructions(filename.c_str());
+    processor->dump();
+    processor->printStack(10);
+
+    instructionDecoder.executeInstruction(0x00);
 
     return 0;
 }
