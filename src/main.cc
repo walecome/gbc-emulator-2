@@ -13,15 +13,17 @@
 #include "InstructionDecoder.hh"
 #include "Processor.hh"
 
-int main() {
-    std::string filename { "roms/pokemon_silver.gbc" };
-
+int main(int argc, char **argv) {
     ptr<Processor> processor { std::make_shared<Processor>() };
-
     InstructionDecoder instructionDecoder { processor };
 
-    std::cout << "Reading instructions from binary file..." << std::endl;
-    processor->readInstructions(filename.c_str());
+    bool rom_provided = argc == 2;
+
+    if (rom_provided) {
+        std::cout << "Reading instructions from binary file..." << std::endl;
+        std::string filename { argv[1] };
+        processor->readInstructions(filename.c_str());
+    }
     processor->dump();
     processor->printStack(10);
 

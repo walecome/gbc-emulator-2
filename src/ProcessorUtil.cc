@@ -8,24 +8,133 @@ void hexPrint(unsigned value, unsigned length, bool flush = false) {
     if (flush) std::cout << std::endl;
 }
 
-// TODO move to own file
-void readMetaData(const std::vector<opcode_t> &data) {
+void readROMTitle(const std::vector<opcode_t> &rom_data) {
     std::ostringstream is {};
 
     for (int i = 0; i < 11; ++i) {
-        char c = data[0x0134 + i];
+        char c = rom_data[0x0134 + i];
         if (c == 0) break;
         is << c;
     }
 
-    std::string name { is.str() };
-    std::cout << "name: " << name << std::endl;
+    std::string title { is.str() };
+    std::cout << "ROM title: " << title << std::endl;
+}
 
-    // ROM size
-    register8_t rom_size = data[0x148];
+void readROMSizeType(const std::vector<opcode_t> &rom_data) {
+    // ROM size type
+    register8_t rom_type = rom_data[0x148];
 
-    std::cout << "rom size: ";
-    hexPrint(rom_size, 2, true);
+    std::cout << "ROM size type: ";
+
+    switch (rom_type) {
+        case 0x00:
+            std::cout << "32KByte (no ROM banking)" << std::endl;
+            break;
+
+        case 0x01:
+            std::cout << "64KByte (4 banks)" << std::endl;
+            break;
+
+        case 0x02:
+            std::cout << "128KByte (8 banks)" << std::endl;
+            break;
+
+        case 0x03:
+            std::cout << "256KByte (16 banks)" << std::endl;
+            break;
+
+        case 0x04:
+            std::cout << "512KByte (32 banks)" << std::endl;
+            break;
+
+        case 0x05:
+            std::cout << "1MByte (64 banks)  - only 63 banks used by MBC1"
+                      << std::endl;
+            break;
+
+        case 0x06:
+            std::cout << "2MByte (128 banks) - only 125 banks used by MBC1"
+                      << std::endl;
+            break;
+
+        case 0x07:
+            std::cout << "4MByte (256 banks)" << std::endl;
+            break;
+
+        case 0x52:
+            std::cout << "1.1MByte (72 banks)" << std::endl;
+            break;
+
+        case 0x53:
+            std::cout << "1.2MByte (80 banks)" << std::endl;
+            break;
+
+        case 0x54:
+            std::cout << "1.5MByte (96 banks)" << std::endl;
+            break;
+
+        default:
+            std::cerr << "Invalid ROM size found" << std::endl;
+    }
+}
+
+void readROMRAMSize(const std::vector<opcode_t> &rom_data) {
+    register8_t rom_ram_type = rom_data[0x149];
+
+    std::cout << "ROM RAM size: ";
+
+    switch (rom_ram_type) {
+        case 0x00:
+            std::cout << "0 bytes" << std::endl;
+            break;
+
+        case 0x01:
+            std::cout << "2 KBytes" << std::endl;
+            break;
+
+        case 0x02:
+            std::cout << "8 KBytes" << std::endl;
+            break;
+
+        case 0x03:
+            std::cout << "32 KBytes" << std::endl;
+            break;
+
+        default:
+            std::cerr << "Invalid ROM RAM type" << std::endl;
+    }
+}
+
+void verifyROMChecksum(const std::vector<opcode_t> &rom_data) {
+    register8_t header_checksum = rom_data[0x14D];
+
+    register8_t calculated_checksum = 0;
+
+    for (register16_t i = 0x0134; i <= 0x014C; ++i) {
+        calculated_checksum = calculated_checksum - rom_data[i] - 1;
+    }
+
+    // std::cout << "Header checksum: ";
+    // hexPrint(header_checksum, 2, true);
+    // std::cout << "Calculated checksum: ";
+    // hexPrint(calculated_checksum, 2, true);
+
+    bool match = header_checksum == calculated_checksum;
+
+    if (match) {
+        std::cout << "Checksum verified" << std::endl;
+    } else {
+        std::cerr << "Checksum doesn't match, GAME WILL NOT WORK!" << std::endl;
+    }
+}
+
+// TODO move to own file
+void readMetaData(const std::vector<opcode_t> &rom_data) {
+    readROMTitle(rom_data);
+    readROMSizeType(rom_data);
+    readROMRAMSize(rom_data);
+    verifyROMChecksum(rom_data);
 }
 
 void Processor::readInstructions(const char *filename) {
