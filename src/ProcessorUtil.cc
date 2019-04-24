@@ -180,7 +180,7 @@ std::pair<register8_t, std::string> readROMSizeType(
 
     switch (rom_type) {
         case 0x00:
-            rom_size = "32KByte (no ROM banking)";
+            rom_size = "32KByte (2 bank)";
             break;
 
         case 0x01:
