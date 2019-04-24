@@ -1,6 +1,33 @@
 #include <iomanip>
 #include "Processor.hh"
 
+std::ostream &operator<<(std::ostream &os,
+                         const std::pair<register8_t, std::string> &p) {
+    os << "(" << (unsigned)p.first;
+    os << ", " << p.second << ")";
+
+    return os;
+}
+
+struct ROM_Metadata {
+    std::string title;
+    std::pair<register8_t, std::string> gameboy_type;
+    std::pair<register8_t, std::string> cartridge_type;
+    std::pair<register8_t, std::string> rom_size;
+    std::pair<register8_t, std::string> ram_size;
+    register8_t checksum;
+
+    void dump() {
+        std::cout << "ROM metadata:" << std::endl;
+        std::cout << "\tTitle: " << title << std::endl;
+        std::cout << "\tGameboy type: " << gameboy_type << std::endl;
+        std::cout << "\tCartridge type: " << cartridge_type << std::endl;
+        std::cout << "\tROM size: " << rom_size << std::endl;
+        std::cout << "\tRAM size: " << ram_size << std::endl;
+        std::cout << "\tChecksum: " << (unsigned)checksum << std::endl;
+    }
+};
+
 void hexPrint(unsigned value, unsigned length, bool flush = false) {
     std::cout << "0x" << std::setfill('0') << std::setw(length) << std::hex
               << value;
@@ -8,7 +35,7 @@ void hexPrint(unsigned value, unsigned length, bool flush = false) {
     if (flush) std::cout << std::endl;
 }
 
-void readROMTitle(const std::vector<opcode_t> &rom_data) {
+std::string readROMTitle(const std::vector<opcode_t> &rom_data) {
     std::ostringstream is {};
 
     for (int i = 0; i < 11; ++i) {
@@ -18,95 +45,221 @@ void readROMTitle(const std::vector<opcode_t> &rom_data) {
     }
 
     std::string title { is.str() };
-    std::cout << "ROM title: " << title << std::endl;
+    return title;
 }
 
-void readROMSizeType(const std::vector<opcode_t> &rom_data) {
-    // ROM size type
-    register8_t rom_type = rom_data[0x148];
+std::pair<register8_t, std::string> readGameboyType(
+    const std::vector<opcode_t> &rom_data) {
+    register8_t gameboy_type = rom_data[0x0143];
 
-    std::cout << "ROM size type: ";
+    std::string type { "Not Gameboy Color" };
 
-    switch (rom_type) {
+    if (gameboy_type == 0x80) type = "Gameboy Color";
+
+    return std::make_pair(gameboy_type, type);
+}
+
+std::pair<register8_t, std::string> readCartridgeType(
+    const std::vector<opcode_t> &rom_data) {
+    register_t cartridge_type = rom_data[0x0147];
+    std::string type { "INVALID" };
+
+    switch (cartridge_type) {
         case 0x00:
-            std::cout << "32KByte (no ROM banking)" << std::endl;
+            type = "ROM ONLY";
             break;
 
         case 0x01:
-            std::cout << "64KByte (4 banks)" << std::endl;
+            type = "ROM+MBC1";
             break;
 
         case 0x02:
-            std::cout << "128KByte (8 banks)" << std::endl;
+            type = "ROM+MBC1+RAM";
             break;
 
         case 0x03:
-            std::cout << "256KByte (16 banks)" << std::endl;
-            break;
-
-        case 0x04:
-            std::cout << "512KByte (32 banks)" << std::endl;
+            type = "ROM+MBC1+RAM+BATT";
             break;
 
         case 0x05:
-            std::cout << "1MByte (64 banks)  - only 63 banks used by MBC1"
-                      << std::endl;
+            type = "ROM+MBC2";
             break;
 
         case 0x06:
-            std::cout << "2MByte (128 banks) - only 125 banks used by MBC1"
-                      << std::endl;
+            type = "ROM+MBC2+BATTERY";
             break;
 
-        case 0x07:
-            std::cout << "4MByte (256 banks)" << std::endl;
+        case 0x08:
+            type = "ROM+RAM";
             break;
 
-        case 0x52:
-            std::cout << "1.1MByte (72 banks)" << std::endl;
+        case 0x09:
+            type = "ROM+RAM+BATTERY";
             break;
 
-        case 0x53:
-            std::cout << "1.2MByte (80 banks)" << std::endl;
+        case 0x0B:
+            type = "ROM+MMM01";
             break;
 
-        case 0x54:
-            std::cout << "1.5MByte (96 banks)" << std::endl;
+        case 0x0C:
+            type = "ROM+MMM01+SRAM";
+            break;
+
+        case 0x0D:
+            type = "ROM+MMM01+SRAM+BATT";
+            break;
+
+        case 0x0F:
+            type = "ROM+MBC3+TIMER+BATT";
+            break;
+
+        case 0x10:
+            type = "ROM+MBC3+TIMER+RAM+BATT";
+            break;
+
+        case 0x11:
+            type = "ROM+MBC3";
+            break;
+
+        case 0x12:
+            type = "ROM+MBC3+RAM";
+            break;
+
+        case 0x13:
+            type = "ROM+MBC3+RAM+BATT";
+            break;
+
+        case 0x19:
+            type = "ROM+MBC5";
+            break;
+
+        case 0x1A:
+            type = "ROM+MBC5+RAM";
+            break;
+
+        case 0x1B:
+            type = "ROM+MBC5+RAM+BATT";
+            break;
+
+        case 0x1C:
+            type = "ROM+MBC5+RUMBLE";
+            break;
+
+        case 0x1D:
+            type = "ROM+MBC5+RUMBLE+SRAM";
+            break;
+
+        case 0x1E:
+            type = "ROM+MBC5+RUMBLE+SRAM+BATT";
+            break;
+
+        case 0x1F:
+            type = "Pocket Camera";
+            break;
+
+        case 0xFD:
+            type = "Bandai TAMA5";
+            break;
+
+        case 0xFE:
+            type = "Hudson HuC-3";
             break;
 
         default:
-            std::cerr << "Invalid ROM size found" << std::endl;
+            std::cerr << "INVALID CARTRIDGE TYPE" << std::endl;
     }
+
+    return std::make_pair(cartridge_type, type);
 }
 
-void readROMRAMSize(const std::vector<opcode_t> &rom_data) {
-    register8_t rom_ram_type = rom_data[0x149];
+std::pair<register8_t, std::string> readROMSizeType(
+    const std::vector<opcode_t> &rom_data) {
+    // ROM size type
+    register8_t rom_type = rom_data[0x148];
+    std::string rom_size { "INVALID" };
 
-    std::cout << "ROM RAM size: ";
-
-    switch (rom_ram_type) {
+    switch (rom_type) {
         case 0x00:
-            std::cout << "0 bytes" << std::endl;
+            rom_size = "32KByte (no ROM banking)";
             break;
 
         case 0x01:
-            std::cout << "2 KBytes" << std::endl;
+            rom_size = "64KByte (4 banks)";
             break;
 
         case 0x02:
-            std::cout << "8 KBytes" << std::endl;
+            rom_size = "128KByte (8 banks)";
             break;
 
         case 0x03:
-            std::cout << "32 KBytes" << std::endl;
+            rom_size = "256KByte (16 banks)";
+            break;
+
+        case 0x04:
+            rom_size = "512KByte (32 banks)";
+            break;
+
+        case 0x05:
+            rom_size = "1MByte (64 banks)  - only 63 banks used by MBC1";
+            break;
+
+        case 0x06:
+            rom_size = "2MByte (128 banks) - only 125 banks used by MBC1";
+            break;
+
+        case 0x07:
+            rom_size = "4MByte (256 banks)";
+            break;
+
+        case 0x52:
+            rom_size = "1.1MByte (72 banks)";
+            break;
+
+        case 0x53:
+            rom_size = "1.2MByte (80 banks)";
+            break;
+
+        case 0x54:
+            rom_size = "1.5MByte (96 banks)";
+            break;
+
+        default:
+            std::cerr << "INVALID ROM SIZE" << std::endl;
+    }
+
+    return std::make_pair(rom_type, rom_size);
+}
+
+std::pair<register_t, std::string> readROMRAMSize(
+    const std::vector<opcode_t> &rom_data) {
+    register8_t rom_ram_type = rom_data[0x149];
+    std::string ram_size { "INVALID" };
+
+    switch (rom_ram_type) {
+        case 0x00:
+            ram_size = "0 bytes";
+            break;
+
+        case 0x01:
+            ram_size = "2 KBytes";
+            break;
+
+        case 0x02:
+            ram_size = "8 KBytes";
+            break;
+
+        case 0x03:
+            ram_size = "32 KBytes";
             break;
 
         default:
             std::cerr << "Invalid ROM RAM type" << std::endl;
     }
+
+    return std::make_pair(rom_ram_type, ram_size);
 }
 
-void verifyROMChecksum(const std::vector<opcode_t> &rom_data) {
+register8_t verifyROMChecksum(const std::vector<opcode_t> &rom_data) {
     register8_t header_checksum = rom_data[0x14D];
 
     register8_t calculated_checksum = 0;
@@ -127,14 +280,22 @@ void verifyROMChecksum(const std::vector<opcode_t> &rom_data) {
     } else {
         std::cerr << "Checksum doesn't match, GAME WILL NOT WORK!" << std::endl;
     }
+
+    return header_checksum;
 }
 
 // TODO move to own file
-void readMetaData(const std::vector<opcode_t> &rom_data) {
-    readROMTitle(rom_data);
-    readROMSizeType(rom_data);
-    readROMRAMSize(rom_data);
-    verifyROMChecksum(rom_data);
+ROM_Metadata readMetaData(const std::vector<opcode_t> &rom_data) {
+    ROM_Metadata metadata;
+
+    metadata.title = readROMTitle(rom_data);
+    metadata.rom_size = readROMSizeType(rom_data);
+    metadata.ram_size = readROMRAMSize(rom_data);
+    metadata.checksum = verifyROMChecksum(rom_data);
+    metadata.cartridge_type = readCartridgeType(rom_data);
+    metadata.gameboy_type = readGameboyType(rom_data);
+
+    return metadata;
 }
 
 void Processor::readInstructions(const char *filename) {
@@ -161,9 +322,9 @@ void Processor::readInstructions(const char *filename) {
     tmp.insert(tmp.begin(), std::istream_iterator<opcode_t>(file),
                std::istream_iterator<opcode_t>());
 
-    readMetaData(tmp);
+    std::cout << "Loaded " << tmp.size() << " bytes from ROM file" << std::endl;
 
-    return;
+    readMetaData(tmp).dump();
 
     std::cout << "Starting with PC: ";
     hexPrint(PC->getValue(), 4);
@@ -172,14 +333,9 @@ void Processor::readInstructions(const char *filename) {
     for (opcode_t val : tmp) {
         program_memory->setData(PC->getValue(), val);
         PC->increment();
-        hexPrint(PC->getValue(), 4);
-        std::cout << std::endl;
     }
 
     std::cout << PC->getValue() << std::endl;
-
-    std::cout << "Inserted " << tmp.size() << " elements into program memory"
-              << std::endl;
 
     std::cout << "Ending with PC: ";
     hexPrint(PC->getValue(), 4);
