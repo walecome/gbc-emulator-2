@@ -12,3 +12,7 @@ void Processor::checkFlagH(register8_t result) {
     // TODO double check
     setFlagH((result & 0x10) == 0x10);
 }
+
+opcode_t Processor::fetchInstruction() {
+    return program_memory->getData(PC->getValue());
+}

@@ -1,6 +1,7 @@
 #pragma once
 
 // System headers
+#include <array>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -34,10 +35,21 @@ class Processor {
     void readInstructions(const char *filename);
 
     /**
-        Prints the stack content in a radius from the stack pointer.
+        Prints the stack content in a radius around the stack pointer.
     */
-    void printStack(int radius);
+    void printStack(int radius = 5);
+
+    /**
+        Prints the program memory content in a radius around the program
+       counter.
+    */
+    void printProgramMemory(int radius = 5);
     void dump();
+
+    /**
+     *  Returns the instruction currently pointed at by the program counter.
+     */
+    opcode_t fetchInstruction();
 
     // Handle flags according to operation results
     void checkFlagZ(register8_t result);

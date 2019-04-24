@@ -26,6 +26,14 @@ class InstructionDecoder {
     */
     void executeCBInstruction(opcode_t opcode);
 
+    /**
+     *  Does a CPU step by fetching the current instruction pointed at by the
+     *  program counter, then increasing the program counter and executes the
+     *  fetched instruction. If it is a CB instruction, the fetches that one,
+     *  meaning the program counter will be incremented twice.
+     */
+    void step(bool verbose = false);
+
    private:
     // Keep pointer to CPU and registers
     ptr<Processor> cpu;

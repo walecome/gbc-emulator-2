@@ -23,6 +23,8 @@ using register16_t = uint16_t;
 
 // Starting position of program counter;
 constexpr const register16_t PC_START = 0x100;
+constexpr const register16_t PC_MAX = 0xFFFF;
+
 
 // Starting position of stack pointer
 constexpr const register16_t SP_START = 0xFFFF;

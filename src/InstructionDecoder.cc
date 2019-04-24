@@ -26,14 +26,33 @@ InstructionDecoder::InstructionDecoder(ptr<Processor> processor)
 }
 
 void InstructionDecoder::executeInstruction(opcode_t opcode) {
-    std::cout << "0x" << std::setfill('0') << std::setw(3) << std::hex << opcode
-              << std::endl;
-    ;
     this->opcode_functions[(int)opcode]();
 }
 
 void InstructionDecoder::executeCBInstruction(opcode_t opcode) {
     this->opcode_cb_functions[opcode]();
+}
+
+void InstructionDecoder::step(bool verbose) {
+    opcode_t instruction = cpu->fetchInstruction();
+
+    PC->increment();
+
+    if (instruction == 0xCB) {
+        if (verbose) std::cout << "Executing CB instruction" << std::endl;
+        instruction = cpu->fetchInstruction();
+        PC->increment();
+        executeCBInstruction(instruction);
+    } else {
+        if (verbose) std::cout << "Executing regular instruction" << std::endl;
+        executeInstruction(instruction);
+    }
+
+    if (verbose) {
+        cpu->dump();
+        cpu->printStack();
+        cpu->printProgramMemory();
+    }
 }
 
 void InstructionDecoder::map_opcode_functions() {

@@ -24,10 +24,12 @@ int main(int argc, char **argv) {
         std::string filename { argv[1] };
         processor->readInstructions(filename.c_str());
     }
-    processor->dump();
-    processor->printStack(10);
 
-    instructionDecoder.executeInstruction(0x00);
+    // Start instructions
+    processor->setValuePC(0x100);
+    instructionDecoder.step(true);
+    instructionDecoder.step(true);
+    instructionDecoder.step(true);
 
     return 0;
 }

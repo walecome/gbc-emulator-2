@@ -1,5 +1,11 @@
+// System headers
 #include <iomanip>
+
+// User headers
 #include "Processor.hh"
+
+// Forward declarations
+void hexPrint(unsigned value, unsigned length, bool flush = false);
 
 std::ostream &operator<<(std::ostream &os,
                          const std::pair<register8_t, std::string> &p) {
@@ -17,6 +23,8 @@ struct ROM_Metadata {
     std::pair<register8_t, std::string> ram_size;
     register8_t checksum;
 
+    std::array<register8_t, 4> start_instructions {};
+
     void dump() {
         std::cout << "ROM metadata:" << std::endl;
         std::cout << "\tTitle: " << title << std::endl;
@@ -25,10 +33,19 @@ struct ROM_Metadata {
         std::cout << "\tROM size: " << rom_size << std::endl;
         std::cout << "\tRAM size: " << ram_size << std::endl;
         std::cout << "\tChecksum: " << (unsigned)checksum << std::endl;
+
+        std::cout << "Start instructions: ";
+        hexPrint(start_instructions[0], 2);
+        std::cout << " ";
+        hexPrint(start_instructions[1], 2);
+        std::cout << " ";
+        hexPrint(start_instructions[2], 2);
+        std::cout << " ";
+        hexPrint(start_instructions[3], 2, true);
     }
 };
 
-void hexPrint(unsigned value, unsigned length, bool flush = false) {
+void hexPrint(unsigned value, unsigned length, bool flush) {
     std::cout << "0x" << std::setfill('0') << std::setw(length) << std::hex
               << value;
 
@@ -284,6 +301,18 @@ register8_t verifyROMChecksum(const std::vector<opcode_t> &rom_data) {
     return header_checksum;
 }
 
+std::array<register8_t, 4> readStartInstructions(
+    const std::vector<opcode_t> &rom_data) {
+    std::array<register8_t, 4> instructions {};
+
+    instructions[0] = rom_data[0x100];
+    instructions[1] = rom_data[0x101];
+    instructions[2] = rom_data[0x102];
+    instructions[3] = rom_data[0x103];
+
+    return instructions;
+}
+
 // TODO move to own file
 ROM_Metadata readMetaData(const std::vector<opcode_t> &rom_data) {
     ROM_Metadata metadata;
@@ -294,6 +323,7 @@ ROM_Metadata readMetaData(const std::vector<opcode_t> &rom_data) {
     metadata.checksum = verifyROMChecksum(rom_data);
     metadata.cartridge_type = readCartridgeType(rom_data);
     metadata.gameboy_type = readGameboyType(rom_data);
+    metadata.start_instructions = readStartInstructions(rom_data);
 
     return metadata;
 }
@@ -330,6 +360,7 @@ void Processor::readInstructions(const char *filename) {
     hexPrint(PC->getValue(), 4);
     std::cout << std::endl;
 
+    PC->setValue(0x0000);
     for (opcode_t val : tmp) {
         program_memory->setData(PC->getValue(), val);
         PC->increment();
@@ -346,13 +377,13 @@ void Processor::readInstructions(const char *filename) {
 
 void Processor::printStack(int radius) {
     register16_t start = std::max<int>(0, (int)(SP->getValue()) - radius);
-    register16_t end = std::min<int>(SP_START, (int)(SP->getValue()) + radius);
+    register16_t end =
+        std::min<int>(SP_START + 1, (int)(SP->getValue()) + radius + 1);
 
     std::cout << "Stack: " << std::endl;
     std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
     byte_t value;
     while (start != end) {
-        ++start;
         value = stack->getData(start);
 
         std::cout << "\t";
@@ -365,9 +396,37 @@ void Processor::printStack(int radius) {
         }
 
         std::cout << std::endl;
+        ++start;
     }
     std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
     std::cout << "Done printing stack" << std::endl;
+}
+
+void Processor::printProgramMemory(int radius) {
+    register16_t start = std::max<int>(0, (int)(PC->getValue()) - radius);
+    register16_t end =
+        std::min<int>(PC_MAX + 1, (int)(PC->getValue()) + radius + 1);
+
+    std::cout << "Program memory: " << std::endl;
+    std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
+    byte_t value;
+    while (start != end) {
+        value = program_memory->getData(start);
+
+        std::cout << "\t";
+        hexPrint(start, 4);
+        std::cout << ": ";
+        hexPrint(value, 2);
+
+        if (start == PC->getValue()) {
+            std::cout << " <---";
+        }
+
+        std::cout << std::endl;
+        ++start;
+    }
+    std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
+    std::cout << "Done printing program memory" << std::endl;
 }
 
 void Processor::dump() {
