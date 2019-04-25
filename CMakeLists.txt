@@ -25,9 +25,17 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 ## Copy rom files to build folder
 file(COPY roms DESTINATION ${CMAKE_BINARY_DIR})
 
-set(CMAKE_CXX_FLAGS "-g -std=c++17 -Wall -Wextra -Weffc++ -pedantic -Wsuggest-attribute=const")
+set(CMAKE_CXX_FLAGS "-g -std=c++17 -Wall -Wextra -Weffc++ -pedantic -Wsuggest-attribute=const -fdiagnostics-color=always")
+
+## Force colored output (mostly needed for Ninja build)
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcolor-diagnostics")
+endif ()
 
 add_executable(emulator ${SRCS})
+
 
 
 target_compile_features(emulator PUBLIC cxx_std_17)
