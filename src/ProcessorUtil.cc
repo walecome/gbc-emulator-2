@@ -328,7 +328,7 @@ ROM_Metadata readMetaData(const std::vector<opcode_t> &rom_data) {
     return metadata;
 }
 
-void Processor::readInstructions(const char *filename) {
+void Processor::readInstructions(const std::string &filename) {
     // open the file as binary
     std::ifstream file(filename, std::ios::binary);
 

@@ -1,8 +1,8 @@
 #include "Processor.hh"
 
 Processor::Processor() {
-    setValuePC(PC_START);
-    setValueSP(SP_START);
+    PC->setValue(PC_START);
+    SP->setValue(SP_START);
 }
 
 // Flags

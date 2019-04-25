@@ -48,10 +48,10 @@ int main(int argc, char **argv) {
 
     std::cout << "Reading instructions from binary file..." << std::endl;
     std::string filename { argv[1] };
-    processor->readInstructions(filename.c_str());
+    processor->readInstructions(filename);
 
     // Start instructions
-    processor->setValuePC(0x100);
+    processor->PC->setValue(PC_START);
 
     std::string input;
 
