@@ -1,6 +1,7 @@
 #pragma once
 
 // System headers
+#include <array>
 #include <memory>
 
 // User headers
@@ -43,8 +44,8 @@ class InstructionDecoder {
     ptr<Register8bit> A, B, C, D, E, F, H, L;
     ptr<Register16bit> AF, BC, DE, HL;
 
-    opcode_function opcode_functions[NUMBER_OF_INSTRUCTIONS];
-    opcode_function opcode_cb_functions[NUMBER_OF_INSTRUCTIONS];
+    std::array<opcode_function, NUMBER_OF_INSTRUCTIONS> opcode_functions {};
+    std::array<opcode_function, NUMBER_OF_INSTRUCTIONS> opcode_cb_functions {};
 
     /**
     *   Maps the opcode functions to their correct index in the opcode_functions
