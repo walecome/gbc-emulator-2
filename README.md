@@ -1,17 +1,16 @@
 # Gameboy Color Emulator
 
-This is a Gameboy Color emulator written in (mostly modern) C++.
+This is a Gameboy Color emulator written in modern C++.
 
 Building the project:
 
 ```
 git clone https://github.com/walecome/gbc-emulator.git
 cd gcb-emulator
-mkdir build
-cd build
+mkdir build && cd build
 cmake ..
 make
-./emulator
+./emulator /path/to/rom_file
 ```
 
 ## Mostly done:
@@ -25,7 +24,7 @@ make
 
 - CPU interrupts
 - Instruction timings
-- Cartiridge implementation
+- Cartridge implementation
 - Sound implementation
 - Input implementation
 - GUI frontend
