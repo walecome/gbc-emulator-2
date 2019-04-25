@@ -356,23 +356,11 @@ void Processor::readInstructions(const std::string &filename) {
 
     readMetaData(tmp).dump();
 
-    std::cout << "Starting with PC: ";
-    hexPrint(PC->getValue(), 4);
-    std::cout << std::endl;
-
     PC->setValue(0x0000);
     for (opcode_t val : tmp) {
         program_memory->setData(PC->getValue(), val);
         PC->increment();
     }
-
-    std::cout << PC->getValue() << std::endl;
-
-    std::cout << "Ending with PC: ";
-    hexPrint(PC->getValue(), 4);
-    std::cout << std::endl;
-
-    // PC->setValue(PC_START);
 }
 
 void Processor::printStack(int radius) {

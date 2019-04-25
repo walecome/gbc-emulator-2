@@ -29,7 +29,8 @@ class Processor {
 
     /**
         Reads instructions (and data) into the program memory vector given
-        binary filename
+        binary filename. Uses the program counnter 'destructivly', meaning it
+        needs to be set accordingly after using this function.
     */
     void readInstructions(const std::string &filename);
 
