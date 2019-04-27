@@ -10,6 +10,7 @@
 #include "Processor.hh"
 #include "Register16bit.hh"
 #include "Register8bit.hh"
+#include "Timings.hh"
 
 class InstructionDecoder {
    public:

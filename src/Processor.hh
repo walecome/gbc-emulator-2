@@ -51,6 +51,15 @@ class Processor {
      */
     opcode_t fetchInstruction();
 
+    /**
+     * Adds nr_cycles of cycles to machine_cycles. clock_cycles are also added
+     * with machine_cycles * 4.
+     */
+    void add_machine_cycles(unsigned int nr_cycles) {
+        machine_cycles += nr_cycles;
+        clock_cycles += nr_cycles * 4;
+    }
+
     // Handle flags according to operation results
     void checkFlagZ(register8_t result);
     void checkFlagC(int result);
@@ -98,4 +107,8 @@ class Processor {
     bool flagH { false };
     bool flagN { false };
     bool flagZ { false };
+
+    // Clock and machine cycles
+    long unsigned int clock_cycles { 0 };
+    long unsigned int machine_cycles { 0 };
 };

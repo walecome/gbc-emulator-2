@@ -35,13 +35,15 @@ void InstructionDecoder::executeCBInstruction(opcode_t opcode) {
 
 void InstructionDecoder::step(bool verbose) {
     opcode_t instruction = cpu->fetchInstruction();
-
     PC->increment();
+    // TODO check if cycles should be added after instruction execution
+    cpu->add_machine_cycles(Timings::opcode_machine_cycles[instruction]);
 
     if (instruction == 0xCB) {
         if (verbose) std::cout << "Executing CB instruction" << std::endl;
         instruction = cpu->fetchInstruction();
         PC->increment();
+        cpu->add_machine_cycles(Timings::opcode_machine_cycles[instruction]);
         executeCBInstruction(instruction);
     } else {
         if (verbose) std::cout << "Executing regular instruction" << std::endl;
