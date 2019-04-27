@@ -17,7 +17,7 @@ void InstructionDecoder::OPCode0x01() {
 void InstructionDecoder::OPCode0x02() {
     // LD (BC), A
     // TODO double check
-    register8_t data = loadFromMemory(BC);
+    loadIntoMemory(BC, A);
 }
 
 void InstructionDecoder::OPCode0x03() {
