@@ -111,4 +111,7 @@ class Processor {
     // Clock and machine cycles
     long unsigned int clock_cycles { 0 };
     long unsigned int machine_cycles { 0 };
+
+    // Store raw ROM data
+    std::vector<opcode_t> rom_data {};
 };

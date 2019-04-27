@@ -11,6 +11,7 @@
 // User headers
 #include "Constants.hh"
 #include "InstructionDecoder.hh"
+#include "Metadata.hh"
 #include "Processor.hh"
 
 void handle_input(const std::string &input, InstructionDecoder &id,
@@ -49,6 +50,9 @@ int main(int argc, char **argv) {
     std::cout << "Reading instructions from binary file..." << std::endl;
     std::string filename { argv[1] };
     processor->readInstructions(filename);
+
+    Util::ROM_Metadata metadata { processor->rom_data };
+    metadata.dump();
 
     // Start instructions
     processor->PC->setValue(PC_START);
