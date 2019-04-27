@@ -83,7 +83,7 @@ void InstructionDecoder::loadRegister(const ptr<Register8bit> &reg) {
 
 void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
                                         const ptr<Register8bit> &data_reg) {
-    register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
+    register16_t address = address_reg->getValue();
 
     byte_t data = data_reg->getValue();
 
@@ -92,14 +92,14 @@ void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
 
 void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
                                         byte_t value) {
-    register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
+    register16_t address = address_reg->getValue();
 
     cpu->ram->setData(address, value);
 }
 
 void InstructionDecoder::loadFromMemory(const ptr<Register8bit> &data_reg,
                                         const ptr<Register16bit> &address_reg) {
-    register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
+    register16_t address = address_reg->getValue();
 
     byte_t data = cpu->ram->getData(address);
 
@@ -108,7 +108,7 @@ void InstructionDecoder::loadFromMemory(const ptr<Register8bit> &data_reg,
 
 byte_t InstructionDecoder::loadFromMemory(
     const ptr<Register16bit> &address_reg) {
-    register16_t address = RAM_DATA_OFFSET + address_reg->getValue();
+    register16_t address = address_reg->getValue();
 
     return cpu->ram->getData(address);
 }

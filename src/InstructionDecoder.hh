@@ -84,19 +84,19 @@ class InstructionDecoder {
                         const ptr<Register8bit> &data_reg);
 
     /**
-        Loads the data in value into the address 0xFF00 + address_reg
+        Loads the data in value into the address in (address_reg)
     */
     void loadIntoMemory(const ptr<Register16bit> &address_reg, byte_t value);
 
     /**
-        Loads data from the memory address stored in 0xFF00 + address_reg and
+        Loads data from the memory address stored in (address_reg) and
        stores it in data_reg.
     */
     void loadFromMemory(const ptr<Register8bit> &data_reg,
                         const ptr<Register16bit> &address_reg);
 
     /**
-        Loads from memory address (0xFF00 + address_reg) and returns it.
+        Loads from memory address (address_reg) and returns it.
     */
     byte_t loadFromMemory(const ptr<Register16bit> &address_reg);
 
