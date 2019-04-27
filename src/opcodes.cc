@@ -341,8 +341,10 @@ void InstructionDecoder::OPCode0x36() {
 }
 
 void InstructionDecoder::OPCode0x37() {
-    // DAA
-    // TODO fix
+    // SCF
+    cpu->flagN = false;
+    cpu->flagH = false;
+    cpu->flagC = true;
 }
 
 void InstructionDecoder::OPCode0x38() {
@@ -1388,7 +1390,12 @@ void InstructionDecoder::OPCode0xE9() {
 
 void InstructionDecoder::OPCode0xEA() {
     // LD (a16), A
-    // TODO fix
+    // TODO double check
+    ptr<Register16bit> tmp { std::make_shared<Register16bit>("tmp") };
+    tmp->getLowRegister()->setValue(getCurrentData());
+    tmp->getHighRegister()->setValue(getCurrentData());
+
+    loadIntoMemory(tmp, A);
 }
 
 void InstructionDecoder::OPCode0xEB() {
@@ -1464,7 +1471,13 @@ void InstructionDecoder::OPCode0xF7() {
 
 void InstructionDecoder::OPCode0xF8() {
     // LD HL, SP+r8
-    // TODO fix
+    // TODO double check
+    int sp_value = SP->getValue();
+    int8_t r8 = static_cast<int8_t>(getCurrentData());
+
+    sp_value = sp_value + r8;
+
+    HL->setValue(static_cast<register16_t>(sp_value));
 }
 
 void InstructionDecoder::OPCode0xF9() {
@@ -1475,7 +1488,13 @@ void InstructionDecoder::OPCode0xF9() {
 
 void InstructionDecoder::OPCode0xFA() {
     // LD A, (a16)
-    // TODO fix
+    // TODO double check
+    std::shared_ptr<Register16bit> tmp { std::make_shared<Register16bit>(
+        "tmp") };
+    tmp->getLowRegister()->setValue(getCurrentData());
+    tmp->getHighRegister()->setValue(getCurrentData());
+
+    loadFromMemory(A, tmp);
 }
 
 void InstructionDecoder::OPCode0xFB() {
