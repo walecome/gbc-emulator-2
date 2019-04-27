@@ -205,7 +205,9 @@ void InstructionDecoder::OPCode0x21() {
 
 void InstructionDecoder::OPCode0x22() {
     // LD (HL+), A
-    // TODO fix??
+    // TODO double check
+    loadIntoMemory(HL, A);
+    HL->increment();
 }
 
 void InstructionDecoder::OPCode0x23() {
@@ -253,7 +255,9 @@ void InstructionDecoder::OPCode0x29() {
 
 void InstructionDecoder::OPCode0x2A() {
     // LD A, (HL+)
-    // TODO FIX??
+    // TODO double check
+    loadFromMemory(A, HL);
+    HL->increment();
 }
 
 void InstructionDecoder::OPCode0x2B() {
@@ -298,7 +302,9 @@ void InstructionDecoder::OPCode0x31() {
 
 void InstructionDecoder::OPCode0x32() {
     // LD (HL-), A
-    // TODO FIX
+    // TODO double check
+    loadIntoMemory(HL, A);
+    HL->decrement();
 }
 
 void InstructionDecoder::OPCode0x33() {
@@ -358,7 +364,9 @@ void InstructionDecoder::OPCode0x39() {
 
 void InstructionDecoder::OPCode0x3A() {
     // LD A, (HL-)
-    // TODO fix memory management
+    // TODO double check
+    loadFromMemory(A, HL);
+    HL->decrement();
 }
 
 void InstructionDecoder::OPCode0x3B() {
