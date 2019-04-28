@@ -1,3 +1,4 @@
+// System headers
 #include <assert.h>
 #include <fstream>
 #include <iomanip>
@@ -19,22 +20,18 @@ int main(int argc, char **argv) {
     ptr<Processor> processor { std::make_shared<Processor>() };
     InstructionDecoder instructionDecoder { processor };
 
-    bool rom_provided = argc == 2;
+    bool rom_provided { argc == 2 };
 
     if (!rom_provided) {
         std::cerr << "Please provide a ROM file as argument" << std::endl;
         return 1;
     }
 
-    std::cout << "Reading instructions from binary file..." << std::endl;
     std::string filename { argv[1] };
-    processor->readInstructions(filename);
+    processor->readInstructions(filename, true);
 
     Util::ROM_Metadata metadata { processor->rom_data };
     metadata.dump();
-
-    // Start instructions
-    processor->PC->setValue(PC_START);
 
     TIH inputHandler {};
 

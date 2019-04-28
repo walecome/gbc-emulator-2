@@ -5,7 +5,7 @@
 #include "Processor.hh"
 #include "Utility.hh"
 
-void Processor::readInstructions(const std::string &filename) {
+void Processor::readInstructions(const std::string &filename, bool verbose) {
     // open the file as binary
     std::ifstream file(filename, std::ios::binary);
 
@@ -23,18 +23,24 @@ void Processor::readInstructions(const std::string &filename) {
     fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
+    if (verbose)
+        std::cout << "Reading instructions from binary file..." << std::endl;
+
     // read the data:
     rom_data.insert(rom_data.begin(), std::istream_iterator<opcode_t>(file),
                     std::istream_iterator<opcode_t>());
 
-    std::cout << "Loaded " << rom_data.size() << " bytes from ROM file"
-              << std::endl;
+    if (verbose)
+        std::cout << "Loaded " << rom_data.size() << " bytes from ROM file"
+                  << std::endl;
 
     PC->setValue(0x0000);
     for (opcode_t val : rom_data) {
         program_memory->setData(PC->getValue(), val);
         PC->increment();
     }
+
+    PC->setValue(PC_START);
 }
 
 void Processor::printStack(int radius) {

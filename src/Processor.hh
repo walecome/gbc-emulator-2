@@ -29,10 +29,9 @@ class Processor {
 
     /**
         Reads instructions (and data) into the program memory vector given
-        binary filename. Uses the program counnter 'destructivly', meaning it
-        needs to be set accordingly after using this function.
+        binary filename. Sets program counter to PC_START (0x100) after read.
     */
-    void readInstructions(const std::string &filename);
+    void readInstructions(const std::string &filename, bool verbose = false);
 
     /**
         Prints the stack content in a radius around the stack pointer.

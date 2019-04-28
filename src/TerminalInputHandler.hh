@@ -7,7 +7,7 @@
 #include "InstructionDecoder.hh"
 #include "Processor.hh"
 
-// Terminal Input Hanndler
+// Terminal Input Handler
 class TIH {
    public:
     TIH();
