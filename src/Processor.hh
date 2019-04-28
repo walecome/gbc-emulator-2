@@ -65,16 +65,20 @@ class Processor {
     void checkFlagH(register8_t result);
 
     // Getters for flags
-    bool getFlagC() { return flagC; }
-    bool getFlagH() { return flagH; }
-    bool getFlagN() { return flagN; }
-    bool getFlagZ() { return flagZ; }
+    bool getFlagC();
+    bool getFlagH();
+    bool getFlagN();
+    bool getFlagZ();
 
     // Setters for flags
-    void setFlagC(bool value) { flagC = value; }
-    void setFlagH(bool value) { flagH = value; }
-    void setFlagN(bool value) { flagN = value; }
-    void setFlagZ(bool value) { flagZ = value; }
+    void setFlagC();
+    void setFlagH();
+    void setFlagN();
+    void setFlagZ();
+    void resetFlagC();
+    void resetFlagH();
+    void resetFlagN();
+    void resetFlagZ();
 
     ptr<Memory> program_memory { std::make_shared<Memory>(PC_MAX_SIZE) };
     ptr<Memory> ram { std::make_shared<Memory>(RAM_MAX_SIZE) };
@@ -100,12 +104,6 @@ class Processor {
     ptr<Register16bit> BC { std::make_shared<Register16bit>("BC", B, C) };
     ptr<Register16bit> DE { std::make_shared<Register16bit>("DE", D, E) };
     ptr<Register16bit> HL { std::make_shared<Register16bit>("HL", H, L) };
-
-    // Flags
-    bool flagC { false };
-    bool flagH { false };
-    bool flagN { false };
-    bool flagZ { false };
 
     // Clock and machine cycles
     long unsigned int clock_cycles { 0 };
