@@ -119,7 +119,7 @@ void InstructionDecoder::incrementRegister(const ptr<Register8bit> &reg) {
     register8_t result = reg->getValue();
 
     cpu->checkFlagZ(result);
-    cpu->setFlagN(false);
+    cpu->resetFlagN();
     cpu->checkFlagH(result);
 }
 
@@ -129,7 +129,7 @@ void InstructionDecoder::decrementRegister(const ptr<Register8bit> &reg) {
     register8_t result = reg->getValue();
 
     cpu->checkFlagZ(result);
-    cpu->setFlagN(true);
+    cpu->setFlagN();
     cpu->checkFlagH(result);
 }
 
@@ -159,7 +159,7 @@ void InstructionDecoder::addRegisters(const ptr<Register8bit> &destination,
     register8_t value_dest = (register8_t)result;
 
     cpu->checkFlagZ(value_dest);
-    cpu->setFlagN(false);
+    cpu->resetFlagN();
     cpu->checkFlagC(result);
     cpu->checkFlagH(value_dest);
 }
@@ -170,7 +170,7 @@ void InstructionDecoder::addRegisters(const ptr<Register16bit> &destination,
 
     register16_t value_dest = (register16_t)result;
 
-    cpu->setFlagN(false);
+    cpu->resetFlagN();
     cpu->checkFlagC(result);
     cpu->checkFlagH(value_dest);
 }
@@ -183,7 +183,7 @@ void InstructionDecoder::subRegisters(const ptr<Register8bit> &source) {
 
     cpu->A->setValue(value_dest);
 
-    cpu->setFlagN(true);
+    cpu->setFlagN();
 }
 
 void InstructionDecoder::addWithCarry(const ptr<Register8bit> &destination,
@@ -197,7 +197,7 @@ void InstructionDecoder::addWithCarry(const ptr<Register8bit> &destination,
 
     // Overflow
     if (result > 0xFF) {
-        cpu->setFlagC(true);
+        cpu->setFlagC();
     }
 
     destination->setValue((register8_t)result);
@@ -213,7 +213,7 @@ void InstructionDecoder::subWithCarry(const ptr<Register8bit> &source) {
     cpu->A->setValue(value_dest);
 
     // TODO fix rest of flags. How does negative carry work???
-    cpu->setFlagN(true);
+    cpu->setFlagN();
 }
 
 void InstructionDecoder::andRegisters(const ptr<Register8bit> &source) {
@@ -250,11 +250,18 @@ void InstructionDecoder::cmpRegisters(const ptr<Register8bit> &source) {
     register8_t value_a = cpu->A->getValue();
     register8_t value_source = source->getValue();
 
-    cpu->setFlagZ(value_a == value_source);
+    if (value_a == value_source)
+        cpu->setFlagZ();
+    else
+        cpu->resetFlagZ();
 
     // TODO half carry flag
-    cpu->setFlagN(true);
-    cpu->setFlagC(value_a < value_source);
+    cpu->setFlagN();
+
+    if (value_a < value_source)
+        cpu->setFlagC();
+    else
+        cpu->resetFlagC();
 }
 
 void InstructionDecoder::pushStack(const ptr<Register16bit> &source) {
@@ -274,16 +281,6 @@ void InstructionDecoder::popStack(const ptr<Register16bit> &destination) {
     byte_t data_high = cpu->stack->getData(cpu->SP->getValue());
     destination->getHighRegister()->setValue(data_high);
     cpu->SP->increment();
-}
-
-void InstructionDecoder::popStackAF() {
-    popStack(cpu->AF);
-    register8_t f_data = cpu->F->getValue();
-
-    cpu->setFlagZ(bool((0x80 & f_data) != 0));
-    cpu->setFlagN(bool((0x40 & f_data) != 0));
-    cpu->setFlagH(bool((0x20 & f_data) != 0));
-    cpu->setFlagC(bool((0x10 & f_data) != 0));
 }
 
 void InstructionDecoder::performJump() {
@@ -310,19 +307,23 @@ void InstructionDecoder::rlcRegister(const ptr<Register8bit> &source) {
     if ((data_source & MSB_8BIT) == 0) {
         // MSB is 0
         data_source <<= 1;
-        cpu->setFlagC(false);
+        cpu->resetFlagC();
     } else {
         // MSB is 1
         data_source <<= 1;
         data_source |= LSB_8BIT;
-        cpu->setFlagC(true);
+        cpu->setFlagC();
     }
 
     source->setValue(data_source);
 
-    cpu->setFlagZ(data_source == 0x00);
-    cpu->setFlagN(false);
-    cpu->setFlagH(false);
+    if (data_source == 0x00)
+        cpu->setFlagZ();
+    else
+        cpu->setFlagZ();
+
+    cpu->resetFlagN();
+    cpu->resetFlagH();
 }
 
 void InstructionDecoder::rrcRegister(const ptr<Register8bit> &source) {
@@ -331,19 +332,23 @@ void InstructionDecoder::rrcRegister(const ptr<Register8bit> &source) {
     if ((data_source & LSB_8BIT) == 0) {
         // LSB is 0
         data_source >>= 1;
-        cpu->setFlagC(false);
+        cpu->resetFlagC();
     } else {
         // LSB is 1
         data_source >>= 1;
         data_source |= MSB_8BIT;
-        cpu->setFlagC(true);
+        cpu->setFlagC();
     }
 
     source->setValue(data_source);
 
-    cpu->setFlagZ(data_source == 0x00);
-    cpu->setFlagN(false);
-    cpu->setFlagH(false);
+    if (data_source == 0x00)
+        cpu->setFlagZ();
+    else
+        cpu->setFlagZ();
+
+    cpu->resetFlagN();
+    cpu->resetFlagH();
 }
 
 void InstructionDecoder::rlRegister(const ptr<Register8bit> &source) {
@@ -352,19 +357,23 @@ void InstructionDecoder::rlRegister(const ptr<Register8bit> &source) {
 
     if ((data_source & MSB_8BIT) == 0) {
         // MSB is 0
-        cpu->setFlagC(false);
+        cpu->resetFlagC();
     } else {
         // MSB is 1
-        cpu->setFlagC(true);
+        cpu->setFlagC();
     }
 
     data_source <<= 1;
     data_source |= carry;
     source->setValue(data_source);
 
-    cpu->setFlagZ(data_source == 0x00);
-    cpu->setFlagN(false);
-    cpu->setFlagH(false);
+    if (data_source == 0x00)
+        cpu->setFlagZ();
+    else
+        cpu->setFlagZ();
+
+    cpu->resetFlagN();
+    cpu->resetFlagH();
 }
 
 void InstructionDecoder::rrRegister(const ptr<Register8bit> &source) {
@@ -373,19 +382,23 @@ void InstructionDecoder::rrRegister(const ptr<Register8bit> &source) {
 
     if ((data_source & LSB_8BIT) == 0) {
         // LSB is 0
-        cpu->setFlagC(false);
+        cpu->resetFlagC();
     } else {
         // LSB is 1
-        cpu->setFlagC(true);
+        cpu->setFlagC();
     }
 
     data_source >>= 1;
     data_source |= carry;
     source->setValue(data_source);
 
-    cpu->setFlagZ(data_source == 0x00);
-    cpu->setFlagN(false);
-    cpu->setFlagH(false);
+    if (data_source == 0x00)
+        cpu->setFlagZ();
+    else
+        cpu->setFlagZ();
+
+    cpu->resetFlagN();
+    cpu->resetFlagH();
 }
 
 void InstructionDecoder::slaRegister(const ptr<Register8bit> &source) {
@@ -393,18 +406,22 @@ void InstructionDecoder::slaRegister(const ptr<Register8bit> &source) {
 
     if ((data_source & MSB_8BIT) == 0) {
         // MSB is 0
-        cpu->setFlagC(false);
+        cpu->resetFlagC();
     } else {
-        cpu->setFlagC(true);
+        cpu->setFlagC();
     }
 
     data_source <<= 1;
 
     source->setValue(data_source);
 
-    cpu->setFlagZ(data_source == 0x00);
-    cpu->setFlagN(false);
-    cpu->setFlagH(false);
+    if (data_source == 0x00)
+        cpu->setFlagZ();
+    else
+        cpu->setFlagZ();
+
+    cpu->resetFlagN();
+    cpu->resetFlagH();
 }
 
 void InstructionDecoder::sraRegister(const ptr<Register8bit> &source) {
@@ -413,10 +430,10 @@ void InstructionDecoder::sraRegister(const ptr<Register8bit> &source) {
 
     if ((data_source & LSB_8BIT) == 0) {
         // LSB is 0
-        cpu->setFlagC(false);
+        cpu->resetFlagC();
     } else {
         // LSB is 1
-        cpu->setFlagC(true);
+        cpu->setFlagC();
     }
 
     data_source >>= 1;
@@ -424,9 +441,13 @@ void InstructionDecoder::sraRegister(const ptr<Register8bit> &source) {
 
     source->setValue(data_source);
 
-    cpu->setFlagZ(data_source == 0x00);
-    cpu->setFlagN(false);
-    cpu->setFlagH(false);
+    if (data_source == 0x00)
+        cpu->setFlagZ();
+    else
+        cpu->setFlagZ();
+
+    cpu->resetFlagN();
+    cpu->resetFlagH();
 }
 
 void InstructionDecoder::swapNibbles(const ptr<Register8bit> &reg) {
@@ -439,10 +460,14 @@ void InstructionDecoder::swapNibbles(const ptr<Register8bit> &reg) {
 
     reg->setValue(val);
 
-    cpu->setFlagZ(val == 0x00);
-    cpu->setFlagN(false);
-    cpu->setFlagH(false);
-    cpu->setFlagC(false);
+    if (val == 0x00)
+        cpu->setFlagZ();
+    else
+        cpu->setFlagZ();
+
+    cpu->resetFlagN();
+    cpu->resetFlagH();
+    cpu->resetFlagC();
 }
 
 void InstructionDecoder::srlRegister(const ptr<Register8bit> &reg) {
@@ -450,19 +475,23 @@ void InstructionDecoder::srlRegister(const ptr<Register8bit> &reg) {
 
     if ((data_reg & LSB_8BIT) == 0) {
         // LSB is 0
-        cpu->setFlagC(false);
+        cpu->resetFlagC();
     } else {
         // LSB is 1
-        cpu->setFlagC(true);
+        cpu->setFlagC();
     }
 
     data_reg >>= 1;
 
     reg->setValue(data_reg);
 
-    cpu->setFlagZ(data_reg == 0x00);
-    cpu->setFlagN(false);
-    cpu->setFlagH(false);
+    if (data_reg == 0x00)
+        cpu->setFlagZ();
+    else
+        cpu->setFlagZ();
+
+    cpu->resetFlagN();
+    cpu->resetFlagH();
 }
 
 void InstructionDecoder::testBit(int b, const ptr<Register8bit> &reg) {
@@ -471,14 +500,14 @@ void InstructionDecoder::testBit(int b, const ptr<Register8bit> &reg) {
 
     if ((reg_val & mask) == 0) {
         // Bit b is 0
-        cpu->setFlagZ(true);
+        cpu->setFlagZ();
     } else {
         // Bit b is 1
-        cpu->setFlagZ(false);
+        cpu->resetFlagZ();
     }
 
-    cpu->setFlagN(false);
-    cpu->setFlagH(true);
+    cpu->resetFlagN();
+    cpu->setFlagH();
 }
 
 void InstructionDecoder::testBit(int b, const ptr<Register16bit> &reg) {
@@ -487,14 +516,14 @@ void InstructionDecoder::testBit(int b, const ptr<Register16bit> &reg) {
 
     if ((reg_val & mask) == 0) {
         // Bit b is 0
-        cpu->setFlagZ(true);
+        cpu->setFlagZ();
     } else {
         // Bit b is 1
-        cpu->setFlagZ(false);
+        cpu->resetFlagZ();
     }
 
-    cpu->setFlagN(false);
-    cpu->setFlagH(true);
+    cpu->resetFlagN();
+    cpu->setFlagH();
 }
 
 void InstructionDecoder::resetBit(int b, const ptr<Register8bit> &reg) {

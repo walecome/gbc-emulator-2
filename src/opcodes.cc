@@ -283,8 +283,8 @@ void InstructionDecoder::OPCode0x2E() {
 void InstructionDecoder::OPCode0x2F() {
     // CPL
     A->setValue(~A->getValue());
-    cpu->setFlagN(true);
-    cpu->setFlagH(true);
+    cpu->setFlagN();
+    cpu->setFlagH();
 }
 
 void InstructionDecoder::OPCode0x30() {
@@ -342,9 +342,9 @@ void InstructionDecoder::OPCode0x36() {
 
 void InstructionDecoder::OPCode0x37() {
     // SCF
-    cpu->flagN = false;
-    cpu->flagH = false;
-    cpu->flagC = true;
+    cpu->resetFlagN();
+    cpu->resetFlagH();
+    cpu->setFlagC();
 }
 
 void InstructionDecoder::OPCode0x38() {
@@ -393,10 +393,14 @@ void InstructionDecoder::OPCode0x3E() {
 
 void InstructionDecoder::OPCode0x3F() {
     // CCF
-    cpu->setFlagC(!cpu->getFlagC());
+    // Invert C flag
+    if (cpu->getFlagC())
+        cpu->resetFlagC();
+    else
+        cpu->setFlagC();
 
-    cpu->setFlagN(false);
-    cpu->setFlagH(false);
+    cpu->resetFlagN();
+    cpu->resetFlagH();
 }
 
 void InstructionDecoder::OPCode0x40() {
@@ -1064,10 +1068,18 @@ void InstructionDecoder::OPCode0xBE() {
     // CP (HL)
     byte_t data = ram->getData(HL->getValue());
 
-    cpu->setFlagZ(data == A->getValue());
+    if (data == A->getValue())
+        cpu->setFlagZ();
+    else
+        cpu->resetFlagZ();
+
     // TODO half carry flag
-    cpu->setFlagN(true);
-    cpu->setFlagC(A->getValue() < data);
+    cpu->setFlagN();
+
+    if (A->getValue() < data)
+        cpu->setFlagC();
+    else
+        cpu->resetFlagC();
 }
 
 void InstructionDecoder::OPCode0xBF() {
@@ -1433,7 +1445,7 @@ void InstructionDecoder::OPCode0xF0() {
 
 void InstructionDecoder::OPCode0xF1() {
     // POP AF
-    popStackAF();
+    popStack(AF);
 }
 
 void InstructionDecoder::OPCode0xF2() {
