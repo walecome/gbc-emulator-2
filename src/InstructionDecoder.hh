@@ -40,7 +40,7 @@ class InstructionDecoder {
     // Keep pointer to CPU and registers
     ptr<Processor> cpu;
 
-    ptr<Memory> program_memory, ram, stack;
+    ptr<Memory> program_memory, stack;
     ptr<Register16bit> SP, PC;
     ptr<Register8bit> A, B, C, D, E, F, H, L;
     ptr<Register16bit> AF, BC, DE, HL;
@@ -78,6 +78,7 @@ class InstructionDecoder {
 
     /**
         Loads the data in data_reg into (address_reg).
+        TODO double check that this works with program_memory.
     */
     void loadIntoMemory(const ptr<Register16bit> &address_reg,
                         const ptr<Register8bit> &data_reg);

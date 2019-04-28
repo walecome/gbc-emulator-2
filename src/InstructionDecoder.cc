@@ -6,7 +6,6 @@
 InstructionDecoder::InstructionDecoder(ptr<Processor> processor)
     : cpu { processor },
       program_memory { cpu->program_memory },
-      ram { cpu->ram },
       stack { cpu->stack },
       SP { cpu->SP },
       PC { cpu->PC },
@@ -87,21 +86,21 @@ void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
 
     byte_t data = data_reg->getValue();
 
-    cpu->ram->setData(address, data);
+    cpu->program_memory->setData(address, data);
 }
 
 void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
                                         byte_t value) {
     register16_t address = address_reg->getValue();
 
-    cpu->ram->setData(address, value);
+    cpu->program_memory->setData(address, value);
 }
 
 void InstructionDecoder::loadFromMemory(const ptr<Register8bit> &data_reg,
                                         const ptr<Register16bit> &address_reg) {
     register16_t address = address_reg->getValue();
 
-    byte_t data = cpu->ram->getData(address);
+    byte_t data = cpu->program_memory->getData(address);
 
     data_reg->setValue(data);
 }
@@ -110,7 +109,7 @@ byte_t InstructionDecoder::loadFromMemory(
     const ptr<Register16bit> &address_reg) {
     register16_t address = address_reg->getValue();
 
-    return cpu->ram->getData(address);
+    return cpu->program_memory->getData(address);
 }
 
 void InstructionDecoder::incrementRegister(const ptr<Register8bit> &reg) {

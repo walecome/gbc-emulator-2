@@ -315,21 +315,21 @@ void InstructionDecoder::OPCode0x33() {
 void InstructionDecoder::OPCode0x34() {
     // INC (HL)
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
-    byte_t data = ram->getData(address);
+    byte_t data = program_memory->getData(address);
 
     ++data;
 
-    ram->setData(address, data);
+    program_memory->setData(address, data);
 }
 
 void InstructionDecoder::OPCode0x35() {
     // DEC (HL)
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
-    byte_t data = ram->getData(address);
+    byte_t data = program_memory->getData(address);
 
     --data;
 
-    ram->setData(address, data);
+    program_memory->setData(address, data);
 }
 
 void InstructionDecoder::OPCode0x36() {
@@ -337,7 +337,7 @@ void InstructionDecoder::OPCode0x36() {
     byte_t data = getInstructionData();
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
 
-    ram->setData(address, data);
+    program_memory->setData(address, data);
 }
 
 void InstructionDecoder::OPCode0x37() {
@@ -757,7 +757,7 @@ void InstructionDecoder::OPCode0x86() {
     // ADD A, (HL)
     register8_t data_a = A->getValue();
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
-    register8_t data_mem = ram->getData(address);
+    register8_t data_mem = program_memory->getData(address);
 
     register8_t result = data_a + data_mem;
 
@@ -933,7 +933,7 @@ void InstructionDecoder::OPCode0xA6() {
     // AND (HL)
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
 
-    register8_t data_mem = ram->getData(address);
+    register8_t data_mem = program_memory->getData(address);
 
     register8_t data_a = A->getValue();
 
@@ -1066,7 +1066,7 @@ void InstructionDecoder::OPCode0xBD() {
 
 void InstructionDecoder::OPCode0xBE() {
     // CP (HL)
-    byte_t data = ram->getData(HL->getValue());
+    byte_t data = program_memory->getData(HL->getValue());
 
     if (data == A->getValue())
         cpu->setFlagZ();
@@ -1347,7 +1347,7 @@ void InstructionDecoder::OPCode0xDF() {
 void InstructionDecoder::OPCode0xE0() {
     // LDH (a8), A
     register16_t address = 0xFF00 + getInstructionData();
-    ram->setData(address, A->getValue());
+    program_memory->setData(address, A->getValue());
 }
 
 void InstructionDecoder::OPCode0xE1() {
@@ -1358,7 +1358,7 @@ void InstructionDecoder::OPCode0xE1() {
 void InstructionDecoder::OPCode0xE2() {
     // LD (C), A
     register16_t address = 0xFF00 + C->getValue();
-    ram->setData(address, A->getValue());
+    program_memory->setData(address, A->getValue());
 }
 
 void InstructionDecoder::OPCode0xE3() {
@@ -1439,7 +1439,7 @@ void InstructionDecoder::OPCode0xEF() {
 void InstructionDecoder::OPCode0xF0() {
     // LDH A, (a8)
     register16_t address = 0xFF00 + getInstructionData();
-    byte_t data = ram->getData(address);
+    byte_t data = program_memory->getData(address);
     A->setValue(data);
 }
 
@@ -1451,7 +1451,7 @@ void InstructionDecoder::OPCode0xF1() {
 void InstructionDecoder::OPCode0xF2() {
     // LD A, (C)
     register16_t address = 0xFF00 + C->getValue();
-    byte_t data = ram->getData(address);
+    byte_t data = program_memory->getData(address);
     A->setValue(data);
 }
 
