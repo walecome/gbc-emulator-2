@@ -91,3 +91,6 @@ void Processor::resetFlagZ() {
 opcode_t Processor::fetchInstruction() {
     return program_memory->getData(PC->getValue());
 }
+
+register8_t Processor::get_interrupt_data() { return ram->getData(0xFFFF); }
+void Processor::set_interrupt_data(byte_t data) { ram->setData(0xFFFF, data); }

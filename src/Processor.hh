@@ -111,4 +111,17 @@ class Processor {
 
     // Store raw ROM data
     std::vector<opcode_t> rom_data {};
+
+    // Interrupts
+    bool interrupts_enabled { true };
+
+    /**
+     *   Return data from the interrupt register.
+     */
+    register8_t &get_interrupt_reg();
+
+    /**
+     *   Set data in the interrupt register.
+     */
+    void set_interrupt_reg(byte_t data);
 };
