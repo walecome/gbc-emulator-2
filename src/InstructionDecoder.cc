@@ -70,7 +70,7 @@ opcode_t InstructionDecoder::fetchInstruction() {
     return opcode;
 }
 
-byte_t InstructionDecoder::getCurrentData() {
+byte_t InstructionDecoder::getInstructionData() {
     byte_t data = cpu->program_memory->getData(cpu->PC->getValue());
     cpu->PC->increment();
 
@@ -78,7 +78,7 @@ byte_t InstructionDecoder::getCurrentData() {
 }
 
 void InstructionDecoder::loadRegister(const ptr<Register8bit> &reg) {
-    reg->setValue(getCurrentData());
+    reg->setValue(getInstructionData());
 }
 
 void InstructionDecoder::loadIntoMemory(const ptr<Register16bit> &address_reg,
@@ -294,8 +294,8 @@ void InstructionDecoder::performJump() {
 }
 
 void InstructionDecoder::jumpIm16bit() {
-    register8_t data_low = getCurrentData();
-    register8_t data_high = getCurrentData();
+    register8_t data_low = getInstructionData();
+    register8_t data_high = getInstructionData();
 
     cpu->PC->getLowRegister()->setValue(data_low);
     cpu->PC->getHighRegister()->setValue(data_high);

@@ -68,7 +68,7 @@ class InstructionDecoder {
         Get the data pointed to by the program counter and increment the program
         counter.
     */
-    byte_t getCurrentData();
+    byte_t getInstructionData();
 
     /**
         Loads data from where the program counter is pointing into the given
