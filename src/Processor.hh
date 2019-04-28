@@ -118,10 +118,10 @@ class Processor {
     /**
      *   Return data from the interrupt register.
      */
-    register8_t &get_interrupt_reg();
+    register8_t get_interrupt_data();
 
     /**
      *   Set data in the interrupt register.
      */
-    void set_interrupt_reg(byte_t data);
+    void set_interrupt_data(byte_t data);
 };
