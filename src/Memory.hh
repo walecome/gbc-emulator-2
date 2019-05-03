@@ -1,10 +1,12 @@
 #pragma once
+#include <iostream>
 #include <vector>
+
 #include "Constants.hh"
 
 class Memory {
    public:
-    Memory(const register16_t size);
+    Memory(const unsigned size);
     void setData(const register16_t address, byte_t data);
     byte_t getData(const register16_t address);
 

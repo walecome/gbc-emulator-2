@@ -103,6 +103,7 @@ void InstructionDecoder::OPCode0x10() {
     // STOP 0
     // TODO fix
     std::cout << "STOP" << std::endl;
+    throw std::runtime_error("0x10");
 }
 
 void InstructionDecoder::OPCode0x11() {
@@ -233,6 +234,7 @@ void InstructionDecoder::OPCode0x26() {
 void InstructionDecoder::OPCode0x27() {
     // DAA
     // TODO fix
+    throw std::runtime_error("0x27");
 }
 
 void InstructionDecoder::OPCode0x28() {
@@ -676,6 +678,7 @@ void InstructionDecoder::OPCode0x75() {
 void InstructionDecoder::OPCode0x76() {
     // HALT
     // TODO stop??
+    throw std::runtime_error("0x76");
 }
 
 void InstructionDecoder::OPCode0x77() {
@@ -802,6 +805,7 @@ void InstructionDecoder::OPCode0x8D() {
 void InstructionDecoder::OPCode0x8E() {
     // ADC A, (HL)
     // TODO fix
+    throw std::runtime_error("0x8E");
 }
 
 void InstructionDecoder::OPCode0x8F() {
@@ -1244,7 +1248,7 @@ void InstructionDecoder::OPCode0xD2() {
 
 void InstructionDecoder::OPCode0xD3() {
     // No instruction
-    throw 1;
+    throw std::runtime_error("0xD3");
 }
 
 void InstructionDecoder::OPCode0xD4() {
@@ -1292,6 +1296,7 @@ void InstructionDecoder::OPCode0xD8() {
 void InstructionDecoder::OPCode0xD9() {
     // RETI
     // TODO fix interupts
+    throw std::runtime_error("0xD9");
 }
 
 void InstructionDecoder::OPCode0xDA() {
@@ -1306,7 +1311,7 @@ void InstructionDecoder::OPCode0xDA() {
 
 void InstructionDecoder::OPCode0xDB() {
     // No instruction
-    throw 1;
+    throw std::runtime_error("0xDB");
 }
 
 void InstructionDecoder::OPCode0xDC() {
@@ -1327,7 +1332,7 @@ void InstructionDecoder::OPCode0xDC() {
 
 void InstructionDecoder::OPCode0xDD() {
     // No instruction
-    throw 1;
+    throw std::runtime_error("0xDD");
 }
 
 void InstructionDecoder::OPCode0xDE() {
@@ -1363,12 +1368,12 @@ void InstructionDecoder::OPCode0xE2() {
 
 void InstructionDecoder::OPCode0xE3() {
     // No instruction
-    throw 1;
+    throw std::runtime_error("0xE3");
 }
 
 void InstructionDecoder::OPCode0xE4() {
     // No instruction
-    throw 1;
+    throw std::runtime_error("0xE4");
 }
 
 void InstructionDecoder::OPCode0xE5() {
@@ -1390,6 +1395,7 @@ void InstructionDecoder::OPCode0xE7() {
 void InstructionDecoder::OPCode0xE8() {
     // ADD SP, r8
     // TODO FIX (signed)
+    throw std::runtime_error("0xE8");
 }
 
 void InstructionDecoder::OPCode0xE9() {
@@ -1412,17 +1418,17 @@ void InstructionDecoder::OPCode0xEA() {
 
 void InstructionDecoder::OPCode0xEB() {
     // No instruction
-    throw 0xEB;
+    throw std::runtime_error("0xEB");
 }
 
 void InstructionDecoder::OPCode0xEC() {
     // No instruction
-    throw 0xEC;
+    throw std::runtime_error("0xEC");
 }
 
 void InstructionDecoder::OPCode0xED() {
     // No instruction
-    throw 0xED;
+    throw std::runtime_error("0xED");
 }
 
 void InstructionDecoder::OPCode0xEE() {
@@ -1458,11 +1464,12 @@ void InstructionDecoder::OPCode0xF2() {
 void InstructionDecoder::OPCode0xF3() {
     // DI
     // TODO disable interupts according to manual
+    throw std::runtime_error("0xF3");
 }
 
 void InstructionDecoder::OPCode0xF4() {
     // No instruction
-    throw 0xF4;
+    throw std::runtime_error("0xF4");
 }
 
 void InstructionDecoder::OPCode0xF5() {
@@ -1512,16 +1519,17 @@ void InstructionDecoder::OPCode0xFA() {
 void InstructionDecoder::OPCode0xFB() {
     // EI
     // TODO enable interupts according to manual
+    throw std::runtime_error("0xFB");
 }
 
 void InstructionDecoder::OPCode0xFC() {
     // No instruction
-    throw 0xFC;
+    throw std::runtime_error("0xFC");
 }
 
 void InstructionDecoder::OPCode0xFD() {
     // No instruction
-    throw 0xFD;
+    throw std::runtime_error("0xFD");
 }
 
 void InstructionDecoder::OPCode0xFE() {

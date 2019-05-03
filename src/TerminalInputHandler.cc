@@ -10,17 +10,33 @@ bool TIH::getInput() {
     return true;
 }
 
+bool match(const std::string &s, const std::vector<std::string> &inputs) {
+    for (auto &x : inputs) {
+        if (x == s) return true;
+    }
+
+    return false;
+}
+
 void TIH::handle_input(InstructionDecoder &id, ptr<Processor> &p) {
-    if (input == "step" || input == "s") {
+    if (match(input, { "step", "s" })) {
         id.step();
-    } else if (input == "stack") {
+    } else if (match(input, { "stack" })) {
         p->printStack();
-    } else if (input == "pm" || input == "p") {
+    } else if (match(input, { "pm", "p" })) {
         p->printProgramMemory();
-    } else if (input == "dump" || input == "d") {
+    } else if (match(input, { "dump", "d" })) {
         p->dump();
-    } else if (input == "help") {
+    } else if (match(input, { "help", "h" })) {
         print_help();
+
+    } else if (match(input, { "run", "r" })) {
+        while (1) {
+            p->printStack();
+            p->printProgramMemory();
+            p->dump();
+            id.step();
+        }
     } else {
         std::cout << "Invalid input" << std::endl;
     }

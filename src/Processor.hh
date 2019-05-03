@@ -80,8 +80,10 @@ class Processor {
     void resetFlagN();
     void resetFlagZ();
 
-    ptr<Memory> program_memory { std::make_shared<Memory>(PC_MAX_SIZE) };
-    ptr<Memory> stack { std::make_shared<Memory>(RAM_MAX_SIZE) };
+    ptr<Memory> program_memory { std::make_shared<Memory>((unsigned int)PC_MAX +
+                                                          1) };
+    ptr<Memory> stack { std::make_shared<Memory>((unsigned int)RAM_MAX_SIZE +
+                                                 1) };
 
     // Handle stack pointer as 16 bit register
     ptr<Register16bit> SP { std::make_shared<Register16bit>("SP") };
@@ -117,7 +119,7 @@ class Processor {
     /**
      *   Return data from the interrupt register.
      */
-    register8_t get_interrupt_data();
+    byte_t get_interrupt_data();
 
     /**
      *   Set data in the interrupt register.

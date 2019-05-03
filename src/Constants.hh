@@ -3,8 +3,10 @@
 */
 #pragma once
 #include <stdint.h>
+#include <exception>
 #include <functional>
 #include <memory>
+#include <stdexcept>
 
 using opcode_t = uint8_t;
 using byte_t = uint8_t;
