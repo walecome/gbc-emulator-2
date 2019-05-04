@@ -37,6 +37,12 @@ void TIH::handle_input(InstructionDecoder &id, ptr<Processor> &p) {
             p->dump();
             id.step();
         }
+    } else if (match(input, { "mem" })) {
+        register16_t addr;
+        std::cout << "Address: ";
+        std::cin >> std::hex >> addr;
+        p->printPMAddressData(addr);
+
     } else {
         std::cout << "Invalid input" << std::endl;
     }
@@ -44,9 +50,11 @@ void TIH::handle_input(InstructionDecoder &id, ptr<Processor> &p) {
 
 void TIH::print_help() {
     std::cout << "Avaliable commands:" << std::endl;
-    std::cout << "\tstep" << std::endl;
-    std::cout << "\tstack" << std::endl;
-    std::cout << "\tpm" << std::endl;
     std::cout << "\tdump" << std::endl;
+    std::cout << "\tmem" << std::endl;
+    std::cout << "\tpm" << std::endl;
     std::cout << "\tquit" << std::endl;
+    std::cout << "\trun" << std::endl;
+    std::cout << "\tstack" << std::endl;
+    std::cout << "\tstep" << std::endl;
 }

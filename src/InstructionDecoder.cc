@@ -44,9 +44,13 @@ void InstructionDecoder::step(bool verbose) {
         PC->increment();
         cpu->add_machine_cycles(Timings::opcode_machine_cycles[instruction]);
         executeCBInstruction(instruction);
+
+        // Count CB instructions as two
+        cpu->executed_instructions += 2;
     } else {
         if (verbose) std::cout << "Executing regular instruction" << std::endl;
         executeInstruction(instruction);
+        cpu->executed_instructions++;
     }
 
     if (verbose) {

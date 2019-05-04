@@ -43,6 +43,7 @@ class Processor {
        counter.
     */
     void printProgramMemory(int radius = 5);
+    void printPMAddressData(register16_t address);
     void dump();
 
     /**
@@ -109,6 +110,9 @@ class Processor {
     // Clock and machine cycles
     long unsigned int clock_cycles { 0 };
     long unsigned int machine_cycles { 0 };
+
+    // Number of instructions executed (for debugging)
+    long unsigned int executed_instructions { 0 };
 
     // Store raw ROM data
     std::vector<opcode_t> rom_data {};

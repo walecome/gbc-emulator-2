@@ -97,6 +97,11 @@ void Processor::printProgramMemory(int radius) {
     std::cout << "Done printing program memory" << std::endl;
 }
 
+void Processor::printPMAddressData(register16_t address) {
+    byte_t data = program_memory->getData(address);
+    std::cout << Util::hexString(data, 2) << std::endl;
+}
+
 void Processor::dump() {
     std::cout << "Printing processor" << std::endl;
     std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
@@ -109,5 +114,18 @@ void Processor::dump() {
     std::cout << "\t" << *DE << "\t" << *HL << std::endl;
     std::cout << "\t" << *SP << "\t";
     std::cout << *PC << std::endl;
+    std::cout << "\t"
+              << "C: " << getFlagC();
+    std::cout << "\t"
+              << "H: " << getFlagH() << std::endl;
+    std::cout << "\t"
+              << "N: " << getFlagN();
+    std::cout << "\t"
+              << "Z: " << getFlagZ() << std::endl;
+
+    std::cout << "\tCPU cycles: " << clock_cycles << std::endl;
+    std::cout << "\tMachine cycles: " << machine_cycles << std::endl;
+    std::cout << "\tExecuted instructions: " << executed_instructions
+              << std::endl;
     std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
 }

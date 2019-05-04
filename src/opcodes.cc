@@ -1181,6 +1181,7 @@ void InstructionDecoder::OPCode0xCA() {
 
 void InstructionDecoder::OPCode0xCB() {
     // Prefix CB
+    throw std::runtime_error("CB opcode should not be executed");
 }
 
 void InstructionDecoder::OPCode0xCC() {
