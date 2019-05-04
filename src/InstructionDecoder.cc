@@ -559,765 +559,519 @@ void InstructionDecoder::setBit(int b, const ptr<Register16bit> &reg) {
 }
 
 void InstructionDecoder::map_regular_opcodes() {
-    opcode_functions[0] = std::bind(&InstructionDecoder::OPCode0x00, this);
-    opcode_functions[1] = std::bind(&InstructionDecoder::OPCode0x01, this);
-    opcode_functions[2] = std::bind(&InstructionDecoder::OPCode0x02, this);
-    opcode_functions[3] = std::bind(&InstructionDecoder::OPCode0x03, this);
-    opcode_functions[4] = std::bind(&InstructionDecoder::OPCode0x04, this);
-    opcode_functions[5] = std::bind(&InstructionDecoder::OPCode0x05, this);
-    opcode_functions[6] = std::bind(&InstructionDecoder::OPCode0x06, this);
-    opcode_functions[7] = std::bind(&InstructionDecoder::OPCode0x07, this);
-    opcode_functions[8] = std::bind(&InstructionDecoder::OPCode0x08, this);
-    opcode_functions[9] = std::bind(&InstructionDecoder::OPCode0x09, this);
-    opcode_functions[10] = std::bind(&InstructionDecoder::OPCode0x0A, this);
-    opcode_functions[11] = std::bind(&InstructionDecoder::OPCode0x0B, this);
-    opcode_functions[12] = std::bind(&InstructionDecoder::OPCode0x0C, this);
-    opcode_functions[13] = std::bind(&InstructionDecoder::OPCode0x0D, this);
-    opcode_functions[14] = std::bind(&InstructionDecoder::OPCode0x0E, this);
-    opcode_functions[15] = std::bind(&InstructionDecoder::OPCode0x0F, this);
-    opcode_functions[16] = std::bind(&InstructionDecoder::OPCode0x10, this);
-    opcode_functions[17] = std::bind(&InstructionDecoder::OPCode0x11, this);
-    opcode_functions[18] = std::bind(&InstructionDecoder::OPCode0x12, this);
-    opcode_functions[19] = std::bind(&InstructionDecoder::OPCode0x13, this);
-    opcode_functions[20] = std::bind(&InstructionDecoder::OPCode0x14, this);
-    opcode_functions[21] = std::bind(&InstructionDecoder::OPCode0x15, this);
-    opcode_functions[22] = std::bind(&InstructionDecoder::OPCode0x16, this);
-    opcode_functions[23] = std::bind(&InstructionDecoder::OPCode0x17, this);
-    opcode_functions[24] = std::bind(&InstructionDecoder::OPCode0x18, this);
-    opcode_functions[25] = std::bind(&InstructionDecoder::OPCode0x19, this);
-    opcode_functions[26] = std::bind(&InstructionDecoder::OPCode0x1A, this);
-    opcode_functions[27] = std::bind(&InstructionDecoder::OPCode0x1B, this);
-    opcode_functions[28] = std::bind(&InstructionDecoder::OPCode0x1C, this);
-    opcode_functions[29] = std::bind(&InstructionDecoder::OPCode0x1D, this);
-    opcode_functions[30] = std::bind(&InstructionDecoder::OPCode0x1E, this);
-    opcode_functions[31] = std::bind(&InstructionDecoder::OPCode0x1F, this);
-    opcode_functions[32] = std::bind(&InstructionDecoder::OPCode0x20, this);
-    opcode_functions[33] = std::bind(&InstructionDecoder::OPCode0x21, this);
-    opcode_functions[34] = std::bind(&InstructionDecoder::OPCode0x22, this);
-    opcode_functions[35] = std::bind(&InstructionDecoder::OPCode0x23, this);
-    opcode_functions[36] = std::bind(&InstructionDecoder::OPCode0x24, this);
-    opcode_functions[37] = std::bind(&InstructionDecoder::OPCode0x25, this);
-    opcode_functions[38] = std::bind(&InstructionDecoder::OPCode0x26, this);
-    opcode_functions[39] = std::bind(&InstructionDecoder::OPCode0x27, this);
-    opcode_functions[40] = std::bind(&InstructionDecoder::OPCode0x28, this);
-    opcode_functions[41] = std::bind(&InstructionDecoder::OPCode0x29, this);
-    opcode_functions[42] = std::bind(&InstructionDecoder::OPCode0x2A, this);
-    opcode_functions[43] = std::bind(&InstructionDecoder::OPCode0x2B, this);
-    opcode_functions[44] = std::bind(&InstructionDecoder::OPCode0x2C, this);
-    opcode_functions[45] = std::bind(&InstructionDecoder::OPCode0x2D, this);
-    opcode_functions[46] = std::bind(&InstructionDecoder::OPCode0x2E, this);
-    opcode_functions[47] = std::bind(&InstructionDecoder::OPCode0x2F, this);
-    opcode_functions[48] = std::bind(&InstructionDecoder::OPCode0x30, this);
-    opcode_functions[49] = std::bind(&InstructionDecoder::OPCode0x31, this);
-    opcode_functions[50] = std::bind(&InstructionDecoder::OPCode0x32, this);
-    opcode_functions[51] = std::bind(&InstructionDecoder::OPCode0x33, this);
-    opcode_functions[52] = std::bind(&InstructionDecoder::OPCode0x34, this);
-    opcode_functions[53] = std::bind(&InstructionDecoder::OPCode0x35, this);
-    opcode_functions[54] = std::bind(&InstructionDecoder::OPCode0x36, this);
-    opcode_functions[55] = std::bind(&InstructionDecoder::OPCode0x37, this);
-    opcode_functions[56] = std::bind(&InstructionDecoder::OPCode0x38, this);
-    opcode_functions[57] = std::bind(&InstructionDecoder::OPCode0x39, this);
-    opcode_functions[58] = std::bind(&InstructionDecoder::OPCode0x3A, this);
-    opcode_functions[59] = std::bind(&InstructionDecoder::OPCode0x3B, this);
-    opcode_functions[60] = std::bind(&InstructionDecoder::OPCode0x3C, this);
-    opcode_functions[61] = std::bind(&InstructionDecoder::OPCode0x3D, this);
-    opcode_functions[62] = std::bind(&InstructionDecoder::OPCode0x3E, this);
-    opcode_functions[63] = std::bind(&InstructionDecoder::OPCode0x3F, this);
-    opcode_functions[64] = std::bind(&InstructionDecoder::OPCode0x40, this);
-    opcode_functions[65] = std::bind(&InstructionDecoder::OPCode0x41, this);
-    opcode_functions[66] = std::bind(&InstructionDecoder::OPCode0x42, this);
-    opcode_functions[67] = std::bind(&InstructionDecoder::OPCode0x43, this);
-    opcode_functions[68] = std::bind(&InstructionDecoder::OPCode0x44, this);
-    opcode_functions[69] = std::bind(&InstructionDecoder::OPCode0x45, this);
-    opcode_functions[70] = std::bind(&InstructionDecoder::OPCode0x46, this);
-    opcode_functions[71] = std::bind(&InstructionDecoder::OPCode0x47, this);
-    opcode_functions[72] = std::bind(&InstructionDecoder::OPCode0x48, this);
-    opcode_functions[73] = std::bind(&InstructionDecoder::OPCode0x49, this);
-    opcode_functions[74] = std::bind(&InstructionDecoder::OPCode0x4A, this);
-    opcode_functions[75] = std::bind(&InstructionDecoder::OPCode0x4B, this);
-    opcode_functions[76] = std::bind(&InstructionDecoder::OPCode0x4C, this);
-    opcode_functions[77] = std::bind(&InstructionDecoder::OPCode0x4D, this);
-    opcode_functions[78] = std::bind(&InstructionDecoder::OPCode0x4E, this);
-    opcode_functions[79] = std::bind(&InstructionDecoder::OPCode0x4F, this);
-    opcode_functions[80] = std::bind(&InstructionDecoder::OPCode0x50, this);
-    opcode_functions[81] = std::bind(&InstructionDecoder::OPCode0x51, this);
-    opcode_functions[82] = std::bind(&InstructionDecoder::OPCode0x52, this);
-    opcode_functions[83] = std::bind(&InstructionDecoder::OPCode0x53, this);
-    opcode_functions[84] = std::bind(&InstructionDecoder::OPCode0x54, this);
-    opcode_functions[85] = std::bind(&InstructionDecoder::OPCode0x55, this);
-    opcode_functions[86] = std::bind(&InstructionDecoder::OPCode0x56, this);
-    opcode_functions[87] = std::bind(&InstructionDecoder::OPCode0x57, this);
-    opcode_functions[88] = std::bind(&InstructionDecoder::OPCode0x58, this);
-    opcode_functions[89] = std::bind(&InstructionDecoder::OPCode0x59, this);
-    opcode_functions[90] = std::bind(&InstructionDecoder::OPCode0x5A, this);
-    opcode_functions[91] = std::bind(&InstructionDecoder::OPCode0x5B, this);
-    opcode_functions[92] = std::bind(&InstructionDecoder::OPCode0x5C, this);
-    opcode_functions[93] = std::bind(&InstructionDecoder::OPCode0x5D, this);
-    opcode_functions[94] = std::bind(&InstructionDecoder::OPCode0x5E, this);
-    opcode_functions[95] = std::bind(&InstructionDecoder::OPCode0x5F, this);
-    opcode_functions[96] = std::bind(&InstructionDecoder::OPCode0x60, this);
-    opcode_functions[97] = std::bind(&InstructionDecoder::OPCode0x61, this);
-    opcode_functions[98] = std::bind(&InstructionDecoder::OPCode0x62, this);
-    opcode_functions[99] = std::bind(&InstructionDecoder::OPCode0x63, this);
-    opcode_functions[100] = std::bind(&InstructionDecoder::OPCode0x64, this);
-    opcode_functions[101] = std::bind(&InstructionDecoder::OPCode0x65, this);
-    opcode_functions[102] = std::bind(&InstructionDecoder::OPCode0x66, this);
-    opcode_functions[103] = std::bind(&InstructionDecoder::OPCode0x67, this);
-    opcode_functions[104] = std::bind(&InstructionDecoder::OPCode0x68, this);
-    opcode_functions[105] = std::bind(&InstructionDecoder::OPCode0x69, this);
-    opcode_functions[106] = std::bind(&InstructionDecoder::OPCode0x6A, this);
-    opcode_functions[107] = std::bind(&InstructionDecoder::OPCode0x6B, this);
-    opcode_functions[108] = std::bind(&InstructionDecoder::OPCode0x6C, this);
-    opcode_functions[109] = std::bind(&InstructionDecoder::OPCode0x6D, this);
-    opcode_functions[110] = std::bind(&InstructionDecoder::OPCode0x6E, this);
-    opcode_functions[111] = std::bind(&InstructionDecoder::OPCode0x6F, this);
-    opcode_functions[112] = std::bind(&InstructionDecoder::OPCode0x70, this);
-    opcode_functions[113] = std::bind(&InstructionDecoder::OPCode0x71, this);
-    opcode_functions[114] = std::bind(&InstructionDecoder::OPCode0x72, this);
-    opcode_functions[115] = std::bind(&InstructionDecoder::OPCode0x73, this);
-    opcode_functions[116] = std::bind(&InstructionDecoder::OPCode0x74, this);
-    opcode_functions[117] = std::bind(&InstructionDecoder::OPCode0x75, this);
-    opcode_functions[118] = std::bind(&InstructionDecoder::OPCode0x76, this);
-    opcode_functions[119] = std::bind(&InstructionDecoder::OPCode0x77, this);
-    opcode_functions[120] = std::bind(&InstructionDecoder::OPCode0x78, this);
-    opcode_functions[121] = std::bind(&InstructionDecoder::OPCode0x79, this);
-    opcode_functions[122] = std::bind(&InstructionDecoder::OPCode0x7A, this);
-    opcode_functions[123] = std::bind(&InstructionDecoder::OPCode0x7B, this);
-    opcode_functions[124] = std::bind(&InstructionDecoder::OPCode0x7C, this);
-    opcode_functions[125] = std::bind(&InstructionDecoder::OPCode0x7D, this);
-    opcode_functions[126] = std::bind(&InstructionDecoder::OPCode0x7E, this);
-    opcode_functions[127] = std::bind(&InstructionDecoder::OPCode0x7F, this);
-    opcode_functions[128] = std::bind(&InstructionDecoder::OPCode0x80, this);
-    opcode_functions[129] = std::bind(&InstructionDecoder::OPCode0x81, this);
-    opcode_functions[130] = std::bind(&InstructionDecoder::OPCode0x82, this);
-    opcode_functions[131] = std::bind(&InstructionDecoder::OPCode0x83, this);
-    opcode_functions[132] = std::bind(&InstructionDecoder::OPCode0x84, this);
-    opcode_functions[133] = std::bind(&InstructionDecoder::OPCode0x85, this);
-    opcode_functions[134] = std::bind(&InstructionDecoder::OPCode0x86, this);
-    opcode_functions[135] = std::bind(&InstructionDecoder::OPCode0x87, this);
-    opcode_functions[136] = std::bind(&InstructionDecoder::OPCode0x88, this);
-    opcode_functions[137] = std::bind(&InstructionDecoder::OPCode0x89, this);
-    opcode_functions[138] = std::bind(&InstructionDecoder::OPCode0x8A, this);
-    opcode_functions[139] = std::bind(&InstructionDecoder::OPCode0x8B, this);
-    opcode_functions[140] = std::bind(&InstructionDecoder::OPCode0x8C, this);
-    opcode_functions[141] = std::bind(&InstructionDecoder::OPCode0x8D, this);
-    opcode_functions[142] = std::bind(&InstructionDecoder::OPCode0x8E, this);
-    opcode_functions[143] = std::bind(&InstructionDecoder::OPCode0x8F, this);
-    opcode_functions[144] = std::bind(&InstructionDecoder::OPCode0x90, this);
-    opcode_functions[145] = std::bind(&InstructionDecoder::OPCode0x91, this);
-    opcode_functions[146] = std::bind(&InstructionDecoder::OPCode0x92, this);
-    opcode_functions[147] = std::bind(&InstructionDecoder::OPCode0x93, this);
-    opcode_functions[148] = std::bind(&InstructionDecoder::OPCode0x94, this);
-    opcode_functions[149] = std::bind(&InstructionDecoder::OPCode0x95, this);
-    opcode_functions[150] = std::bind(&InstructionDecoder::OPCode0x96, this);
-    opcode_functions[151] = std::bind(&InstructionDecoder::OPCode0x97, this);
-    opcode_functions[152] = std::bind(&InstructionDecoder::OPCode0x98, this);
-    opcode_functions[153] = std::bind(&InstructionDecoder::OPCode0x99, this);
-    opcode_functions[154] = std::bind(&InstructionDecoder::OPCode0x9A, this);
-    opcode_functions[155] = std::bind(&InstructionDecoder::OPCode0x9B, this);
-    opcode_functions[156] = std::bind(&InstructionDecoder::OPCode0x9C, this);
-    opcode_functions[157] = std::bind(&InstructionDecoder::OPCode0x9D, this);
-    opcode_functions[158] = std::bind(&InstructionDecoder::OPCode0x9E, this);
-    opcode_functions[159] = std::bind(&InstructionDecoder::OPCode0x9F, this);
-    opcode_functions[160] = std::bind(&InstructionDecoder::OPCode0xA0, this);
-    opcode_functions[161] = std::bind(&InstructionDecoder::OPCode0xA1, this);
-    opcode_functions[162] = std::bind(&InstructionDecoder::OPCode0xA2, this);
-    opcode_functions[163] = std::bind(&InstructionDecoder::OPCode0xA3, this);
-    opcode_functions[164] = std::bind(&InstructionDecoder::OPCode0xA4, this);
-    opcode_functions[165] = std::bind(&InstructionDecoder::OPCode0xA5, this);
-    opcode_functions[166] = std::bind(&InstructionDecoder::OPCode0xA6, this);
-    opcode_functions[167] = std::bind(&InstructionDecoder::OPCode0xA7, this);
-    opcode_functions[168] = std::bind(&InstructionDecoder::OPCode0xA8, this);
-    opcode_functions[169] = std::bind(&InstructionDecoder::OPCode0xA9, this);
-    opcode_functions[170] = std::bind(&InstructionDecoder::OPCode0xAA, this);
-    opcode_functions[171] = std::bind(&InstructionDecoder::OPCode0xAB, this);
-    opcode_functions[172] = std::bind(&InstructionDecoder::OPCode0xAC, this);
-    opcode_functions[173] = std::bind(&InstructionDecoder::OPCode0xAD, this);
-    opcode_functions[174] = std::bind(&InstructionDecoder::OPCode0xAE, this);
-    opcode_functions[175] = std::bind(&InstructionDecoder::OPCode0xAF, this);
-    opcode_functions[176] = std::bind(&InstructionDecoder::OPCode0xB0, this);
-    opcode_functions[177] = std::bind(&InstructionDecoder::OPCode0xB1, this);
-    opcode_functions[178] = std::bind(&InstructionDecoder::OPCode0xB2, this);
-    opcode_functions[179] = std::bind(&InstructionDecoder::OPCode0xB3, this);
-    opcode_functions[180] = std::bind(&InstructionDecoder::OPCode0xB4, this);
-    opcode_functions[181] = std::bind(&InstructionDecoder::OPCode0xB5, this);
-    opcode_functions[182] = std::bind(&InstructionDecoder::OPCode0xB6, this);
-    opcode_functions[183] = std::bind(&InstructionDecoder::OPCode0xB7, this);
-    opcode_functions[184] = std::bind(&InstructionDecoder::OPCode0xB8, this);
-    opcode_functions[185] = std::bind(&InstructionDecoder::OPCode0xB9, this);
-    opcode_functions[186] = std::bind(&InstructionDecoder::OPCode0xBA, this);
-    opcode_functions[187] = std::bind(&InstructionDecoder::OPCode0xBB, this);
-    opcode_functions[188] = std::bind(&InstructionDecoder::OPCode0xBC, this);
-    opcode_functions[189] = std::bind(&InstructionDecoder::OPCode0xBD, this);
-    opcode_functions[190] = std::bind(&InstructionDecoder::OPCode0xBE, this);
-    opcode_functions[191] = std::bind(&InstructionDecoder::OPCode0xBF, this);
-    opcode_functions[192] = std::bind(&InstructionDecoder::OPCode0xC0, this);
-    opcode_functions[193] = std::bind(&InstructionDecoder::OPCode0xC1, this);
-    opcode_functions[194] = std::bind(&InstructionDecoder::OPCode0xC2, this);
-    opcode_functions[195] = std::bind(&InstructionDecoder::OPCode0xC3, this);
-    opcode_functions[196] = std::bind(&InstructionDecoder::OPCode0xC4, this);
-    opcode_functions[197] = std::bind(&InstructionDecoder::OPCode0xC5, this);
-    opcode_functions[198] = std::bind(&InstructionDecoder::OPCode0xC6, this);
-    opcode_functions[199] = std::bind(&InstructionDecoder::OPCode0xC7, this);
-    opcode_functions[200] = std::bind(&InstructionDecoder::OPCode0xC8, this);
-    opcode_functions[201] = std::bind(&InstructionDecoder::OPCode0xC9, this);
-    opcode_functions[202] = std::bind(&InstructionDecoder::OPCode0xCA, this);
-    opcode_functions[203] = std::bind(&InstructionDecoder::OPCode0xCB, this);
-    opcode_functions[204] = std::bind(&InstructionDecoder::OPCode0xCC, this);
-    opcode_functions[205] = std::bind(&InstructionDecoder::OPCode0xCD, this);
-    opcode_functions[206] = std::bind(&InstructionDecoder::OPCode0xCE, this);
-    opcode_functions[207] = std::bind(&InstructionDecoder::OPCode0xCF, this);
-    opcode_functions[208] = std::bind(&InstructionDecoder::OPCode0xD0, this);
-    opcode_functions[209] = std::bind(&InstructionDecoder::OPCode0xD1, this);
-    opcode_functions[210] = std::bind(&InstructionDecoder::OPCode0xD2, this);
-    opcode_functions[211] = std::bind(&InstructionDecoder::OPCode0xD3, this);
-    opcode_functions[212] = std::bind(&InstructionDecoder::OPCode0xD4, this);
-    opcode_functions[213] = std::bind(&InstructionDecoder::OPCode0xD5, this);
-    opcode_functions[214] = std::bind(&InstructionDecoder::OPCode0xD6, this);
-    opcode_functions[215] = std::bind(&InstructionDecoder::OPCode0xD7, this);
-    opcode_functions[216] = std::bind(&InstructionDecoder::OPCode0xD8, this);
-    opcode_functions[217] = std::bind(&InstructionDecoder::OPCode0xD9, this);
-    opcode_functions[218] = std::bind(&InstructionDecoder::OPCode0xDA, this);
-    opcode_functions[219] = std::bind(&InstructionDecoder::OPCode0xDB, this);
-    opcode_functions[220] = std::bind(&InstructionDecoder::OPCode0xDC, this);
-    opcode_functions[221] = std::bind(&InstructionDecoder::OPCode0xDD, this);
-    opcode_functions[222] = std::bind(&InstructionDecoder::OPCode0xDE, this);
-    opcode_functions[223] = std::bind(&InstructionDecoder::OPCode0xDF, this);
-    opcode_functions[224] = std::bind(&InstructionDecoder::OPCode0xE0, this);
-    opcode_functions[225] = std::bind(&InstructionDecoder::OPCode0xE1, this);
-    opcode_functions[226] = std::bind(&InstructionDecoder::OPCode0xE2, this);
-    opcode_functions[227] = std::bind(&InstructionDecoder::OPCode0xE3, this);
-    opcode_functions[228] = std::bind(&InstructionDecoder::OPCode0xE4, this);
-    opcode_functions[229] = std::bind(&InstructionDecoder::OPCode0xE5, this);
-    opcode_functions[230] = std::bind(&InstructionDecoder::OPCode0xE6, this);
-    opcode_functions[231] = std::bind(&InstructionDecoder::OPCode0xE7, this);
-    opcode_functions[232] = std::bind(&InstructionDecoder::OPCode0xE8, this);
-    opcode_functions[233] = std::bind(&InstructionDecoder::OPCode0xE9, this);
-    opcode_functions[234] = std::bind(&InstructionDecoder::OPCode0xEA, this);
-    opcode_functions[235] = std::bind(&InstructionDecoder::OPCode0xEB, this);
-    opcode_functions[236] = std::bind(&InstructionDecoder::OPCode0xEC, this);
-    opcode_functions[237] = std::bind(&InstructionDecoder::OPCode0xED, this);
-    opcode_functions[238] = std::bind(&InstructionDecoder::OPCode0xEE, this);
-    opcode_functions[239] = std::bind(&InstructionDecoder::OPCode0xEF, this);
-    opcode_functions[240] = std::bind(&InstructionDecoder::OPCode0xF0, this);
-    opcode_functions[241] = std::bind(&InstructionDecoder::OPCode0xF1, this);
-    opcode_functions[242] = std::bind(&InstructionDecoder::OPCode0xF2, this);
-    opcode_functions[243] = std::bind(&InstructionDecoder::OPCode0xF3, this);
-    opcode_functions[244] = std::bind(&InstructionDecoder::OPCode0xF4, this);
-    opcode_functions[245] = std::bind(&InstructionDecoder::OPCode0xF5, this);
-    opcode_functions[246] = std::bind(&InstructionDecoder::OPCode0xF6, this);
-    opcode_functions[247] = std::bind(&InstructionDecoder::OPCode0xF7, this);
-    opcode_functions[248] = std::bind(&InstructionDecoder::OPCode0xF8, this);
-    opcode_functions[249] = std::bind(&InstructionDecoder::OPCode0xF9, this);
-    opcode_functions[250] = std::bind(&InstructionDecoder::OPCode0xFA, this);
-    opcode_functions[251] = std::bind(&InstructionDecoder::OPCode0xFB, this);
-    opcode_functions[252] = std::bind(&InstructionDecoder::OPCode0xFC, this);
-    opcode_functions[253] = std::bind(&InstructionDecoder::OPCode0xFD, this);
-    opcode_functions[254] = std::bind(&InstructionDecoder::OPCode0xFE, this);
-    opcode_functions[255] = std::bind(&InstructionDecoder::OPCode0xFF, this);
+    opcode_functions[0x00] = [&]() { this->OPCode0x00(); };
+    opcode_functions[0x01] = [&]() { this->OPCode0x01(); };
+    opcode_functions[0x02] = [&]() { this->OPCode0x02(); };
+    opcode_functions[0x03] = [&]() { this->OPCode0x03(); };
+    opcode_functions[0x04] = [&]() { this->OPCode0x04(); };
+    opcode_functions[0x05] = [&]() { this->OPCode0x05(); };
+    opcode_functions[0x06] = [&]() { this->OPCode0x06(); };
+    opcode_functions[0x07] = [&]() { this->OPCode0x07(); };
+    opcode_functions[0x08] = [&]() { this->OPCode0x08(); };
+    opcode_functions[0x09] = [&]() { this->OPCode0x09(); };
+    opcode_functions[0x0A] = [&]() { this->OPCode0x0A(); };
+    opcode_functions[0x0B] = [&]() { this->OPCode0x0B(); };
+    opcode_functions[0x0C] = [&]() { this->OPCode0x0C(); };
+    opcode_functions[0x0D] = [&]() { this->OPCode0x0D(); };
+    opcode_functions[0x0E] = [&]() { this->OPCode0x0E(); };
+    opcode_functions[0x0F] = [&]() { this->OPCode0x0F(); };
+    opcode_functions[0x10] = [&]() { this->OPCode0x10(); };
+    opcode_functions[0x11] = [&]() { this->OPCode0x11(); };
+    opcode_functions[0x12] = [&]() { this->OPCode0x12(); };
+    opcode_functions[0x13] = [&]() { this->OPCode0x13(); };
+    opcode_functions[0x14] = [&]() { this->OPCode0x14(); };
+    opcode_functions[0x15] = [&]() { this->OPCode0x15(); };
+    opcode_functions[0x16] = [&]() { this->OPCode0x16(); };
+    opcode_functions[0x17] = [&]() { this->OPCode0x17(); };
+    opcode_functions[0x18] = [&]() { this->OPCode0x18(); };
+    opcode_functions[0x19] = [&]() { this->OPCode0x19(); };
+    opcode_functions[0x1A] = [&]() { this->OPCode0x1A(); };
+    opcode_functions[0x1B] = [&]() { this->OPCode0x1B(); };
+    opcode_functions[0x1C] = [&]() { this->OPCode0x1C(); };
+    opcode_functions[0x1D] = [&]() { this->OPCode0x1D(); };
+    opcode_functions[0x1E] = [&]() { this->OPCode0x1E(); };
+    opcode_functions[0x1F] = [&]() { this->OPCode0x1F(); };
+    opcode_functions[0x20] = [&]() { this->OPCode0x20(); };
+    opcode_functions[0x21] = [&]() { this->OPCode0x21(); };
+    opcode_functions[0x22] = [&]() { this->OPCode0x22(); };
+    opcode_functions[0x23] = [&]() { this->OPCode0x23(); };
+    opcode_functions[0x24] = [&]() { this->OPCode0x24(); };
+    opcode_functions[0x25] = [&]() { this->OPCode0x25(); };
+    opcode_functions[0x26] = [&]() { this->OPCode0x26(); };
+    opcode_functions[0x27] = [&]() { this->OPCode0x27(); };
+    opcode_functions[0x28] = [&]() { this->OPCode0x28(); };
+    opcode_functions[0x29] = [&]() { this->OPCode0x29(); };
+    opcode_functions[0x2A] = [&]() { this->OPCode0x2A(); };
+    opcode_functions[0x2B] = [&]() { this->OPCode0x2B(); };
+    opcode_functions[0x2C] = [&]() { this->OPCode0x2C(); };
+    opcode_functions[0x2D] = [&]() { this->OPCode0x2D(); };
+    opcode_functions[0x2E] = [&]() { this->OPCode0x2E(); };
+    opcode_functions[0x2F] = [&]() { this->OPCode0x2F(); };
+    opcode_functions[0x30] = [&]() { this->OPCode0x30(); };
+    opcode_functions[0x31] = [&]() { this->OPCode0x31(); };
+    opcode_functions[0x32] = [&]() { this->OPCode0x32(); };
+    opcode_functions[0x33] = [&]() { this->OPCode0x33(); };
+    opcode_functions[0x34] = [&]() { this->OPCode0x34(); };
+    opcode_functions[0x35] = [&]() { this->OPCode0x35(); };
+    opcode_functions[0x36] = [&]() { this->OPCode0x36(); };
+    opcode_functions[0x37] = [&]() { this->OPCode0x37(); };
+    opcode_functions[0x38] = [&]() { this->OPCode0x38(); };
+    opcode_functions[0x39] = [&]() { this->OPCode0x39(); };
+    opcode_functions[0x3A] = [&]() { this->OPCode0x3A(); };
+    opcode_functions[0x3B] = [&]() { this->OPCode0x3B(); };
+    opcode_functions[0x3C] = [&]() { this->OPCode0x3C(); };
+    opcode_functions[0x3D] = [&]() { this->OPCode0x3D(); };
+    opcode_functions[0x3E] = [&]() { this->OPCode0x3E(); };
+    opcode_functions[0x3F] = [&]() { this->OPCode0x3F(); };
+    opcode_functions[0x40] = [&]() { this->OPCode0x40(); };
+    opcode_functions[0x41] = [&]() { this->OPCode0x41(); };
+    opcode_functions[0x42] = [&]() { this->OPCode0x42(); };
+    opcode_functions[0x43] = [&]() { this->OPCode0x43(); };
+    opcode_functions[0x44] = [&]() { this->OPCode0x44(); };
+    opcode_functions[0x45] = [&]() { this->OPCode0x45(); };
+    opcode_functions[0x46] = [&]() { this->OPCode0x46(); };
+    opcode_functions[0x47] = [&]() { this->OPCode0x47(); };
+    opcode_functions[0x48] = [&]() { this->OPCode0x48(); };
+    opcode_functions[0x49] = [&]() { this->OPCode0x49(); };
+    opcode_functions[0x4A] = [&]() { this->OPCode0x4A(); };
+    opcode_functions[0x4B] = [&]() { this->OPCode0x4B(); };
+    opcode_functions[0x4C] = [&]() { this->OPCode0x4C(); };
+    opcode_functions[0x4D] = [&]() { this->OPCode0x4D(); };
+    opcode_functions[0x4E] = [&]() { this->OPCode0x4E(); };
+    opcode_functions[0x4F] = [&]() { this->OPCode0x4F(); };
+    opcode_functions[0x50] = [&]() { this->OPCode0x50(); };
+    opcode_functions[0x51] = [&]() { this->OPCode0x51(); };
+    opcode_functions[0x52] = [&]() { this->OPCode0x52(); };
+    opcode_functions[0x53] = [&]() { this->OPCode0x53(); };
+    opcode_functions[0x54] = [&]() { this->OPCode0x54(); };
+    opcode_functions[0x55] = [&]() { this->OPCode0x55(); };
+    opcode_functions[0x56] = [&]() { this->OPCode0x56(); };
+    opcode_functions[0x57] = [&]() { this->OPCode0x57(); };
+    opcode_functions[0x58] = [&]() { this->OPCode0x58(); };
+    opcode_functions[0x59] = [&]() { this->OPCode0x59(); };
+    opcode_functions[0x5A] = [&]() { this->OPCode0x5A(); };
+    opcode_functions[0x5B] = [&]() { this->OPCode0x5B(); };
+    opcode_functions[0x5C] = [&]() { this->OPCode0x5C(); };
+    opcode_functions[0x5D] = [&]() { this->OPCode0x5D(); };
+    opcode_functions[0x5E] = [&]() { this->OPCode0x5E(); };
+    opcode_functions[0x5F] = [&]() { this->OPCode0x5F(); };
+    opcode_functions[0x60] = [&]() { this->OPCode0x60(); };
+    opcode_functions[0x61] = [&]() { this->OPCode0x61(); };
+    opcode_functions[0x62] = [&]() { this->OPCode0x62(); };
+    opcode_functions[0x63] = [&]() { this->OPCode0x63(); };
+    opcode_functions[0x64] = [&]() { this->OPCode0x64(); };
+    opcode_functions[0x65] = [&]() { this->OPCode0x65(); };
+    opcode_functions[0x66] = [&]() { this->OPCode0x66(); };
+    opcode_functions[0x67] = [&]() { this->OPCode0x67(); };
+    opcode_functions[0x68] = [&]() { this->OPCode0x68(); };
+    opcode_functions[0x69] = [&]() { this->OPCode0x69(); };
+    opcode_functions[0x6A] = [&]() { this->OPCode0x6A(); };
+    opcode_functions[0x6B] = [&]() { this->OPCode0x6B(); };
+    opcode_functions[0x6C] = [&]() { this->OPCode0x6C(); };
+    opcode_functions[0x6D] = [&]() { this->OPCode0x6D(); };
+    opcode_functions[0x6E] = [&]() { this->OPCode0x6E(); };
+    opcode_functions[0x6F] = [&]() { this->OPCode0x6F(); };
+    opcode_functions[0x70] = [&]() { this->OPCode0x70(); };
+    opcode_functions[0x71] = [&]() { this->OPCode0x71(); };
+    opcode_functions[0x72] = [&]() { this->OPCode0x72(); };
+    opcode_functions[0x73] = [&]() { this->OPCode0x73(); };
+    opcode_functions[0x74] = [&]() { this->OPCode0x74(); };
+    opcode_functions[0x75] = [&]() { this->OPCode0x75(); };
+    opcode_functions[0x76] = [&]() { this->OPCode0x76(); };
+    opcode_functions[0x77] = [&]() { this->OPCode0x77(); };
+    opcode_functions[0x78] = [&]() { this->OPCode0x78(); };
+    opcode_functions[0x79] = [&]() { this->OPCode0x79(); };
+    opcode_functions[0x7A] = [&]() { this->OPCode0x7A(); };
+    opcode_functions[0x7B] = [&]() { this->OPCode0x7B(); };
+    opcode_functions[0x7C] = [&]() { this->OPCode0x7C(); };
+    opcode_functions[0x7D] = [&]() { this->OPCode0x7D(); };
+    opcode_functions[0x7E] = [&]() { this->OPCode0x7E(); };
+    opcode_functions[0x7F] = [&]() { this->OPCode0x7F(); };
+    opcode_functions[0x80] = [&]() { this->OPCode0x80(); };
+    opcode_functions[0x81] = [&]() { this->OPCode0x81(); };
+    opcode_functions[0x82] = [&]() { this->OPCode0x82(); };
+    opcode_functions[0x83] = [&]() { this->OPCode0x83(); };
+    opcode_functions[0x84] = [&]() { this->OPCode0x84(); };
+    opcode_functions[0x85] = [&]() { this->OPCode0x85(); };
+    opcode_functions[0x86] = [&]() { this->OPCode0x86(); };
+    opcode_functions[0x87] = [&]() { this->OPCode0x87(); };
+    opcode_functions[0x88] = [&]() { this->OPCode0x88(); };
+    opcode_functions[0x89] = [&]() { this->OPCode0x89(); };
+    opcode_functions[0x8A] = [&]() { this->OPCode0x8A(); };
+    opcode_functions[0x8B] = [&]() { this->OPCode0x8B(); };
+    opcode_functions[0x8C] = [&]() { this->OPCode0x8C(); };
+    opcode_functions[0x8D] = [&]() { this->OPCode0x8D(); };
+    opcode_functions[0x8E] = [&]() { this->OPCode0x8E(); };
+    opcode_functions[0x8F] = [&]() { this->OPCode0x8F(); };
+    opcode_functions[0x90] = [&]() { this->OPCode0x90(); };
+    opcode_functions[0x91] = [&]() { this->OPCode0x91(); };
+    opcode_functions[0x92] = [&]() { this->OPCode0x92(); };
+    opcode_functions[0x93] = [&]() { this->OPCode0x93(); };
+    opcode_functions[0x94] = [&]() { this->OPCode0x94(); };
+    opcode_functions[0x95] = [&]() { this->OPCode0x95(); };
+    opcode_functions[0x96] = [&]() { this->OPCode0x96(); };
+    opcode_functions[0x97] = [&]() { this->OPCode0x97(); };
+    opcode_functions[0x98] = [&]() { this->OPCode0x98(); };
+    opcode_functions[0x99] = [&]() { this->OPCode0x99(); };
+    opcode_functions[0x9A] = [&]() { this->OPCode0x9A(); };
+    opcode_functions[0x9B] = [&]() { this->OPCode0x9B(); };
+    opcode_functions[0x9C] = [&]() { this->OPCode0x9C(); };
+    opcode_functions[0x9D] = [&]() { this->OPCode0x9D(); };
+    opcode_functions[0x9E] = [&]() { this->OPCode0x9E(); };
+    opcode_functions[0x9F] = [&]() { this->OPCode0x9F(); };
+    opcode_functions[0xA0] = [&]() { this->OPCode0xA0(); };
+    opcode_functions[0xA1] = [&]() { this->OPCode0xA1(); };
+    opcode_functions[0xA2] = [&]() { this->OPCode0xA2(); };
+    opcode_functions[0xA3] = [&]() { this->OPCode0xA3(); };
+    opcode_functions[0xA4] = [&]() { this->OPCode0xA4(); };
+    opcode_functions[0xA5] = [&]() { this->OPCode0xA5(); };
+    opcode_functions[0xA6] = [&]() { this->OPCode0xA6(); };
+    opcode_functions[0xA7] = [&]() { this->OPCode0xA7(); };
+    opcode_functions[0xA8] = [&]() { this->OPCode0xA8(); };
+    opcode_functions[0xA9] = [&]() { this->OPCode0xA9(); };
+    opcode_functions[0xAA] = [&]() { this->OPCode0xAA(); };
+    opcode_functions[0xAB] = [&]() { this->OPCode0xAB(); };
+    opcode_functions[0xAC] = [&]() { this->OPCode0xAC(); };
+    opcode_functions[0xAD] = [&]() { this->OPCode0xAD(); };
+    opcode_functions[0xAE] = [&]() { this->OPCode0xAE(); };
+    opcode_functions[0xAF] = [&]() { this->OPCode0xAF(); };
+    opcode_functions[0xB0] = [&]() { this->OPCode0xB0(); };
+    opcode_functions[0xB1] = [&]() { this->OPCode0xB1(); };
+    opcode_functions[0xB2] = [&]() { this->OPCode0xB2(); };
+    opcode_functions[0xB3] = [&]() { this->OPCode0xB3(); };
+    opcode_functions[0xB4] = [&]() { this->OPCode0xB4(); };
+    opcode_functions[0xB5] = [&]() { this->OPCode0xB5(); };
+    opcode_functions[0xB6] = [&]() { this->OPCode0xB6(); };
+    opcode_functions[0xB7] = [&]() { this->OPCode0xB7(); };
+    opcode_functions[0xB8] = [&]() { this->OPCode0xB8(); };
+    opcode_functions[0xB9] = [&]() { this->OPCode0xB9(); };
+    opcode_functions[0xBA] = [&]() { this->OPCode0xBA(); };
+    opcode_functions[0xBB] = [&]() { this->OPCode0xBB(); };
+    opcode_functions[0xBC] = [&]() { this->OPCode0xBC(); };
+    opcode_functions[0xBD] = [&]() { this->OPCode0xBD(); };
+    opcode_functions[0xBE] = [&]() { this->OPCode0xBE(); };
+    opcode_functions[0xBF] = [&]() { this->OPCode0xBF(); };
+    opcode_functions[0xC0] = [&]() { this->OPCode0xC0(); };
+    opcode_functions[0xC1] = [&]() { this->OPCode0xC1(); };
+    opcode_functions[0xC2] = [&]() { this->OPCode0xC2(); };
+    opcode_functions[0xC3] = [&]() { this->OPCode0xC3(); };
+    opcode_functions[0xC4] = [&]() { this->OPCode0xC4(); };
+    opcode_functions[0xC5] = [&]() { this->OPCode0xC5(); };
+    opcode_functions[0xC6] = [&]() { this->OPCode0xC6(); };
+    opcode_functions[0xC7] = [&]() { this->OPCode0xC7(); };
+    opcode_functions[0xC8] = [&]() { this->OPCode0xC8(); };
+    opcode_functions[0xC9] = [&]() { this->OPCode0xC9(); };
+    opcode_functions[0xCA] = [&]() { this->OPCode0xCA(); };
+    opcode_functions[0xCB] = [&]() { this->OPCode0xCB(); };
+    opcode_functions[0xCC] = [&]() { this->OPCode0xCC(); };
+    opcode_functions[0xCD] = [&]() { this->OPCode0xCD(); };
+    opcode_functions[0xCE] = [&]() { this->OPCode0xCE(); };
+    opcode_functions[0xCF] = [&]() { this->OPCode0xCF(); };
+    opcode_functions[0xD0] = [&]() { this->OPCode0xD0(); };
+    opcode_functions[0xD1] = [&]() { this->OPCode0xD1(); };
+    opcode_functions[0xD2] = [&]() { this->OPCode0xD2(); };
+    opcode_functions[0xD3] = [&]() { this->OPCode0xD3(); };
+    opcode_functions[0xD4] = [&]() { this->OPCode0xD4(); };
+    opcode_functions[0xD5] = [&]() { this->OPCode0xD5(); };
+    opcode_functions[0xD6] = [&]() { this->OPCode0xD6(); };
+    opcode_functions[0xD7] = [&]() { this->OPCode0xD7(); };
+    opcode_functions[0xD8] = [&]() { this->OPCode0xD8(); };
+    opcode_functions[0xD9] = [&]() { this->OPCode0xD9(); };
+    opcode_functions[0xDA] = [&]() { this->OPCode0xDA(); };
+    opcode_functions[0xDB] = [&]() { this->OPCode0xDB(); };
+    opcode_functions[0xDC] = [&]() { this->OPCode0xDC(); };
+    opcode_functions[0xDD] = [&]() { this->OPCode0xDD(); };
+    opcode_functions[0xDE] = [&]() { this->OPCode0xDE(); };
+    opcode_functions[0xDF] = [&]() { this->OPCode0xDF(); };
+    opcode_functions[0xE0] = [&]() { this->OPCode0xE0(); };
+    opcode_functions[0xE1] = [&]() { this->OPCode0xE1(); };
+    opcode_functions[0xE2] = [&]() { this->OPCode0xE2(); };
+    opcode_functions[0xE3] = [&]() { this->OPCode0xE3(); };
+    opcode_functions[0xE4] = [&]() { this->OPCode0xE4(); };
+    opcode_functions[0xE5] = [&]() { this->OPCode0xE5(); };
+    opcode_functions[0xE6] = [&]() { this->OPCode0xE6(); };
+    opcode_functions[0xE7] = [&]() { this->OPCode0xE7(); };
+    opcode_functions[0xE8] = [&]() { this->OPCode0xE8(); };
+    opcode_functions[0xE9] = [&]() { this->OPCode0xE9(); };
+    opcode_functions[0xEA] = [&]() { this->OPCode0xEA(); };
+    opcode_functions[0xEB] = [&]() { this->OPCode0xEB(); };
+    opcode_functions[0xEC] = [&]() { this->OPCode0xEC(); };
+    opcode_functions[0xED] = [&]() { this->OPCode0xED(); };
+    opcode_functions[0xEE] = [&]() { this->OPCode0xEE(); };
+    opcode_functions[0xEF] = [&]() { this->OPCode0xEF(); };
+    opcode_functions[0xF0] = [&]() { this->OPCode0xF0(); };
+    opcode_functions[0xF1] = [&]() { this->OPCode0xF1(); };
+    opcode_functions[0xF2] = [&]() { this->OPCode0xF2(); };
+    opcode_functions[0xF3] = [&]() { this->OPCode0xF3(); };
+    opcode_functions[0xF4] = [&]() { this->OPCode0xF4(); };
+    opcode_functions[0xF5] = [&]() { this->OPCode0xF5(); };
+    opcode_functions[0xF6] = [&]() { this->OPCode0xF6(); };
+    opcode_functions[0xF7] = [&]() { this->OPCode0xF7(); };
+    opcode_functions[0xF8] = [&]() { this->OPCode0xF8(); };
+    opcode_functions[0xF9] = [&]() { this->OPCode0xF9(); };
+    opcode_functions[0xFA] = [&]() { this->OPCode0xFA(); };
+    opcode_functions[0xFB] = [&]() { this->OPCode0xFB(); };
+    opcode_functions[0xFC] = [&]() { this->OPCode0xFC(); };
+    opcode_functions[0xFD] = [&]() { this->OPCode0xFD(); };
+    opcode_functions[0xFE] = [&]() { this->OPCode0xFE(); };
+    opcode_functions[0xFF] = [&]() { this->OPCode0xFF(); };
 }
 
 void InstructionDecoder::map_cb_opcodes() {
-    opcode_cb_functions[0] = std::bind(&InstructionDecoder::OPCodeCB0x00, this);
-    opcode_cb_functions[1] = std::bind(&InstructionDecoder::OPCodeCB0x01, this);
-    opcode_cb_functions[2] = std::bind(&InstructionDecoder::OPCodeCB0x02, this);
-    opcode_cb_functions[3] = std::bind(&InstructionDecoder::OPCodeCB0x03, this);
-    opcode_cb_functions[4] = std::bind(&InstructionDecoder::OPCodeCB0x04, this);
-    opcode_cb_functions[5] = std::bind(&InstructionDecoder::OPCodeCB0x05, this);
-    opcode_cb_functions[6] = std::bind(&InstructionDecoder::OPCodeCB0x06, this);
-    opcode_cb_functions[7] = std::bind(&InstructionDecoder::OPCodeCB0x07, this);
-    opcode_cb_functions[8] = std::bind(&InstructionDecoder::OPCodeCB0x08, this);
-    opcode_cb_functions[9] = std::bind(&InstructionDecoder::OPCodeCB0x09, this);
-    opcode_cb_functions[10] =
-        std::bind(&InstructionDecoder::OPCodeCB0x0A, this);
-    opcode_cb_functions[11] =
-        std::bind(&InstructionDecoder::OPCodeCB0x0B, this);
-    opcode_cb_functions[12] =
-        std::bind(&InstructionDecoder::OPCodeCB0x0C, this);
-    opcode_cb_functions[13] =
-        std::bind(&InstructionDecoder::OPCodeCB0x0D, this);
-    opcode_cb_functions[14] =
-        std::bind(&InstructionDecoder::OPCodeCB0x0E, this);
-    opcode_cb_functions[15] =
-        std::bind(&InstructionDecoder::OPCodeCB0x0F, this);
-    opcode_cb_functions[16] =
-        std::bind(&InstructionDecoder::OPCodeCB0x10, this);
-    opcode_cb_functions[17] =
-        std::bind(&InstructionDecoder::OPCodeCB0x11, this);
-    opcode_cb_functions[18] =
-        std::bind(&InstructionDecoder::OPCodeCB0x12, this);
-    opcode_cb_functions[19] =
-        std::bind(&InstructionDecoder::OPCodeCB0x13, this);
-    opcode_cb_functions[20] =
-        std::bind(&InstructionDecoder::OPCodeCB0x14, this);
-    opcode_cb_functions[21] =
-        std::bind(&InstructionDecoder::OPCodeCB0x15, this);
-    opcode_cb_functions[22] =
-        std::bind(&InstructionDecoder::OPCodeCB0x16, this);
-    opcode_cb_functions[23] =
-        std::bind(&InstructionDecoder::OPCodeCB0x17, this);
-    opcode_cb_functions[24] =
-        std::bind(&InstructionDecoder::OPCodeCB0x18, this);
-    opcode_cb_functions[25] =
-        std::bind(&InstructionDecoder::OPCodeCB0x19, this);
-    opcode_cb_functions[26] =
-        std::bind(&InstructionDecoder::OPCodeCB0x1A, this);
-    opcode_cb_functions[27] =
-        std::bind(&InstructionDecoder::OPCodeCB0x1B, this);
-    opcode_cb_functions[28] =
-        std::bind(&InstructionDecoder::OPCodeCB0x1C, this);
-    opcode_cb_functions[29] =
-        std::bind(&InstructionDecoder::OPCodeCB0x1D, this);
-    opcode_cb_functions[30] =
-        std::bind(&InstructionDecoder::OPCodeCB0x1E, this);
-    opcode_cb_functions[31] =
-        std::bind(&InstructionDecoder::OPCodeCB0x1F, this);
-    opcode_cb_functions[32] =
-        std::bind(&InstructionDecoder::OPCodeCB0x20, this);
-    opcode_cb_functions[33] =
-        std::bind(&InstructionDecoder::OPCodeCB0x21, this);
-    opcode_cb_functions[34] =
-        std::bind(&InstructionDecoder::OPCodeCB0x22, this);
-    opcode_cb_functions[35] =
-        std::bind(&InstructionDecoder::OPCodeCB0x23, this);
-    opcode_cb_functions[36] =
-        std::bind(&InstructionDecoder::OPCodeCB0x24, this);
-    opcode_cb_functions[37] =
-        std::bind(&InstructionDecoder::OPCodeCB0x25, this);
-    opcode_cb_functions[38] =
-        std::bind(&InstructionDecoder::OPCodeCB0x26, this);
-    opcode_cb_functions[39] =
-        std::bind(&InstructionDecoder::OPCodeCB0x27, this);
-    opcode_cb_functions[40] =
-        std::bind(&InstructionDecoder::OPCodeCB0x28, this);
-    opcode_cb_functions[41] =
-        std::bind(&InstructionDecoder::OPCodeCB0x29, this);
-    opcode_cb_functions[42] =
-        std::bind(&InstructionDecoder::OPCodeCB0x2A, this);
-    opcode_cb_functions[43] =
-        std::bind(&InstructionDecoder::OPCodeCB0x2B, this);
-    opcode_cb_functions[44] =
-        std::bind(&InstructionDecoder::OPCodeCB0x2C, this);
-    opcode_cb_functions[45] =
-        std::bind(&InstructionDecoder::OPCodeCB0x2D, this);
-    opcode_cb_functions[46] =
-        std::bind(&InstructionDecoder::OPCodeCB0x2E, this);
-    opcode_cb_functions[47] =
-        std::bind(&InstructionDecoder::OPCodeCB0x2F, this);
-    opcode_cb_functions[48] =
-        std::bind(&InstructionDecoder::OPCodeCB0x30, this);
-    opcode_cb_functions[49] =
-        std::bind(&InstructionDecoder::OPCodeCB0x31, this);
-    opcode_cb_functions[50] =
-        std::bind(&InstructionDecoder::OPCodeCB0x32, this);
-    opcode_cb_functions[51] =
-        std::bind(&InstructionDecoder::OPCodeCB0x33, this);
-    opcode_cb_functions[52] =
-        std::bind(&InstructionDecoder::OPCodeCB0x34, this);
-    opcode_cb_functions[53] =
-        std::bind(&InstructionDecoder::OPCodeCB0x35, this);
-    opcode_cb_functions[54] =
-        std::bind(&InstructionDecoder::OPCodeCB0x36, this);
-    opcode_cb_functions[55] =
-        std::bind(&InstructionDecoder::OPCodeCB0x37, this);
-    opcode_cb_functions[56] =
-        std::bind(&InstructionDecoder::OPCodeCB0x38, this);
-    opcode_cb_functions[57] =
-        std::bind(&InstructionDecoder::OPCodeCB0x39, this);
-    opcode_cb_functions[58] =
-        std::bind(&InstructionDecoder::OPCodeCB0x3A, this);
-    opcode_cb_functions[59] =
-        std::bind(&InstructionDecoder::OPCodeCB0x3B, this);
-    opcode_cb_functions[60] =
-        std::bind(&InstructionDecoder::OPCodeCB0x3C, this);
-    opcode_cb_functions[61] =
-        std::bind(&InstructionDecoder::OPCodeCB0x3D, this);
-    opcode_cb_functions[62] =
-        std::bind(&InstructionDecoder::OPCodeCB0x3E, this);
-    opcode_cb_functions[63] =
-        std::bind(&InstructionDecoder::OPCodeCB0x3F, this);
-    opcode_cb_functions[64] =
-        std::bind(&InstructionDecoder::OPCodeCB0x40, this);
-    opcode_cb_functions[65] =
-        std::bind(&InstructionDecoder::OPCodeCB0x41, this);
-    opcode_cb_functions[66] =
-        std::bind(&InstructionDecoder::OPCodeCB0x42, this);
-    opcode_cb_functions[67] =
-        std::bind(&InstructionDecoder::OPCodeCB0x43, this);
-    opcode_cb_functions[68] =
-        std::bind(&InstructionDecoder::OPCodeCB0x44, this);
-    opcode_cb_functions[69] =
-        std::bind(&InstructionDecoder::OPCodeCB0x45, this);
-    opcode_cb_functions[70] =
-        std::bind(&InstructionDecoder::OPCodeCB0x46, this);
-    opcode_cb_functions[71] =
-        std::bind(&InstructionDecoder::OPCodeCB0x47, this);
-    opcode_cb_functions[72] =
-        std::bind(&InstructionDecoder::OPCodeCB0x48, this);
-    opcode_cb_functions[73] =
-        std::bind(&InstructionDecoder::OPCodeCB0x49, this);
-    opcode_cb_functions[74] =
-        std::bind(&InstructionDecoder::OPCodeCB0x4A, this);
-    opcode_cb_functions[75] =
-        std::bind(&InstructionDecoder::OPCodeCB0x4B, this);
-    opcode_cb_functions[76] =
-        std::bind(&InstructionDecoder::OPCodeCB0x4C, this);
-    opcode_cb_functions[77] =
-        std::bind(&InstructionDecoder::OPCodeCB0x4D, this);
-    opcode_cb_functions[78] =
-        std::bind(&InstructionDecoder::OPCodeCB0x4E, this);
-    opcode_cb_functions[79] =
-        std::bind(&InstructionDecoder::OPCodeCB0x4F, this);
-    opcode_cb_functions[80] =
-        std::bind(&InstructionDecoder::OPCodeCB0x50, this);
-    opcode_cb_functions[81] =
-        std::bind(&InstructionDecoder::OPCodeCB0x51, this);
-    opcode_cb_functions[82] =
-        std::bind(&InstructionDecoder::OPCodeCB0x52, this);
-    opcode_cb_functions[83] =
-        std::bind(&InstructionDecoder::OPCodeCB0x53, this);
-    opcode_cb_functions[84] =
-        std::bind(&InstructionDecoder::OPCodeCB0x54, this);
-    opcode_cb_functions[85] =
-        std::bind(&InstructionDecoder::OPCodeCB0x55, this);
-    opcode_cb_functions[86] =
-        std::bind(&InstructionDecoder::OPCodeCB0x56, this);
-    opcode_cb_functions[87] =
-        std::bind(&InstructionDecoder::OPCodeCB0x57, this);
-    opcode_cb_functions[88] =
-        std::bind(&InstructionDecoder::OPCodeCB0x58, this);
-    opcode_cb_functions[89] =
-        std::bind(&InstructionDecoder::OPCodeCB0x59, this);
-    opcode_cb_functions[90] =
-        std::bind(&InstructionDecoder::OPCodeCB0x5A, this);
-    opcode_cb_functions[91] =
-        std::bind(&InstructionDecoder::OPCodeCB0x5B, this);
-    opcode_cb_functions[92] =
-        std::bind(&InstructionDecoder::OPCodeCB0x5C, this);
-    opcode_cb_functions[93] =
-        std::bind(&InstructionDecoder::OPCodeCB0x5D, this);
-    opcode_cb_functions[94] =
-        std::bind(&InstructionDecoder::OPCodeCB0x5E, this);
-    opcode_cb_functions[95] =
-        std::bind(&InstructionDecoder::OPCodeCB0x5F, this);
-    opcode_cb_functions[96] =
-        std::bind(&InstructionDecoder::OPCodeCB0x60, this);
-    opcode_cb_functions[97] =
-        std::bind(&InstructionDecoder::OPCodeCB0x61, this);
-    opcode_cb_functions[98] =
-        std::bind(&InstructionDecoder::OPCodeCB0x62, this);
-    opcode_cb_functions[99] =
-        std::bind(&InstructionDecoder::OPCodeCB0x63, this);
-    opcode_cb_functions[100] =
-        std::bind(&InstructionDecoder::OPCodeCB0x64, this);
-    opcode_cb_functions[101] =
-        std::bind(&InstructionDecoder::OPCodeCB0x65, this);
-    opcode_cb_functions[102] =
-        std::bind(&InstructionDecoder::OPCodeCB0x66, this);
-    opcode_cb_functions[103] =
-        std::bind(&InstructionDecoder::OPCodeCB0x67, this);
-    opcode_cb_functions[104] =
-        std::bind(&InstructionDecoder::OPCodeCB0x68, this);
-    opcode_cb_functions[105] =
-        std::bind(&InstructionDecoder::OPCodeCB0x69, this);
-    opcode_cb_functions[106] =
-        std::bind(&InstructionDecoder::OPCodeCB0x6A, this);
-    opcode_cb_functions[107] =
-        std::bind(&InstructionDecoder::OPCodeCB0x6B, this);
-    opcode_cb_functions[108] =
-        std::bind(&InstructionDecoder::OPCodeCB0x6C, this);
-    opcode_cb_functions[109] =
-        std::bind(&InstructionDecoder::OPCodeCB0x6D, this);
-    opcode_cb_functions[110] =
-        std::bind(&InstructionDecoder::OPCodeCB0x6E, this);
-    opcode_cb_functions[111] =
-        std::bind(&InstructionDecoder::OPCodeCB0x6F, this);
-    opcode_cb_functions[112] =
-        std::bind(&InstructionDecoder::OPCodeCB0x70, this);
-    opcode_cb_functions[113] =
-        std::bind(&InstructionDecoder::OPCodeCB0x71, this);
-    opcode_cb_functions[114] =
-        std::bind(&InstructionDecoder::OPCodeCB0x72, this);
-    opcode_cb_functions[115] =
-        std::bind(&InstructionDecoder::OPCodeCB0x73, this);
-    opcode_cb_functions[116] =
-        std::bind(&InstructionDecoder::OPCodeCB0x74, this);
-    opcode_cb_functions[117] =
-        std::bind(&InstructionDecoder::OPCodeCB0x75, this);
-    opcode_cb_functions[118] =
-        std::bind(&InstructionDecoder::OPCodeCB0x76, this);
-    opcode_cb_functions[119] =
-        std::bind(&InstructionDecoder::OPCodeCB0x77, this);
-    opcode_cb_functions[120] =
-        std::bind(&InstructionDecoder::OPCodeCB0x78, this);
-    opcode_cb_functions[121] =
-        std::bind(&InstructionDecoder::OPCodeCB0x79, this);
-    opcode_cb_functions[122] =
-        std::bind(&InstructionDecoder::OPCodeCB0x7A, this);
-    opcode_cb_functions[123] =
-        std::bind(&InstructionDecoder::OPCodeCB0x7B, this);
-    opcode_cb_functions[124] =
-        std::bind(&InstructionDecoder::OPCodeCB0x7C, this);
-    opcode_cb_functions[125] =
-        std::bind(&InstructionDecoder::OPCodeCB0x7D, this);
-    opcode_cb_functions[126] =
-        std::bind(&InstructionDecoder::OPCodeCB0x7E, this);
-    opcode_cb_functions[127] =
-        std::bind(&InstructionDecoder::OPCodeCB0x7F, this);
-    opcode_cb_functions[128] =
-        std::bind(&InstructionDecoder::OPCodeCB0x80, this);
-    opcode_cb_functions[129] =
-        std::bind(&InstructionDecoder::OPCodeCB0x81, this);
-    opcode_cb_functions[130] =
-        std::bind(&InstructionDecoder::OPCodeCB0x82, this);
-    opcode_cb_functions[131] =
-        std::bind(&InstructionDecoder::OPCodeCB0x83, this);
-    opcode_cb_functions[132] =
-        std::bind(&InstructionDecoder::OPCodeCB0x84, this);
-    opcode_cb_functions[133] =
-        std::bind(&InstructionDecoder::OPCodeCB0x85, this);
-    opcode_cb_functions[134] =
-        std::bind(&InstructionDecoder::OPCodeCB0x86, this);
-    opcode_cb_functions[135] =
-        std::bind(&InstructionDecoder::OPCodeCB0x87, this);
-    opcode_cb_functions[136] =
-        std::bind(&InstructionDecoder::OPCodeCB0x88, this);
-    opcode_cb_functions[137] =
-        std::bind(&InstructionDecoder::OPCodeCB0x89, this);
-    opcode_cb_functions[138] =
-        std::bind(&InstructionDecoder::OPCodeCB0x8A, this);
-    opcode_cb_functions[139] =
-        std::bind(&InstructionDecoder::OPCodeCB0x8B, this);
-    opcode_cb_functions[140] =
-        std::bind(&InstructionDecoder::OPCodeCB0x8C, this);
-    opcode_cb_functions[141] =
-        std::bind(&InstructionDecoder::OPCodeCB0x8D, this);
-    opcode_cb_functions[142] =
-        std::bind(&InstructionDecoder::OPCodeCB0x8E, this);
-    opcode_cb_functions[143] =
-        std::bind(&InstructionDecoder::OPCodeCB0x8F, this);
-    opcode_cb_functions[144] =
-        std::bind(&InstructionDecoder::OPCodeCB0x90, this);
-    opcode_cb_functions[145] =
-        std::bind(&InstructionDecoder::OPCodeCB0x91, this);
-    opcode_cb_functions[146] =
-        std::bind(&InstructionDecoder::OPCodeCB0x92, this);
-    opcode_cb_functions[147] =
-        std::bind(&InstructionDecoder::OPCodeCB0x93, this);
-    opcode_cb_functions[148] =
-        std::bind(&InstructionDecoder::OPCodeCB0x94, this);
-    opcode_cb_functions[149] =
-        std::bind(&InstructionDecoder::OPCodeCB0x95, this);
-    opcode_cb_functions[150] =
-        std::bind(&InstructionDecoder::OPCodeCB0x96, this);
-    opcode_cb_functions[151] =
-        std::bind(&InstructionDecoder::OPCodeCB0x97, this);
-    opcode_cb_functions[152] =
-        std::bind(&InstructionDecoder::OPCodeCB0x98, this);
-    opcode_cb_functions[153] =
-        std::bind(&InstructionDecoder::OPCodeCB0x99, this);
-    opcode_cb_functions[154] =
-        std::bind(&InstructionDecoder::OPCodeCB0x9A, this);
-    opcode_cb_functions[155] =
-        std::bind(&InstructionDecoder::OPCodeCB0x9B, this);
-    opcode_cb_functions[156] =
-        std::bind(&InstructionDecoder::OPCodeCB0x9C, this);
-    opcode_cb_functions[157] =
-        std::bind(&InstructionDecoder::OPCodeCB0x9D, this);
-    opcode_cb_functions[158] =
-        std::bind(&InstructionDecoder::OPCodeCB0x9E, this);
-    opcode_cb_functions[159] =
-        std::bind(&InstructionDecoder::OPCodeCB0x9F, this);
-    opcode_cb_functions[160] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA0, this);
-    opcode_cb_functions[161] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA1, this);
-    opcode_cb_functions[162] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA2, this);
-    opcode_cb_functions[163] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA3, this);
-    opcode_cb_functions[164] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA4, this);
-    opcode_cb_functions[165] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA5, this);
-    opcode_cb_functions[166] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA6, this);
-    opcode_cb_functions[167] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA7, this);
-    opcode_cb_functions[168] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA8, this);
-    opcode_cb_functions[169] =
-        std::bind(&InstructionDecoder::OPCodeCB0xA9, this);
-    opcode_cb_functions[170] =
-        std::bind(&InstructionDecoder::OPCodeCB0xAA, this);
-    opcode_cb_functions[171] =
-        std::bind(&InstructionDecoder::OPCodeCB0xAB, this);
-    opcode_cb_functions[172] =
-        std::bind(&InstructionDecoder::OPCodeCB0xAC, this);
-    opcode_cb_functions[173] =
-        std::bind(&InstructionDecoder::OPCodeCB0xAD, this);
-    opcode_cb_functions[174] =
-        std::bind(&InstructionDecoder::OPCodeCB0xAE, this);
-    opcode_cb_functions[175] =
-        std::bind(&InstructionDecoder::OPCodeCB0xAF, this);
-    opcode_cb_functions[176] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB0, this);
-    opcode_cb_functions[177] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB1, this);
-    opcode_cb_functions[178] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB2, this);
-    opcode_cb_functions[179] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB3, this);
-    opcode_cb_functions[180] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB4, this);
-    opcode_cb_functions[181] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB5, this);
-    opcode_cb_functions[182] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB6, this);
-    opcode_cb_functions[183] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB7, this);
-    opcode_cb_functions[184] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB8, this);
-    opcode_cb_functions[185] =
-        std::bind(&InstructionDecoder::OPCodeCB0xB9, this);
-    opcode_cb_functions[186] =
-        std::bind(&InstructionDecoder::OPCodeCB0xBA, this);
-    opcode_cb_functions[187] =
-        std::bind(&InstructionDecoder::OPCodeCB0xBB, this);
-    opcode_cb_functions[188] =
-        std::bind(&InstructionDecoder::OPCodeCB0xBC, this);
-    opcode_cb_functions[189] =
-        std::bind(&InstructionDecoder::OPCodeCB0xBD, this);
-    opcode_cb_functions[190] =
-        std::bind(&InstructionDecoder::OPCodeCB0xBE, this);
-    opcode_cb_functions[191] =
-        std::bind(&InstructionDecoder::OPCodeCB0xBF, this);
-    opcode_cb_functions[192] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC0, this);
-    opcode_cb_functions[193] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC1, this);
-    opcode_cb_functions[194] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC2, this);
-    opcode_cb_functions[195] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC3, this);
-    opcode_cb_functions[196] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC4, this);
-    opcode_cb_functions[197] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC5, this);
-    opcode_cb_functions[198] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC6, this);
-    opcode_cb_functions[199] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC7, this);
-    opcode_cb_functions[200] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC8, this);
-    opcode_cb_functions[201] =
-        std::bind(&InstructionDecoder::OPCodeCB0xC9, this);
-    opcode_cb_functions[202] =
-        std::bind(&InstructionDecoder::OPCodeCB0xCA, this);
-    opcode_cb_functions[203] =
-        std::bind(&InstructionDecoder::OPCodeCB0xCB, this);
-    opcode_cb_functions[204] =
-        std::bind(&InstructionDecoder::OPCodeCB0xCC, this);
-    opcode_cb_functions[205] =
-        std::bind(&InstructionDecoder::OPCodeCB0xCD, this);
-    opcode_cb_functions[206] =
-        std::bind(&InstructionDecoder::OPCodeCB0xCE, this);
-    opcode_cb_functions[207] =
-        std::bind(&InstructionDecoder::OPCodeCB0xCF, this);
-    opcode_cb_functions[208] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD0, this);
-    opcode_cb_functions[209] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD1, this);
-    opcode_cb_functions[210] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD2, this);
-    opcode_cb_functions[211] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD3, this);
-    opcode_cb_functions[212] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD4, this);
-    opcode_cb_functions[213] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD5, this);
-    opcode_cb_functions[214] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD6, this);
-    opcode_cb_functions[215] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD7, this);
-    opcode_cb_functions[216] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD8, this);
-    opcode_cb_functions[217] =
-        std::bind(&InstructionDecoder::OPCodeCB0xD9, this);
-    opcode_cb_functions[218] =
-        std::bind(&InstructionDecoder::OPCodeCB0xDA, this);
-    opcode_cb_functions[219] =
-        std::bind(&InstructionDecoder::OPCodeCB0xDB, this);
-    opcode_cb_functions[220] =
-        std::bind(&InstructionDecoder::OPCodeCB0xDC, this);
-    opcode_cb_functions[221] =
-        std::bind(&InstructionDecoder::OPCodeCB0xDD, this);
-    opcode_cb_functions[222] =
-        std::bind(&InstructionDecoder::OPCodeCB0xDE, this);
-    opcode_cb_functions[223] =
-        std::bind(&InstructionDecoder::OPCodeCB0xDF, this);
-    opcode_cb_functions[224] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE0, this);
-    opcode_cb_functions[225] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE1, this);
-    opcode_cb_functions[226] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE2, this);
-    opcode_cb_functions[227] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE3, this);
-    opcode_cb_functions[228] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE4, this);
-    opcode_cb_functions[229] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE5, this);
-    opcode_cb_functions[230] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE6, this);
-    opcode_cb_functions[231] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE7, this);
-    opcode_cb_functions[232] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE8, this);
-    opcode_cb_functions[233] =
-        std::bind(&InstructionDecoder::OPCodeCB0xE9, this);
-    opcode_cb_functions[234] =
-        std::bind(&InstructionDecoder::OPCodeCB0xEA, this);
-    opcode_cb_functions[235] =
-        std::bind(&InstructionDecoder::OPCodeCB0xEB, this);
-    opcode_cb_functions[236] =
-        std::bind(&InstructionDecoder::OPCodeCB0xEC, this);
-    opcode_cb_functions[237] =
-        std::bind(&InstructionDecoder::OPCodeCB0xED, this);
-    opcode_cb_functions[238] =
-        std::bind(&InstructionDecoder::OPCodeCB0xEE, this);
-    opcode_cb_functions[239] =
-        std::bind(&InstructionDecoder::OPCodeCB0xEF, this);
-    opcode_cb_functions[240] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF0, this);
-    opcode_cb_functions[241] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF1, this);
-    opcode_cb_functions[242] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF2, this);
-    opcode_cb_functions[243] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF3, this);
-    opcode_cb_functions[244] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF4, this);
-    opcode_cb_functions[245] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF5, this);
-    opcode_cb_functions[246] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF6, this);
-    opcode_cb_functions[247] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF7, this);
-    opcode_cb_functions[248] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF8, this);
-    opcode_cb_functions[249] =
-        std::bind(&InstructionDecoder::OPCodeCB0xF9, this);
-    opcode_cb_functions[250] =
-        std::bind(&InstructionDecoder::OPCodeCB0xFA, this);
-    opcode_cb_functions[251] =
-        std::bind(&InstructionDecoder::OPCodeCB0xFB, this);
-    opcode_cb_functions[252] =
-        std::bind(&InstructionDecoder::OPCodeCB0xFC, this);
-    opcode_cb_functions[253] =
-        std::bind(&InstructionDecoder::OPCodeCB0xFD, this);
-    opcode_cb_functions[254] =
-        std::bind(&InstructionDecoder::OPCodeCB0xFE, this);
-    opcode_cb_functions[255] =
-        std::bind(&InstructionDecoder::OPCodeCB0xFF, this);
+    opcode_cb_functions[0x00] = [&]() { this->OPCodeCB0x00(); };
+    opcode_cb_functions[0x01] = [&]() { this->OPCodeCB0x01(); };
+    opcode_cb_functions[0x02] = [&]() { this->OPCodeCB0x02(); };
+    opcode_cb_functions[0x03] = [&]() { this->OPCodeCB0x03(); };
+    opcode_cb_functions[0x04] = [&]() { this->OPCodeCB0x04(); };
+    opcode_cb_functions[0x05] = [&]() { this->OPCodeCB0x05(); };
+    opcode_cb_functions[0x06] = [&]() { this->OPCodeCB0x06(); };
+    opcode_cb_functions[0x07] = [&]() { this->OPCodeCB0x07(); };
+    opcode_cb_functions[0x08] = [&]() { this->OPCodeCB0x08(); };
+    opcode_cb_functions[0x09] = [&]() { this->OPCodeCB0x09(); };
+    opcode_cb_functions[0x0A] = [&]() { this->OPCodeCB0x0A(); };
+    opcode_cb_functions[0x0B] = [&]() { this->OPCodeCB0x0B(); };
+    opcode_cb_functions[0x0C] = [&]() { this->OPCodeCB0x0C(); };
+    opcode_cb_functions[0x0D] = [&]() { this->OPCodeCB0x0D(); };
+    opcode_cb_functions[0x0E] = [&]() { this->OPCodeCB0x0E(); };
+    opcode_cb_functions[0x0F] = [&]() { this->OPCodeCB0x0F(); };
+    opcode_cb_functions[0x10] = [&]() { this->OPCodeCB0x10(); };
+    opcode_cb_functions[0x11] = [&]() { this->OPCodeCB0x11(); };
+    opcode_cb_functions[0x12] = [&]() { this->OPCodeCB0x12(); };
+    opcode_cb_functions[0x13] = [&]() { this->OPCodeCB0x13(); };
+    opcode_cb_functions[0x14] = [&]() { this->OPCodeCB0x14(); };
+    opcode_cb_functions[0x15] = [&]() { this->OPCodeCB0x15(); };
+    opcode_cb_functions[0x16] = [&]() { this->OPCodeCB0x16(); };
+    opcode_cb_functions[0x17] = [&]() { this->OPCodeCB0x17(); };
+    opcode_cb_functions[0x18] = [&]() { this->OPCodeCB0x18(); };
+    opcode_cb_functions[0x19] = [&]() { this->OPCodeCB0x19(); };
+    opcode_cb_functions[0x1A] = [&]() { this->OPCodeCB0x1A(); };
+    opcode_cb_functions[0x1B] = [&]() { this->OPCodeCB0x1B(); };
+    opcode_cb_functions[0x1C] = [&]() { this->OPCodeCB0x1C(); };
+    opcode_cb_functions[0x1D] = [&]() { this->OPCodeCB0x1D(); };
+    opcode_cb_functions[0x1E] = [&]() { this->OPCodeCB0x1E(); };
+    opcode_cb_functions[0x1F] = [&]() { this->OPCodeCB0x1F(); };
+    opcode_cb_functions[0x20] = [&]() { this->OPCodeCB0x20(); };
+    opcode_cb_functions[0x21] = [&]() { this->OPCodeCB0x21(); };
+    opcode_cb_functions[0x22] = [&]() { this->OPCodeCB0x22(); };
+    opcode_cb_functions[0x23] = [&]() { this->OPCodeCB0x23(); };
+    opcode_cb_functions[0x24] = [&]() { this->OPCodeCB0x24(); };
+    opcode_cb_functions[0x25] = [&]() { this->OPCodeCB0x25(); };
+    opcode_cb_functions[0x26] = [&]() { this->OPCodeCB0x26(); };
+    opcode_cb_functions[0x27] = [&]() { this->OPCodeCB0x27(); };
+    opcode_cb_functions[0x28] = [&]() { this->OPCodeCB0x28(); };
+    opcode_cb_functions[0x29] = [&]() { this->OPCodeCB0x29(); };
+    opcode_cb_functions[0x2A] = [&]() { this->OPCodeCB0x2A(); };
+    opcode_cb_functions[0x2B] = [&]() { this->OPCodeCB0x2B(); };
+    opcode_cb_functions[0x2C] = [&]() { this->OPCodeCB0x2C(); };
+    opcode_cb_functions[0x2D] = [&]() { this->OPCodeCB0x2D(); };
+    opcode_cb_functions[0x2E] = [&]() { this->OPCodeCB0x2E(); };
+    opcode_cb_functions[0x2F] = [&]() { this->OPCodeCB0x2F(); };
+    opcode_cb_functions[0x30] = [&]() { this->OPCodeCB0x30(); };
+    opcode_cb_functions[0x31] = [&]() { this->OPCodeCB0x31(); };
+    opcode_cb_functions[0x32] = [&]() { this->OPCodeCB0x32(); };
+    opcode_cb_functions[0x33] = [&]() { this->OPCodeCB0x33(); };
+    opcode_cb_functions[0x34] = [&]() { this->OPCodeCB0x34(); };
+    opcode_cb_functions[0x35] = [&]() { this->OPCodeCB0x35(); };
+    opcode_cb_functions[0x36] = [&]() { this->OPCodeCB0x36(); };
+    opcode_cb_functions[0x37] = [&]() { this->OPCodeCB0x37(); };
+    opcode_cb_functions[0x38] = [&]() { this->OPCodeCB0x38(); };
+    opcode_cb_functions[0x39] = [&]() { this->OPCodeCB0x39(); };
+    opcode_cb_functions[0x3A] = [&]() { this->OPCodeCB0x3A(); };
+    opcode_cb_functions[0x3B] = [&]() { this->OPCodeCB0x3B(); };
+    opcode_cb_functions[0x3C] = [&]() { this->OPCodeCB0x3C(); };
+    opcode_cb_functions[0x3D] = [&]() { this->OPCodeCB0x3D(); };
+    opcode_cb_functions[0x3E] = [&]() { this->OPCodeCB0x3E(); };
+    opcode_cb_functions[0x3F] = [&]() { this->OPCodeCB0x3F(); };
+    opcode_cb_functions[0x40] = [&]() { this->OPCodeCB0x40(); };
+    opcode_cb_functions[0x41] = [&]() { this->OPCodeCB0x41(); };
+    opcode_cb_functions[0x42] = [&]() { this->OPCodeCB0x42(); };
+    opcode_cb_functions[0x43] = [&]() { this->OPCodeCB0x43(); };
+    opcode_cb_functions[0x44] = [&]() { this->OPCodeCB0x44(); };
+    opcode_cb_functions[0x45] = [&]() { this->OPCodeCB0x45(); };
+    opcode_cb_functions[0x46] = [&]() { this->OPCodeCB0x46(); };
+    opcode_cb_functions[0x47] = [&]() { this->OPCodeCB0x47(); };
+    opcode_cb_functions[0x48] = [&]() { this->OPCodeCB0x48(); };
+    opcode_cb_functions[0x49] = [&]() { this->OPCodeCB0x49(); };
+    opcode_cb_functions[0x4A] = [&]() { this->OPCodeCB0x4A(); };
+    opcode_cb_functions[0x4B] = [&]() { this->OPCodeCB0x4B(); };
+    opcode_cb_functions[0x4C] = [&]() { this->OPCodeCB0x4C(); };
+    opcode_cb_functions[0x4D] = [&]() { this->OPCodeCB0x4D(); };
+    opcode_cb_functions[0x4E] = [&]() { this->OPCodeCB0x4E(); };
+    opcode_cb_functions[0x4F] = [&]() { this->OPCodeCB0x4F(); };
+    opcode_cb_functions[0x50] = [&]() { this->OPCodeCB0x50(); };
+    opcode_cb_functions[0x51] = [&]() { this->OPCodeCB0x51(); };
+    opcode_cb_functions[0x52] = [&]() { this->OPCodeCB0x52(); };
+    opcode_cb_functions[0x53] = [&]() { this->OPCodeCB0x53(); };
+    opcode_cb_functions[0x54] = [&]() { this->OPCodeCB0x54(); };
+    opcode_cb_functions[0x55] = [&]() { this->OPCodeCB0x55(); };
+    opcode_cb_functions[0x56] = [&]() { this->OPCodeCB0x56(); };
+    opcode_cb_functions[0x57] = [&]() { this->OPCodeCB0x57(); };
+    opcode_cb_functions[0x58] = [&]() { this->OPCodeCB0x58(); };
+    opcode_cb_functions[0x59] = [&]() { this->OPCodeCB0x59(); };
+    opcode_cb_functions[0x5A] = [&]() { this->OPCodeCB0x5A(); };
+    opcode_cb_functions[0x5B] = [&]() { this->OPCodeCB0x5B(); };
+    opcode_cb_functions[0x5C] = [&]() { this->OPCodeCB0x5C(); };
+    opcode_cb_functions[0x5D] = [&]() { this->OPCodeCB0x5D(); };
+    opcode_cb_functions[0x5E] = [&]() { this->OPCodeCB0x5E(); };
+    opcode_cb_functions[0x5F] = [&]() { this->OPCodeCB0x5F(); };
+    opcode_cb_functions[0x60] = [&]() { this->OPCodeCB0x60(); };
+    opcode_cb_functions[0x61] = [&]() { this->OPCodeCB0x61(); };
+    opcode_cb_functions[0x62] = [&]() { this->OPCodeCB0x62(); };
+    opcode_cb_functions[0x63] = [&]() { this->OPCodeCB0x63(); };
+    opcode_cb_functions[0x64] = [&]() { this->OPCodeCB0x64(); };
+    opcode_cb_functions[0x65] = [&]() { this->OPCodeCB0x65(); };
+    opcode_cb_functions[0x66] = [&]() { this->OPCodeCB0x66(); };
+    opcode_cb_functions[0x67] = [&]() { this->OPCodeCB0x67(); };
+    opcode_cb_functions[0x68] = [&]() { this->OPCodeCB0x68(); };
+    opcode_cb_functions[0x69] = [&]() { this->OPCodeCB0x69(); };
+    opcode_cb_functions[0x6A] = [&]() { this->OPCodeCB0x6A(); };
+    opcode_cb_functions[0x6B] = [&]() { this->OPCodeCB0x6B(); };
+    opcode_cb_functions[0x6C] = [&]() { this->OPCodeCB0x6C(); };
+    opcode_cb_functions[0x6D] = [&]() { this->OPCodeCB0x6D(); };
+    opcode_cb_functions[0x6E] = [&]() { this->OPCodeCB0x6E(); };
+    opcode_cb_functions[0x6F] = [&]() { this->OPCodeCB0x6F(); };
+    opcode_cb_functions[0x70] = [&]() { this->OPCodeCB0x70(); };
+    opcode_cb_functions[0x71] = [&]() { this->OPCodeCB0x71(); };
+    opcode_cb_functions[0x72] = [&]() { this->OPCodeCB0x72(); };
+    opcode_cb_functions[0x73] = [&]() { this->OPCodeCB0x73(); };
+    opcode_cb_functions[0x74] = [&]() { this->OPCodeCB0x74(); };
+    opcode_cb_functions[0x75] = [&]() { this->OPCodeCB0x75(); };
+    opcode_cb_functions[0x76] = [&]() { this->OPCodeCB0x76(); };
+    opcode_cb_functions[0x77] = [&]() { this->OPCodeCB0x77(); };
+    opcode_cb_functions[0x78] = [&]() { this->OPCodeCB0x78(); };
+    opcode_cb_functions[0x79] = [&]() { this->OPCodeCB0x79(); };
+    opcode_cb_functions[0x7A] = [&]() { this->OPCodeCB0x7A(); };
+    opcode_cb_functions[0x7B] = [&]() { this->OPCodeCB0x7B(); };
+    opcode_cb_functions[0x7C] = [&]() { this->OPCodeCB0x7C(); };
+    opcode_cb_functions[0x7D] = [&]() { this->OPCodeCB0x7D(); };
+    opcode_cb_functions[0x7E] = [&]() { this->OPCodeCB0x7E(); };
+    opcode_cb_functions[0x7F] = [&]() { this->OPCodeCB0x7F(); };
+    opcode_cb_functions[0x80] = [&]() { this->OPCodeCB0x80(); };
+    opcode_cb_functions[0x81] = [&]() { this->OPCodeCB0x81(); };
+    opcode_cb_functions[0x82] = [&]() { this->OPCodeCB0x82(); };
+    opcode_cb_functions[0x83] = [&]() { this->OPCodeCB0x83(); };
+    opcode_cb_functions[0x84] = [&]() { this->OPCodeCB0x84(); };
+    opcode_cb_functions[0x85] = [&]() { this->OPCodeCB0x85(); };
+    opcode_cb_functions[0x86] = [&]() { this->OPCodeCB0x86(); };
+    opcode_cb_functions[0x87] = [&]() { this->OPCodeCB0x87(); };
+    opcode_cb_functions[0x88] = [&]() { this->OPCodeCB0x88(); };
+    opcode_cb_functions[0x89] = [&]() { this->OPCodeCB0x89(); };
+    opcode_cb_functions[0x8A] = [&]() { this->OPCodeCB0x8A(); };
+    opcode_cb_functions[0x8B] = [&]() { this->OPCodeCB0x8B(); };
+    opcode_cb_functions[0x8C] = [&]() { this->OPCodeCB0x8C(); };
+    opcode_cb_functions[0x8D] = [&]() { this->OPCodeCB0x8D(); };
+    opcode_cb_functions[0x8E] = [&]() { this->OPCodeCB0x8E(); };
+    opcode_cb_functions[0x8F] = [&]() { this->OPCodeCB0x8F(); };
+    opcode_cb_functions[0x90] = [&]() { this->OPCodeCB0x90(); };
+    opcode_cb_functions[0x91] = [&]() { this->OPCodeCB0x91(); };
+    opcode_cb_functions[0x92] = [&]() { this->OPCodeCB0x92(); };
+    opcode_cb_functions[0x93] = [&]() { this->OPCodeCB0x93(); };
+    opcode_cb_functions[0x94] = [&]() { this->OPCodeCB0x94(); };
+    opcode_cb_functions[0x95] = [&]() { this->OPCodeCB0x95(); };
+    opcode_cb_functions[0x96] = [&]() { this->OPCodeCB0x96(); };
+    opcode_cb_functions[0x97] = [&]() { this->OPCodeCB0x97(); };
+    opcode_cb_functions[0x98] = [&]() { this->OPCodeCB0x98(); };
+    opcode_cb_functions[0x99] = [&]() { this->OPCodeCB0x99(); };
+    opcode_cb_functions[0x9A] = [&]() { this->OPCodeCB0x9A(); };
+    opcode_cb_functions[0x9B] = [&]() { this->OPCodeCB0x9B(); };
+    opcode_cb_functions[0x9C] = [&]() { this->OPCodeCB0x9C(); };
+    opcode_cb_functions[0x9D] = [&]() { this->OPCodeCB0x9D(); };
+    opcode_cb_functions[0x9E] = [&]() { this->OPCodeCB0x9E(); };
+    opcode_cb_functions[0x9F] = [&]() { this->OPCodeCB0x9F(); };
+    opcode_cb_functions[0xA0] = [&]() { this->OPCodeCB0xA0(); };
+    opcode_cb_functions[0xA1] = [&]() { this->OPCodeCB0xA1(); };
+    opcode_cb_functions[0xA2] = [&]() { this->OPCodeCB0xA2(); };
+    opcode_cb_functions[0xA3] = [&]() { this->OPCodeCB0xA3(); };
+    opcode_cb_functions[0xA4] = [&]() { this->OPCodeCB0xA4(); };
+    opcode_cb_functions[0xA5] = [&]() { this->OPCodeCB0xA5(); };
+    opcode_cb_functions[0xA6] = [&]() { this->OPCodeCB0xA6(); };
+    opcode_cb_functions[0xA7] = [&]() { this->OPCodeCB0xA7(); };
+    opcode_cb_functions[0xA8] = [&]() { this->OPCodeCB0xA8(); };
+    opcode_cb_functions[0xA9] = [&]() { this->OPCodeCB0xA9(); };
+    opcode_cb_functions[0xAA] = [&]() { this->OPCodeCB0xAA(); };
+    opcode_cb_functions[0xAB] = [&]() { this->OPCodeCB0xAB(); };
+    opcode_cb_functions[0xAC] = [&]() { this->OPCodeCB0xAC(); };
+    opcode_cb_functions[0xAD] = [&]() { this->OPCodeCB0xAD(); };
+    opcode_cb_functions[0xAE] = [&]() { this->OPCodeCB0xAE(); };
+    opcode_cb_functions[0xAF] = [&]() { this->OPCodeCB0xAF(); };
+    opcode_cb_functions[0xB0] = [&]() { this->OPCodeCB0xB0(); };
+    opcode_cb_functions[0xB1] = [&]() { this->OPCodeCB0xB1(); };
+    opcode_cb_functions[0xB2] = [&]() { this->OPCodeCB0xB2(); };
+    opcode_cb_functions[0xB3] = [&]() { this->OPCodeCB0xB3(); };
+    opcode_cb_functions[0xB4] = [&]() { this->OPCodeCB0xB4(); };
+    opcode_cb_functions[0xB5] = [&]() { this->OPCodeCB0xB5(); };
+    opcode_cb_functions[0xB6] = [&]() { this->OPCodeCB0xB6(); };
+    opcode_cb_functions[0xB7] = [&]() { this->OPCodeCB0xB7(); };
+    opcode_cb_functions[0xB8] = [&]() { this->OPCodeCB0xB8(); };
+    opcode_cb_functions[0xB9] = [&]() { this->OPCodeCB0xB9(); };
+    opcode_cb_functions[0xBA] = [&]() { this->OPCodeCB0xBA(); };
+    opcode_cb_functions[0xBB] = [&]() { this->OPCodeCB0xBB(); };
+    opcode_cb_functions[0xBC] = [&]() { this->OPCodeCB0xBC(); };
+    opcode_cb_functions[0xBD] = [&]() { this->OPCodeCB0xBD(); };
+    opcode_cb_functions[0xBE] = [&]() { this->OPCodeCB0xBE(); };
+    opcode_cb_functions[0xBF] = [&]() { this->OPCodeCB0xBF(); };
+    opcode_cb_functions[0xC0] = [&]() { this->OPCodeCB0xC0(); };
+    opcode_cb_functions[0xC1] = [&]() { this->OPCodeCB0xC1(); };
+    opcode_cb_functions[0xC2] = [&]() { this->OPCodeCB0xC2(); };
+    opcode_cb_functions[0xC3] = [&]() { this->OPCodeCB0xC3(); };
+    opcode_cb_functions[0xC4] = [&]() { this->OPCodeCB0xC4(); };
+    opcode_cb_functions[0xC5] = [&]() { this->OPCodeCB0xC5(); };
+    opcode_cb_functions[0xC6] = [&]() { this->OPCodeCB0xC6(); };
+    opcode_cb_functions[0xC7] = [&]() { this->OPCodeCB0xC7(); };
+    opcode_cb_functions[0xC8] = [&]() { this->OPCodeCB0xC8(); };
+    opcode_cb_functions[0xC9] = [&]() { this->OPCodeCB0xC9(); };
+    opcode_cb_functions[0xCA] = [&]() { this->OPCodeCB0xCA(); };
+    opcode_cb_functions[0xCB] = [&]() { this->OPCodeCB0xCB(); };
+    opcode_cb_functions[0xCC] = [&]() { this->OPCodeCB0xCC(); };
+    opcode_cb_functions[0xCD] = [&]() { this->OPCodeCB0xCD(); };
+    opcode_cb_functions[0xCE] = [&]() { this->OPCodeCB0xCE(); };
+    opcode_cb_functions[0xCF] = [&]() { this->OPCodeCB0xCF(); };
+    opcode_cb_functions[0xD0] = [&]() { this->OPCodeCB0xD0(); };
+    opcode_cb_functions[0xD1] = [&]() { this->OPCodeCB0xD1(); };
+    opcode_cb_functions[0xD2] = [&]() { this->OPCodeCB0xD2(); };
+    opcode_cb_functions[0xD3] = [&]() { this->OPCodeCB0xD3(); };
+    opcode_cb_functions[0xD4] = [&]() { this->OPCodeCB0xD4(); };
+    opcode_cb_functions[0xD5] = [&]() { this->OPCodeCB0xD5(); };
+    opcode_cb_functions[0xD6] = [&]() { this->OPCodeCB0xD6(); };
+    opcode_cb_functions[0xD7] = [&]() { this->OPCodeCB0xD7(); };
+    opcode_cb_functions[0xD8] = [&]() { this->OPCodeCB0xD8(); };
+    opcode_cb_functions[0xD9] = [&]() { this->OPCodeCB0xD9(); };
+    opcode_cb_functions[0xDA] = [&]() { this->OPCodeCB0xDA(); };
+    opcode_cb_functions[0xDB] = [&]() { this->OPCodeCB0xDB(); };
+    opcode_cb_functions[0xDC] = [&]() { this->OPCodeCB0xDC(); };
+    opcode_cb_functions[0xDD] = [&]() { this->OPCodeCB0xDD(); };
+    opcode_cb_functions[0xDE] = [&]() { this->OPCodeCB0xDE(); };
+    opcode_cb_functions[0xDF] = [&]() { this->OPCodeCB0xDF(); };
+    opcode_cb_functions[0xE0] = [&]() { this->OPCodeCB0xE0(); };
+    opcode_cb_functions[0xE1] = [&]() { this->OPCodeCB0xE1(); };
+    opcode_cb_functions[0xE2] = [&]() { this->OPCodeCB0xE2(); };
+    opcode_cb_functions[0xE3] = [&]() { this->OPCodeCB0xE3(); };
+    opcode_cb_functions[0xE4] = [&]() { this->OPCodeCB0xE4(); };
+    opcode_cb_functions[0xE5] = [&]() { this->OPCodeCB0xE5(); };
+    opcode_cb_functions[0xE6] = [&]() { this->OPCodeCB0xE6(); };
+    opcode_cb_functions[0xE7] = [&]() { this->OPCodeCB0xE7(); };
+    opcode_cb_functions[0xE8] = [&]() { this->OPCodeCB0xE8(); };
+    opcode_cb_functions[0xE9] = [&]() { this->OPCodeCB0xE9(); };
+    opcode_cb_functions[0xEA] = [&]() { this->OPCodeCB0xEA(); };
+    opcode_cb_functions[0xEB] = [&]() { this->OPCodeCB0xEB(); };
+    opcode_cb_functions[0xEC] = [&]() { this->OPCodeCB0xEC(); };
+    opcode_cb_functions[0xED] = [&]() { this->OPCodeCB0xED(); };
+    opcode_cb_functions[0xEE] = [&]() { this->OPCodeCB0xEE(); };
+    opcode_cb_functions[0xEF] = [&]() { this->OPCodeCB0xEF(); };
+    opcode_cb_functions[0xF0] = [&]() { this->OPCodeCB0xF0(); };
+    opcode_cb_functions[0xF1] = [&]() { this->OPCodeCB0xF1(); };
+    opcode_cb_functions[0xF2] = [&]() { this->OPCodeCB0xF2(); };
+    opcode_cb_functions[0xF3] = [&]() { this->OPCodeCB0xF3(); };
+    opcode_cb_functions[0xF4] = [&]() { this->OPCodeCB0xF4(); };
+    opcode_cb_functions[0xF5] = [&]() { this->OPCodeCB0xF5(); };
+    opcode_cb_functions[0xF6] = [&]() { this->OPCodeCB0xF6(); };
+    opcode_cb_functions[0xF7] = [&]() { this->OPCodeCB0xF7(); };
+    opcode_cb_functions[0xF8] = [&]() { this->OPCodeCB0xF8(); };
+    opcode_cb_functions[0xF9] = [&]() { this->OPCodeCB0xF9(); };
+    opcode_cb_functions[0xFA] = [&]() { this->OPCodeCB0xFA(); };
+    opcode_cb_functions[0xFB] = [&]() { this->OPCodeCB0xFB(); };
+    opcode_cb_functions[0xFC] = [&]() { this->OPCodeCB0xFC(); };
+    opcode_cb_functions[0xFD] = [&]() { this->OPCodeCB0xFD(); };
+    opcode_cb_functions[0xFE] = [&]() { this->OPCodeCB0xFE(); };
+    opcode_cb_functions[0xFF] = [&]() { this->OPCodeCB0xFF(); };
 }
