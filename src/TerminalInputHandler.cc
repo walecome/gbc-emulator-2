@@ -31,11 +31,16 @@ void TIH::handle_input(InstructionDecoder &id, ptr<Processor> &p) {
         print_help();
 
     } else if (match(input, { "run", "r" })) {
-        while (1) {
-            p->printStack();
-            p->printProgramMemory();
-            p->dump();
-            id.step();
+        try {
+            while (1) {
+                p->printStack();
+                p->printProgramMemory();
+                p->dump();
+                id.step();
+            }
+        } catch (const std::runtime_error &e) {
+            std::cout << "Executing of opcode " << e.what() << " failed"
+                      << std::endl;
         }
     } else if (match(input, { "mem" })) {
         register16_t addr;
