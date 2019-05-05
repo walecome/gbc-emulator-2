@@ -323,7 +323,7 @@ void InstructionDecoder::rlcRegister(const ptr<Register8bit> &source) {
     if (data_source == 0x00)
         cpu->setFlagZ();
     else
-        cpu->setFlagZ();
+        cpu->resetFlagZ();
 
     cpu->resetFlagN();
     cpu->resetFlagH();
@@ -348,7 +348,7 @@ void InstructionDecoder::rrcRegister(const ptr<Register8bit> &source) {
     if (data_source == 0x00)
         cpu->setFlagZ();
     else
-        cpu->setFlagZ();
+        cpu->resetFlagZ();
 
     cpu->resetFlagN();
     cpu->resetFlagH();
@@ -373,7 +373,7 @@ void InstructionDecoder::rlRegister(const ptr<Register8bit> &source) {
     if (data_source == 0x00)
         cpu->setFlagZ();
     else
-        cpu->setFlagZ();
+        cpu->resetFlagZ();
 
     cpu->resetFlagN();
     cpu->resetFlagH();
@@ -398,7 +398,7 @@ void InstructionDecoder::rrRegister(const ptr<Register8bit> &source) {
     if (data_source == 0x00)
         cpu->setFlagZ();
     else
-        cpu->setFlagZ();
+        cpu->resetFlagZ();
 
     cpu->resetFlagN();
     cpu->resetFlagH();
@@ -421,7 +421,7 @@ void InstructionDecoder::slaRegister(const ptr<Register8bit> &source) {
     if (data_source == 0x00)
         cpu->setFlagZ();
     else
-        cpu->setFlagZ();
+        cpu->resetFlagZ();
 
     cpu->resetFlagN();
     cpu->resetFlagH();
@@ -447,7 +447,7 @@ void InstructionDecoder::sraRegister(const ptr<Register8bit> &source) {
     if (data_source == 0x00)
         cpu->setFlagZ();
     else
-        cpu->setFlagZ();
+        cpu->resetFlagZ();
 
     cpu->resetFlagN();
     cpu->resetFlagH();
@@ -466,7 +466,7 @@ void InstructionDecoder::swapNibbles(const ptr<Register8bit> &reg) {
     if (val == 0x00)
         cpu->setFlagZ();
     else
-        cpu->setFlagZ();
+        cpu->resetFlagZ();
 
     cpu->resetFlagN();
     cpu->resetFlagH();
@@ -491,7 +491,7 @@ void InstructionDecoder::srlRegister(const ptr<Register8bit> &reg) {
     if (data_reg == 0x00)
         cpu->setFlagZ();
     else
-        cpu->setFlagZ();
+        cpu->resetFlagZ();
 
     cpu->resetFlagN();
     cpu->resetFlagH();
