@@ -1,6 +1,10 @@
 #include "TerminalInputHandler.hh"
 
-TIH::TIH() { std::cout << "Type 'help' to show commands" << std::endl; }
+TIH::TIH() {
+    // No breakpoints
+    breakpoints.fill(false);
+    std::cout << "Type 'help' to show commands" << std::endl;
+}
 
 bool TIH::getInput() {
     std::cout << "Input: ";
@@ -32,12 +36,16 @@ void TIH::handle_input(InstructionDecoder &id, ptr<Processor> &p) {
 
     } else if (match(input, { "run", "r" })) {
         try {
-            while (1) {
+            while (!breakpoints[p->PC->getValue()]) {
                 p->printStack();
                 p->printProgramMemory();
                 p->dump();
                 id.step();
             }
+
+            std::cout << "Stopping at breakpoint "
+                      << Util::hexString(p->PC->getValue(), 4) << std::endl;
+
         } catch (const std::runtime_error &e) {
             std::cout << "Executing of opcode " << e.what() << " failed"
                       << std::endl;
@@ -48,6 +56,24 @@ void TIH::handle_input(InstructionDecoder &id, ptr<Processor> &p) {
         std::cin >> std::hex >> addr;
         p->printPMAddressData(addr);
 
+    } else if (match(input, { "b", "breakpoint" })) {
+        register16_t addr;
+        std::cout << "Address: ";
+        std::cin >> std::hex >> addr;
+
+        if (breakpoints[addr]) {
+            std::cout << "Clearing breakpoint at address "
+                      << Util::hexString(addr, 4) << std::endl;
+            breakpoints[addr] = false;
+        } else {
+            std::cout << "Setting breakpoint att address "
+                      << Util::hexString(addr, 4) << std::endl;
+            breakpoints[addr] = true;
+        }
+
+    } else if (match(input, { "clearall" })) {
+        std::cout << "Clearing all breakpoints" << std::endl;
+        breakpoints.fill(false);
     } else {
         std::cout << "Invalid input" << std::endl;
     }
@@ -55,6 +81,8 @@ void TIH::handle_input(InstructionDecoder &id, ptr<Processor> &p) {
 
 void TIH::print_help() {
     std::cout << "Avaliable commands:" << std::endl;
+    std::cout << "\tbreakpoint" << std::endl;
+    std::cout << "\tclearall" << std::endl;
     std::cout << "\tdump" << std::endl;
     std::cout << "\tmem" << std::endl;
     std::cout << "\tpm" << std::endl;
