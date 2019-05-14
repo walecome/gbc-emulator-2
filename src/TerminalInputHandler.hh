@@ -30,6 +30,7 @@ class TIH {
     void render8bitRegister(const CPU_info &info);
     void render16bitRegister(const CPU_info &info);
     void renderInfo(const CPU_info &info);
+    void renderPM(const CPU_info &info);
     void renderCPUInfo();
 
     bool getInput();

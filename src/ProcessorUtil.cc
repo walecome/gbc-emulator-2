@@ -147,5 +147,20 @@ CPU_info Processor::getCPUInfo() const {
     info.bit16_regs.push_back(DE);
     info.bit16_regs.push_back(HL);
 
+    // Get some info from PM
+
+    int radius = 5;
+    register16_t start = std::max<int>(0, (int)(PC->getValue()) - radius);
+    register16_t end =
+        std::min<int>(PC_MAX + 1, (int)(PC->getValue()) + radius + 1);
+
+    byte_t value;
+    while (start != end) {
+        value = program_memory->getData(start);
+
+        info.PM.push_back({ start, value });
+        ++start;
+    }
+
     return info;
 }

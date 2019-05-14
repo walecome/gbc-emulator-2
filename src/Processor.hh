@@ -13,6 +13,21 @@
 #include "Memory.hh"
 #include "Register16bit.hh"
 #include "Register8bit.hh"
+#include "Utility.hh"
+
+struct AddressValuePair {
+    AddressValuePair(register16_t address, register8_t value)
+        : address { address }, value { value } {}
+
+    register16_t address;
+    register8_t value;
+
+    std::string str() const {
+        std::string address_s = Util::hexString(address, 4);
+        std::string value_s = Util::hexString(value, 2);
+        return address_s + ": " + value_s;
+    }
+};
 
 struct CPU_info {
     CPU_info(ptr<Register16bit> SP, ptr<Register16bit> PC)
@@ -22,6 +37,8 @@ struct CPU_info {
 
     ptr<Register16bit> SP;
     ptr<Register16bit> PC;
+
+    std::vector<AddressValuePair> PM {};
 };
 
 /**

@@ -43,6 +43,7 @@ void TIH::renderCPUInfo() {
     render8bitRegister(info);
     render16bitRegister(info);
     renderInfo(info);
+    renderPM(info);
 
     refresh();
 }
@@ -77,6 +78,19 @@ void TIH::renderInfo(const CPU_info &info) {
     name = info.PC->getName().c_str();
     value = Util::hexString(info.PC->getValue(), 4).c_str();
     renderPair(9, 50, name.c_str(), value.c_str());
+}
+
+void TIH::renderPM(const CPU_info &info) {
+    int arrowOffset;
+    int offsetY = 8;
+
+    for (unsigned int i = 0; i < info.PM.size(); ++i) {
+        auto addressInfo = info.PM[i];
+        if (cpu->PC->getValue() == addressInfo.address) arrowOffset = i;
+        mvprintw(i + offsetY, 65, "%s", addressInfo.str().c_str());
+    }
+
+    mvprintw(offsetY + arrowOffset, 80, "<----");
 }
 
 void TIH::clear() {
