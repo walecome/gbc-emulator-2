@@ -36,6 +36,10 @@ endif ()
 
 add_executable(emulator ${SRCS})
 
+## Add ncurses GUI lib
+find_package(Curses REQUIRED)
+include_directories(${CURSES_INCLUDE_DIR})
+target_link_libraries(emulator ${CURSES_LIBRARIES})
 
 
 target_compile_features(emulator PUBLIC cxx_std_17)

@@ -18,7 +18,9 @@
 
 int main(int argc, char **argv) {
     ptr<Processor> processor { std::make_shared<Processor>() };
-    InstructionDecoder instructionDecoder { processor };
+    ptr<InstructionDecoder> instructionDecoder {
+        std::make_shared<InstructionDecoder>(processor)
+    };
 
     bool rom_provided { argc == 2 };
 
@@ -33,11 +35,13 @@ int main(int argc, char **argv) {
     Util::ROM_Metadata metadata { processor->rom_data };
     metadata.dump();
 
-    TIH inputHandler {};
+    TIH inputHandler { instructionDecoder, processor };
 
-    while (inputHandler.getInput()) {
-        inputHandler.handle_input(instructionDecoder, processor);
-    }
+    inputHandler.cursesLoop();
+
+    // while (inputHandler.getInput()) {
+    // inputHandler.handle_input(instructionDecoder, processor);
+    // }
 
     return 0;
 }

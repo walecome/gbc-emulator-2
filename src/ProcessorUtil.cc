@@ -129,3 +129,23 @@ void Processor::dump() {
               << std::endl;
     std::cout << std::setfill('-') << std::setw(40) << "-" << std::endl;
 }
+
+CPU_info Processor::getCPUInfo() const {
+    CPU_info info { SP, PC };
+    info.bit8_regs.push_back(A);
+    info.bit8_regs.push_back(B);
+    info.bit8_regs.push_back(C);
+    info.bit8_regs.push_back(D);
+
+    info.bit8_regs.push_back(E);
+    info.bit8_regs.push_back(F);
+    info.bit8_regs.push_back(H);
+    info.bit8_regs.push_back(L);
+
+    info.bit16_regs.push_back(AF);
+    info.bit16_regs.push_back(BC);
+    info.bit16_regs.push_back(DE);
+    info.bit16_regs.push_back(HL);
+
+    return info;
+}

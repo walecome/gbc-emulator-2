@@ -1,9 +1,104 @@
 #include "TerminalInputHandler.hh"
 
-TIH::TIH() {
+TIH::TIH(ptr<InstructionDecoder> instructionDecoder, ptr<Processor> cpu)
+    : instructionDecoder { instructionDecoder },
+      cpu { cpu },
+      mainwin { initscr() } {
+    if (!initCurses()) {
+        throw std::runtime_error("Error initializing curses");
+    }
+
     // No breakpoints
     breakpoints.fill(false);
-    std::cout << "Type 'help' to show commands" << std::endl;
+    // std::cout << "Type 'help' to show commands" << std::endl;
+}
+
+TIH::~TIH() {
+    // Clean up curses
+
+    delwin(mainwin);
+    endwin();
+    refresh();
+}
+
+bool TIH::initCurses() {
+    if (mainwin == NULL) {
+        return false;
+    }
+
+    noecho();              /*  Turn off key echoing                 */
+    keypad(mainwin, TRUE); /*  Enable the keypad for non-char keys  */
+
+    refresh();
+    wborder(mainwin, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    renderCPUInfo();
+
+    return true;
+}
+
+void TIH::renderCPUInfo() {
+    CPU_info info = cpu->getCPUInfo();
+
+    render8bitRegister(info);
+    render16bitRegister(info);
+    renderInfo(info);
+
+    refresh();
+}
+
+void renderPair(int y, int x, const char *name, const char *value) {
+    mvprintw(y, x, "%s: %s", name, value);
+}
+
+void TIH::render8bitRegister(const CPU_info &info) {
+    for (unsigned int i = 0; i < info.bit8_regs.size(); ++i) {
+        std::string name = info.bit8_regs[i]->getName();
+        std::string value = Util::hexString(info.bit8_regs[i]->getValue(), 2);
+        int y = 8 + i % 4;
+        int x = 20 + (i / 4) * 10;
+        renderPair(y, x, name.c_str(), value.c_str());
+    }
+}
+
+void TIH::render16bitRegister(const CPU_info &info) {
+    for (unsigned int i = 0; i < info.bit16_regs.size(); ++i) {
+        std::string name = info.bit16_regs[i]->getName();
+        std::string value = Util::hexString(info.bit16_regs[i]->getValue(), 4);
+        renderPair(8 + i, 40, name.c_str(), value.c_str());
+    }
+}
+
+void TIH::renderInfo(const CPU_info &info) {
+    std::string name = info.SP->getName();
+    std::string value = Util::hexString(info.SP->getValue(), 4).c_str();
+    renderPair(8, 50, name.c_str(), value.c_str());
+
+    name = info.PC->getName().c_str();
+    value = Util::hexString(info.PC->getValue(), 4).c_str();
+    renderPair(9, 50, name.c_str(), value.c_str());
+}
+
+void TIH::clear() {
+    wclear(mainwin);
+    wborder(mainwin, 0, 0, 0, 0, 0, 0, 0, 0);
+    refresh();
+}
+
+void TIH::cursesLoop() {
+    /*  Loop until user presses 'q'  */
+
+    int ch;
+
+    while ((ch = getch()) != 'q') {
+        /*  Delete the old response line, and print a new one  */
+        if (ch == 'r') this->clear();
+        if (ch == 's') instructionDecoder->step();
+
+        renderCPUInfo();
+
+        refresh();
+    }
 }
 
 bool TIH::getInput() {

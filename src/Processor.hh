@@ -14,6 +14,16 @@
 #include "Register16bit.hh"
 #include "Register8bit.hh"
 
+struct CPU_info {
+    CPU_info(ptr<Register16bit> SP, ptr<Register16bit> PC)
+        : SP { SP }, PC { PC } {}
+    std::vector<ptr<Register8bit>> bit8_regs {};
+    std::vector<ptr<Register16bit>> bit16_regs {};
+
+    ptr<Register16bit> SP;
+    ptr<Register16bit> PC;
+};
+
 /**
     This class is basically just to keep track of the state of the emulated CPU.
     It keeps the registers, memory and so on as members, but all modifications
@@ -45,6 +55,7 @@ class Processor {
     void printProgramMemory(int radius = 5);
     void printPMAddressData(register16_t address);
     void dump();
+    CPU_info getCPUInfo() const;
 
     /**
      *  Returns the instruction currently pointed at by the program counter.
