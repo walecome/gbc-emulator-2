@@ -195,6 +195,8 @@ void InstructionDecoder::OPCode0x20() {
     // TODO double check
     if (!cpu->getFlagZ()) {
         performJump();
+    } else {
+        PC->increment();
     }
 }
 

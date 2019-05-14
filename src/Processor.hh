@@ -26,7 +26,7 @@ struct AddressValuePair {
     std::string str() const {
         std::string address_s = Util::hexString(address, 4);
         std::string value_s = Util::hexString(value, 2);
-        return address_s + ": " + value_s;
+        return address_s + ": " + value_s + " (" + opcode_names[value] + ")";
     }
 };
 

@@ -33,6 +33,7 @@ bool TIH::initCurses() {
     wborder(mainwin, 0, 0, 0, 0, 0, 0, 0, 0);
 
     renderCPUInfo();
+    curs_set(0);
 
     return true;
 }
@@ -82,7 +83,7 @@ void TIH::renderInfo(const CPU_info &info) {
 
 void TIH::renderPM(const CPU_info &info) {
     int arrowOffset;
-    int offsetY = 8;
+    int offsetY = 30;
 
     for (unsigned int i = 0; i < info.PM.size(); ++i) {
         auto addressInfo = info.PM[i];
@@ -90,7 +91,8 @@ void TIH::renderPM(const CPU_info &info) {
         mvprintw(i + offsetY, 65, "%s", addressInfo.str().c_str());
     }
 
-    mvprintw(offsetY + arrowOffset, 80, "<----");
+    std::string arrow { "---->" };
+    mvprintw(offsetY + arrowOffset, 64 - arrow.length(), arrow.c_str());
 }
 
 void TIH::clear() {
@@ -106,10 +108,12 @@ void TIH::cursesLoop() {
 
     while ((ch = getch()) != 'q') {
         /*  Delete the old response line, and print a new one  */
-        if (ch == 'r') this->clear();
+        this->clear();
         if (ch == 's') instructionDecoder->step();
 
         renderCPUInfo();
+
+        curs_set(0);
 
         refresh();
     }

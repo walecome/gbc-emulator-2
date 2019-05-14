@@ -288,7 +288,8 @@ void InstructionDecoder::popStack(const ptr<Register16bit> &destination) {
 
 void InstructionDecoder::performJump() {
     register16_t current_pc = cpu->PC->getValue();
-    byte_t offset = cpu->program_memory->getData(current_pc);
+    // byte_t offset = cpu->program_memory->getData(current_pc);
+    byte_t offset = getInstructionData();
 
     // TODO check this logic
     register16_t new_pc = (register16_t)((int16_t)current_pc + (int8_t)offset);
