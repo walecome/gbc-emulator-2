@@ -14,6 +14,7 @@
 #include "Register16bit.hh"
 #include "Register8bit.hh"
 #include "Utility.hh"
+#include "opcode_names.hh"
 
 struct AddressValuePair {
     AddressValuePair(register16_t address, register8_t value)
