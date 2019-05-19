@@ -49,18 +49,14 @@ void InstructionDecoder::OPCode0x07() {
 void InstructionDecoder::OPCode0x08() {
     // LD (a16), SP
     // TODO double check
-    register8_t data_low = getInstructionData();
-    register8_t data_high = getInstructionData();
 
-    SP->getLowRegister()->setValue(data_low);
-    SP->getHighRegister()->setValue(data_high);
+    throw std::runtime_error("Not implemented");
 }
 
 void InstructionDecoder::OPCode0x09() {
     // ADD HL, BC
 
     register16_t value_hl = HL->getValue();
-
     register16_t value_bc = BC->getValue();
 
     value_hl += value_bc;
@@ -202,8 +198,8 @@ void InstructionDecoder::OPCode0x20() {
 
 void InstructionDecoder::OPCode0x21() {
     // LD HL, d16
-    loadRegister(H);
     loadRegister(L);
+    loadRegister(H);
 }
 
 void InstructionDecoder::OPCode0x22() {
@@ -242,7 +238,7 @@ void InstructionDecoder::OPCode0x27() {
 void InstructionDecoder::OPCode0x28() {
     // JR Z, r8
     // TODO double check
-
+    throw std::runtime_error("Not implemented");
     if (cpu->getFlagZ()) {
         performJump();
     }
@@ -293,6 +289,7 @@ void InstructionDecoder::OPCode0x2F() {
 
 void InstructionDecoder::OPCode0x30() {
     // JR NC, r8
+    throw std::runtime_error("Not implemented");
     if (!cpu->getFlagC()) {
         performJump();
     }
@@ -318,6 +315,8 @@ void InstructionDecoder::OPCode0x33() {
 
 void InstructionDecoder::OPCode0x34() {
     // INC (HL)
+    // TODO check
+    throw std::runtime_error("Not implemented");
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
     byte_t data = program_memory->getData(address);
 
@@ -328,6 +327,8 @@ void InstructionDecoder::OPCode0x34() {
 
 void InstructionDecoder::OPCode0x35() {
     // DEC (HL)
+    // TODO double check
+    throw std::runtime_error("Not implemented");
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
     byte_t data = program_memory->getData(address);
 
@@ -338,6 +339,8 @@ void InstructionDecoder::OPCode0x35() {
 
 void InstructionDecoder::OPCode0x36() {
     // LD (HL), d8
+    // TODO double check
+    throw std::runtime_error("Not implemented");
     byte_t data = getInstructionData();
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
 
@@ -353,6 +356,7 @@ void InstructionDecoder::OPCode0x37() {
 
 void InstructionDecoder::OPCode0x38() {
     // JR C, r8
+    throw std::runtime_error("Not implemented");
     if (cpu->getFlagC()) {
         performJump();
     }
@@ -760,6 +764,9 @@ void InstructionDecoder::OPCode0x85() {
 
 void InstructionDecoder::OPCode0x86() {
     // ADD A, (HL)
+    // TODO double check
+    throw std::runtime_error("Not implemented");
+
     register8_t data_a = A->getValue();
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
     register8_t data_mem = program_memory->getData(address);
@@ -937,6 +944,8 @@ void InstructionDecoder::OPCode0xA5() {
 
 void InstructionDecoder::OPCode0xA6() {
     // AND (HL)
+    // TODO double check
+    throw std::runtime_error("Not implemented");
     register16_t address = RAM_DATA_OFFSET + HL->getValue();
 
     register8_t data_mem = program_memory->getData(address);
@@ -1095,6 +1104,7 @@ void InstructionDecoder::OPCode0xBF() {
 
 void InstructionDecoder::OPCode0xC0() {
     // RET NZ
+    // TODO double check logic when branch isn't taken
     if (!cpu->getFlagZ()) {
         popStack(PC);
     }
@@ -1110,7 +1120,7 @@ void InstructionDecoder::OPCode0xC2() {
     if (!cpu->getFlagZ()) {
         jumpIm16bit();
     } else {
-        // Skips these of we don't jump
+        // Skip these if we don't jump
         PC->increment();
         PC->increment();
     }
