@@ -10,3 +10,4 @@ emulator
 gui
 emulator_test
 compile_commands.json
+roms/
