@@ -18,6 +18,7 @@ macro (add_sources)
     endif()
 endmacro()
 
+include_directories(lib/)
 add_subdirectory(src/)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

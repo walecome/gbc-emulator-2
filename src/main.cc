@@ -16,20 +16,33 @@
 #include "Processor.hh"
 #include "TerminalInputHandler.hh"
 
+// Lib headers
+#include "argparse.h"
+
+ArgumentParser parseArgs(int argc, char **argv) {
+    ArgumentParser parser("CLI argument parser");
+    parser.add_argument("--rom", "The filename of the ROM", true);
+    try {
+        parser.parse(argc, argv);
+    } catch (const ArgumentParser::ArgumentNotFound &ex) {
+        std::cerr << ex.what() << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    if (parser.is_help()) exit(EXIT_SUCCESS);
+
+    return parser;
+}
+
 int main(int argc, char **argv) {
+    ArgumentParser parser = parseArgs(argc, argv);
+
     ptr<Processor> processor { std::make_shared<Processor>() };
     ptr<InstructionDecoder> instructionDecoder {
         std::make_shared<InstructionDecoder>(processor)
     };
 
-    bool rom_provided { argc == 2 };
-
-    if (!rom_provided) {
-        std::cerr << "Please provide a ROM file as argument" << std::endl;
-        return 1;
-    }
-
-    std::string filename { argv[1] };
+    std::string filename { parser.get<std::string>("rom") };
     processor->readInstructions(filename, true);
 
     Util::ROM_Metadata metadata { processor->rom_data };
