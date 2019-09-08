@@ -15,6 +15,7 @@
 #include "Metadata.hh"
 #include "Processor.hh"
 #include "TerminalInputHandler.hh"
+#include "Window.hh"
 
 // Lib headers
 #include "argparse.h"
@@ -48,9 +49,14 @@ int main(int argc, char **argv) {
     Util::ROM_Metadata metadata { processor->rom_data };
     metadata.dump();
 
-    TIH inputHandler { instructionDecoder, processor };
+    Window::createMainWindow(300, 300, "Gameboy Color emulator");
 
-    inputHandler.cursesLoop();
+    while (Window::shouldRemainOpen()) {
+        Window::update();
+    }
+
+    // TIH inputHandler { instructionDecoder, processor };
+    // inputHandler.cursesLoop();
 
     // while (inputHandler.getInput()) {
     // inputHandler.handle_input(instructionDecoder, processor);

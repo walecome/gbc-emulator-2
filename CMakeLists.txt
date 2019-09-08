@@ -1,27 +1,35 @@
 include_directories(.)
 cmake_minimum_required(VERSION 3.10)
 project(emulator CXX)
-
-## Macro for adding source files
-macro (add_sources)
-    file (RELATIVE_PATH _relPath "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
-    foreach (_src ${ARGN})
-        if (_relPath)
-            list (APPEND SRCS "${_relPath}/${_src}")
-        else()
-            list (APPEND SRCS "${_src}")
-        endif()
-    endforeach()
-    if (_relPath)
-        # propagate SRCS to parent directory
-        set (SRCS ${SRCS} PARENT_SCOPE)
-    endif()
-endmacro()
-
-include_directories(lib/)
-add_subdirectory(src/)
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+
+option(GLFW_BUILD_EXAMPLES OFF)
+option(GLFW_BUILD_TESTS OFF)
+option(GLFW_BUILD_DOCS OFF)
+option(GLFW_INSTALL OFF)
+add_subdirectory(lib/glfw)
+
+set(GLAD_LIBRARIES dl)
+
+include_directories(src/
+                    lib/argparse/
+                    lib/glad/include/
+                    lib/glfw/include/
+                    lib/imgui)
+
+file(GLOB LIB_SOURCES lib/glad/src/glad.c)
+file(GLOB LIB_SOURCES lib/imgui/*.cpp)
+file(GLOB PROJECT_HEADERS src/*.hh)
+file(GLOB PROJECT_SOURCES src/*.cc)
+
+source_group("Headers" FILES ${PROJECT_HEADERS})
+source_group("Sources" FILES ${PROJECT_SOURCES})
+source_group("Libraries" FILES ${LIB_SOURCES})
+
+add_definitions(-DGLFW_INCLUDE_NONE
+                -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
+
 
 ## Copy rom files to build folder
 file(COPY roms DESTINATION ${CMAKE_BINARY_DIR})
@@ -35,13 +43,14 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcolor-diagnostics")
 endif ()
 
-add_executable(emulator ${SRCS})
+add_executable(emulator ${PROJECT_SOURCES} ${PROJECT_HEADERS}
+                        ${LIB_SOURCES})
 
 ## Add ncurses GUI lib
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
-target_link_libraries(emulator ${CURSES_LIBRARIES})
 
+target_link_libraries(${PROJECT_NAME} glfw ${CURSES_LIBRARIES} ${GLFW_LIBRARIES} ${GLAD_LIBRARIES})
 
 target_compile_features(emulator PUBLIC cxx_std_17)
 
