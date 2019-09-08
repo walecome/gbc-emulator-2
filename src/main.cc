@@ -49,14 +49,13 @@ int main(int argc, char **argv) {
     Util::ROM_Metadata metadata { processor->rom_data };
     metadata.dump();
 
-    Window::createMainWindow(300, 300, "Gameboy Color emulator");
+    TIH inputHandler { instructionDecoder, processor };
+    inputHandler.cursesLoop();
 
-    while (Window::shouldRemainOpen()) {
-        Window::update();
-    }
-
-    // TIH inputHandler { instructionDecoder, processor };
-    // inputHandler.cursesLoop();
+    // Window::createMainWindow(300, 300, "Gameboy Color emulator");
+    // while (Window::shouldRemainOpen()) {
+    //     Window::update();
+    // }
 
     // while (inputHandler.getInput()) {
     // inputHandler.handle_input(instructionDecoder, processor);
