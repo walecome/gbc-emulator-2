@@ -6,38 +6,44 @@
 #include <assert.h>
 #include <glad/glad.h>
 #include <iostream>
+#include "imgui.h"
 
 /**
  * Window utilites.
  */
-namespace Window {
+class Window {
+   public:
+    /**
+     * Create main game window.
+     */
+    bool createMainWindow(int width, int height, std::string title);
 
-/**
- * Create main game window.
- */
-bool createMainWindow(int width, int height, std::string title);
+    /**
+     * Update main window.
+     *
+     * To be ran inside of game loop.
+     */
+    void update();
 
-/**
- * Return main game window.
- */
-GLFWwindow* mainWindow();
+    void imgui();
 
-/**
- * Update main window.
- *
- * To be ran inside of game loop.
- */
-void update();
+    /**
+     * Return true if window is not set for closing.
+     */
+    bool shouldRemainOpen();
 
-void imgui();
+    void finish_render();
 
-/**
- * Return true if window is not set for closing.
- */
-bool shouldRemainOpen();
+    /**
+     * Destroy.
+     */
+    void destroy();
 
-/**
- * Destroy.
- */
-void destroy();
-}  // namespace Window
+   private:
+    GLFWwindow* m_window { nullptr };
+
+    bool m_show_window { true };
+    bool m_show_another_window { true };
+
+    ImVec4 m_clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+};

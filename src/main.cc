@@ -19,13 +19,15 @@
 // Lib headers
 #include "argparse.h"
 #include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
-ArgumentParser parseArgs(int argc, char **argv) {
+ArgumentParser parseArgs(int argc, char** argv) {
     ArgumentParser parser("CLI argument parser");
     parser.add_argument("--rom", "The filename of the ROM", true);
     try {
         parser.parse(argc, argv);
-    } catch (const ArgumentParser::ArgumentNotFound &ex) {
+    } catch (const ArgumentParser::ArgumentNotFound& ex) {
         std::cerr << ex.what() << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -35,7 +37,7 @@ ArgumentParser parseArgs(int argc, char **argv) {
     return parser;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     ArgumentParser parser = parseArgs(argc, argv);
 
     ptr<Processor> processor { std::make_shared<Processor>() };
@@ -49,19 +51,12 @@ int main(int argc, char **argv) {
     Util::ROM_Metadata metadata { processor->rom_data };
     metadata.dump();
 
-    // TIH inputHandler { instructionDecoder, processor };
-    // inputHandler.cursesLoop();
+    Window window {};
 
-    Window::createMainWindow(300, 300, "Gameboy Color emulator");
+    window.createMainWindow(1280, 720, "Gameboy Color emulator");
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void)io;
-    ImGui::StyleColorsDark();
-
-    while (Window::shouldRemainOpen()) {
-        Window::update();
+    while (window.shouldRemainOpen()) {
+        window.update();
     }
 
     // while (inputHandler.getInput()) {
