@@ -29,6 +29,8 @@ GLFWwindow* mainWindow();
  */
 void update();
 
+void imgui();
+
 /**
  * Return true if window is not set for closing.
  */

@@ -1,9 +1,13 @@
 #include "Window.hh"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
 GLFWwindow* _mainWindow = nullptr;
 
 bool Window::createMainWindow(int width, int height, std::string title) {
     glfwInit();
+    const char* glsl_version = "#version 400";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -20,14 +24,31 @@ bool Window::createMainWindow(int width, int height, std::string title) {
 
     glfwMakeContextCurrent(_mainWindow);
 
+    ImGui_ImplGlfw_InitForOpenGL(_mainWindow, true);
+    ImGui_ImplOpenGL3_Init(glsl_version);
+
     return true;
 }
 
 GLFWwindow* Window::mainWindow() { return _mainWindow; }
 
+void Window::imgui() {
+    ImGui::NewFrame();
+    ImGui::Begin("Hello world!");
+    ImGui::Text("This is some text");
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+                1000.0f / ImGui::GetIO().Framerate,
+                ImGui::GetIO().Framerate);
+    ImGui::End();
+    ImGui::Render();
+}
+
 void Window::update() {
-    glfwSwapBuffers(Window::mainWindow());
     glfwPollEvents();
+
+    imgui();
+
+    glfwSwapBuffers(Window::mainWindow());
 }
 
 bool Window::shouldRemainOpen() {

@@ -14,11 +14,11 @@
 #include "InstructionDecoder.hh"
 #include "Metadata.hh"
 #include "Processor.hh"
-#include "TerminalInputHandler.hh"
 #include "Window.hh"
 
 // Lib headers
 #include "argparse.h"
+#include "imgui.h"
 
 ArgumentParser parseArgs(int argc, char **argv) {
     ArgumentParser parser("CLI argument parser");
@@ -49,13 +49,20 @@ int main(int argc, char **argv) {
     Util::ROM_Metadata metadata { processor->rom_data };
     metadata.dump();
 
-    TIH inputHandler { instructionDecoder, processor };
-    inputHandler.cursesLoop();
+    // TIH inputHandler { instructionDecoder, processor };
+    // inputHandler.cursesLoop();
 
-    // Window::createMainWindow(300, 300, "Gameboy Color emulator");
-    // while (Window::shouldRemainOpen()) {
-    //     Window::update();
-    // }
+    Window::createMainWindow(300, 300, "Gameboy Color emulator");
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    (void)io;
+    ImGui::StyleColorsDark();
+
+    while (Window::shouldRemainOpen()) {
+        Window::update();
+    }
 
     // while (inputHandler.getInput()) {
     // inputHandler.handle_input(instructionDecoder, processor);
