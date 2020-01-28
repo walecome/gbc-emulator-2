@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
     Util::ROM_Metadata metadata { processor->rom_data };
     metadata.dump();
 
-    Window window {};
+    Window window { *processor, *instructionDecoder };
 
     window.createMainWindow(1280, 720, "Gameboy Color emulator");
 

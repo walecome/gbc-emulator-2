@@ -1,7 +1,13 @@
-#include "Window.hh"
+#include <math.h>
+#include <sstream>
+
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+
+#include "InstructionDecoder.hh"
+#include "Processor.hh"
+#include "Window.hh"
 
 static void glfw_error_callback(int error, const char* description) {
     std::cerr << "Glfw Error " << error << ": " << description << std::endl;
@@ -48,44 +54,78 @@ bool Window::createMainWindow(int width, int height, std::string title) {
     return true;
 }
 
+void Window::draw_cpu_box() {
+    ImGui::Begin("CPU info");
+
+    auto cpu_info = m_cpu.getCPUInfo();
+
+    for (auto& x : cpu_info.PM) {
+        if (x.address == cpu_info.PC->getValue()) {
+            ImGui::Text("---> %s", x.str().c_str());
+        } else {
+            ImGui::Text("     %s", x.str().c_str());
+        }
+    }
+
+    ImGui::End();
+}
+
+void Window::draw_hello_box() {
+    static float f = 0.0f;
+    static int counter = 0;
+
+    ImGui::Begin("Hello, world!");
+
+    ImGui::Text("This is some useful text.");  // Display some text (you can
+                                               // use a format strings too)
+    ImGui::Checkbox("Demo Window",
+                    &m_show_window);  // Edit bools storing our window
+                                      // open/close state
+    ImGui::Checkbox("Another Window", &m_show_another_window);
+
+    for (int i = 0; i < 5; ++i) {
+        std::ostringstream oss {};
+        oss << "var=" << counter + i;
+        ImGui::Text("%s", oss.str().c_str());
+    }
+
+    ImGui::SliderFloat("float", &f, 0.0f,
+                       1.0f);  // Edit 1 float using a slider from 0.0f to 1.0f
+    ImGui::ColorEdit3(
+        "clear color",
+        (float*)&m_clear_color);  // Edit 3 floats representing a color
+
+    if (ImGui::Button("Button"))  // Buttons return true when clicked (most
+                                  // widgets return true when edited/activated)
+        counter++;
+    ImGui::SameLine();
+    ImGui::Text("counter = %d", counter);
+
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+                1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
+}
+
+void Window::draw_control_box() {
+    ImGui::Begin("CPU controls");
+
+    ImGui::Text("Controls for the CPU");
+
+    if (ImGui::Button("Step")) {
+        m_instruction_decoder.step();
+    }
+
+    ImGui::End();
+}
+
 void Window::imgui() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    {
-        static float f = 0.0f;
-        static int counter = 0;
-
-        ImGui::Begin("Hello, world!");  // Create a window called "Hello,
-                                        // world!" and append into it.
-
-        ImGui::Text("This is some useful text.");  // Display some text (you can
-                                                   // use a format strings too)
-        ImGui::Checkbox("Demo Window",
-                        &m_show_window);  // Edit bools storing our window
-                                          // open/close state
-        ImGui::Checkbox("Another Window", &m_show_another_window);
-
-        ImGui::SliderFloat(
-            "float", &f, 0.0f,
-            1.0f);  // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3(
-            "clear color",
-            (float*)&m_clear_color);  // Edit 3 floats representing a color
-
-        if (ImGui::Button(
-                "Button"))  // Buttons return true when clicked (most widgets
-                            // return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                    1000.0f / ImGui::GetIO().Framerate,
-                    ImGui::GetIO().Framerate);
-        ImGui::End();
-    }
+    draw_hello_box();
+    draw_cpu_box();
+    draw_control_box();
 
     // Rendering
     ImGui::Render();

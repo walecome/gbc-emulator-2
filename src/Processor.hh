@@ -43,11 +43,9 @@ struct CPU_info {
     std::vector<AddressValuePair> PM {};
 };
 
-/**
-    This class is basically just to keep track of the state of the emulated CPU.
+/** This class is basically just to keep track of the state of the emulated CPU.
     It keeps the registers, memory and so on as members, but all modifications
-    are done (using opcodes) using the instruction decoder.
-*/
+    are done (using opcodes) using the instruction decoder. */
 class Processor {
    public:
     Processor();
